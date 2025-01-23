@@ -27,13 +27,18 @@ public class TSAlertController: UIViewController {
     // MARK: - Properties
     
     ///
-    public var _title: String?
+    public override var title: String? {
+        get { return _title }
+        set { _title = newValue }
+    }
+    
+    private var _title: String?
     
     ///
-    public var _message: String?
+    public var message: String?
     
     ///
-    public var _preferredStyle: TSAlertController.Style?
+    public var preferredStyle: TSAlertController.Style?
     
     ///
     public var actions: [TSAlertAction] = []
@@ -54,12 +59,6 @@ public class TSAlertController: UIViewController {
     ///
     private var containerView: UIView?
     
-    ///
-    private var contentView: UIStackView?
-    
-    ///
-    private var buttonsView: UIStackView?
-    
     
     // MARK: - Initializer
     
@@ -68,8 +67,8 @@ public class TSAlertController: UIViewController {
                 message: String? = nil,
                 preferredStyle style: TSAlertController.Style) {
         self._title = title
-        self._message = message
-        self._preferredStyle = style
+        self.message = message
+        self.preferredStyle = style
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,8 +86,9 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Present
     
+    ///
     public func present(after delay: TimeInterval = 0.0,
-                        haptic: UINotificationFeedbackGenerator.FeedbackType? = nil,
+                        haptic type: UINotificationFeedbackGenerator.FeedbackType? = nil,
                         completion: (() -> Void)? = nil) {
         
     }
@@ -96,6 +96,7 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Dismiss
     
+    ///
     public func dismiss(completion: (() -> Void)?) {
         
     }

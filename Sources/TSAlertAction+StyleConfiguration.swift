@@ -27,7 +27,7 @@ public extension TSAlertAction {
     struct StyleConfiguration {
         
         ///
-        public var titleAttributes: [NSAttributedString.Key: Any]?
+        public var titleTextAttributes: [NSAttributedString.Key: Any]?
         
         ///
         public var tintColor: UIColor?
@@ -42,12 +42,12 @@ public extension TSAlertAction {
         public var cornerRadius: CGFloat
         
         ///
-        public init(titleAttributes: [NSAttributedString.Key : Any]? = nil,
+        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = nil,
                     tintColor: UIColor? = nil,
                     borderColor: UIColor? = nil,
                     borderWidth: CGFloat = 0,
                     cornerRadius: CGFloat = 10) {
-            self.titleAttributes = titleAttributes
+            self.titleTextAttributes = titleTextAttributes
             self.tintColor = tintColor
             self.borderColor = borderColor
             self.borderWidth = borderWidth
