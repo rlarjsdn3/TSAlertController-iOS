@@ -11,9 +11,12 @@
 		620CE73B15C504B32DB819EAD5979CCB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
 		655262048678A7D25BFF931ACB3B32C2 /* Pods-TSAlertController_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0276C3F2BA9F25C18E5983826ED58A78 /* Pods-TSAlertController_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B28E065F8186E15FB50B6583D8F5D387 /* TSAlertController-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 72485BDD7C643F0AAC9F1C24B82D07CB /* TSAlertController-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C724ADBD2D42816A00778BB1 /* LayoutSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADBA2D42816A00778BB1 /* LayoutSize.swift */; };
 		C724ADBF2D42817500778BB1 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADBE2D42817500778BB1 /* Helper.swift */; };
 		C724ADC82D428FC100778BB1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADC72D428FC100778BB1 /* UIView+Extension.swift */; };
+		C724ADCC2D42939E00778BB1 /* TSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADCB2D42939E00778BB1 /* TSAlertView.swift */; };
+		C724ADCF2D4298A100778BB1 /* TSAlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADCE2D4298A100778BB1 /* TSAlertContainerView.swift */; };
+		C724ADD22D429D1900778BB1 /* TSAlertButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */; };
+		C724ADD32D429D1900778BB1 /* TSAlertContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */; };
 		C7BBC9D02D424D6100AF4434 /* TSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9CF2D424D6100AF4434 /* TSAlertController.swift */; };
 		C7BBC9D22D424DEA00AF4434 /* TSAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9D12D424DEA00AF4434 /* TSAlertAction.swift */; };
 		C7BBC9D52D424EAA00AF4434 /* TSAlertAction+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9D32D424EAA00AF4434 /* TSAlertAction+Style.swift */; };
@@ -75,9 +78,12 @@
 		9E4F285A27DF239162DD0D9F1179C563 /* TSAlertController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TSAlertController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A43131703CCAA6A7B9991C036977C19D /* Pods-TSAlertController_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TSAlertController_Tests.modulemap"; sourceTree = "<group>"; };
 		BF03836614A23B9646B68177E4CAEC11 /* Pods-TSAlertController_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TSAlertController_Example.modulemap"; sourceTree = "<group>"; };
-		C724ADBA2D42816A00778BB1 /* LayoutSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LayoutSize.swift; path = ../Sources/LayoutSize.swift; sourceTree = "<group>"; };
 		C724ADBE2D42817500778BB1 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = ../Sources/Helper.swift; sourceTree = "<group>"; };
 		C724ADC72D428FC100778BB1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "../../Sources/UIView+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		C724ADCB2D42939E00778BB1 /* TSAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertView.swift; path = ../../Sources/TSAlertView.swift; sourceTree = SOURCE_ROOT; };
+		C724ADCE2D4298A100778BB1 /* TSAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertContainerView.swift; path = ../../Sources/TSAlertContainerView.swift; sourceTree = SOURCE_ROOT; };
+		C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertButtonStackView.swift; path = ../../Sources/TSAlertButtonStackView.swift; sourceTree = SOURCE_ROOT; };
+		C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertContentView.swift; path = ../../Sources/TSAlertContentView.swift; sourceTree = SOURCE_ROOT; };
 		C7BBC9CF2D424D6100AF4434 /* TSAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertController.swift; path = ../Sources/TSAlertController.swift; sourceTree = "<group>"; };
 		C7BBC9D12D424DEA00AF4434 /* TSAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertAction.swift; path = ../Sources/TSAlertAction.swift; sourceTree = "<group>"; };
 		C7BBC9D32D424EAA00AF4434 /* TSAlertAction+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSAlertAction+Style.swift"; path = "../../Sources/TSAlertAction+Style.swift"; sourceTree = SOURCE_ROOT; };
@@ -205,6 +211,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		C724ADCD2D4293A800778BB1 /* TSAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				C724ADCB2D42939E00778BB1 /* TSAlertView.swift */,
+				C724ADCE2D4298A100778BB1 /* TSAlertContainerView.swift */,
+				C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */,
+				C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */,
+			);
+			path = TSAlertView;
+			sourceTree = "<group>";
+		};
 		C7BBC9DF2D425CD100AF4434 /* TSAlertAction */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,12 +236,12 @@
 		C7BBC9E02D425CD700AF4434 /* TSAlert */ = {
 			isa = PBXGroup;
 			children = (
-				C724ADBA2D42816A00778BB1 /* LayoutSize.swift */,
 				C7BBC9CF2D424D6100AF4434 /* TSAlertController.swift */,
 				C7BBC9D72D42525500AF4434 /* TSAlertController+Style.swift */,
 				C7BBC9D92D42535B00AF4434 /* TSAlertController+AlertTransitionStyle.swift */,
 				C7BBC9DA2D42535B00AF4434 /* TSAlertController+Configuration.swift */,
 				C7BBC9DB2D42535B00AF4434 /* TSAlertController+ViewConfiguration.swift */,
+				C724ADCD2D4293A800778BB1 /* TSAlertView */,
 				C7BBC9DF2D425CD100AF4434 /* TSAlertAction */,
 			);
 			path = TSAlert;
@@ -452,12 +469,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCDD72576E464B783CB0432E06954BBA /* TSAlertController-dummy.m in Sources */,
+				C724ADD22D429D1900778BB1 /* TSAlertButtonStackView.swift in Sources */,
+				C724ADD32D429D1900778BB1 /* TSAlertContentView.swift in Sources */,
 				C7BBC9D02D424D6100AF4434 /* TSAlertController.swift in Sources */,
 				C7BBC9D22D424DEA00AF4434 /* TSAlertAction.swift in Sources */,
-				C724ADBD2D42816A00778BB1 /* LayoutSize.swift in Sources */,
+				C724ADCF2D4298A100778BB1 /* TSAlertContainerView.swift in Sources */,
 				C7BBC9DC2D42535B00AF4434 /* TSAlertController+ViewConfiguration.swift in Sources */,
 				C7BBC9DD2D42535B00AF4434 /* TSAlertController+Configuration.swift in Sources */,
 				C724ADC82D428FC100778BB1 /* UIView+Extension.swift in Sources */,
+				C724ADCC2D42939E00778BB1 /* TSAlertView.swift in Sources */,
 				C7BBC9DE2D42535B00AF4434 /* TSAlertController+AlertTransitionStyle.swift in Sources */,
 				C724ADBF2D42817500778BB1 /* Helper.swift in Sources */,
 				C7BBC9D82D42525500AF4434 /* TSAlertController+Style.swift in Sources */,

@@ -21,65 +21,33 @@
 
 import UIKit
 
-///
-public typealias TSAlertActionHandler = (TSAlertAction) -> Void
-
-///
-public class TSAlertAction {
-    
-    // MARK: - Properties
-    
-    ///
-    public var title: String?
-    
-    ///
-    public var image: UIImage?
-    
-    ///
-    public var style: TSAlertAction.Style
-    
-    ///
-    public var handler: TSAlertActionHandler?
-    
-    ///
-    private var button: UIButton?
-    
-    ///
-    public var isEnabled: Bool = true {
-        didSet { setButtonEnabled(isEnabled) }
-    }
-    
-    ///
-    public var styleConfiguration: TSAlertAction.StyleConfiguration? = nil
-    
+class TSAlertButtonStackView: UIStackView {
     
     // MARK: - Intializer
     
-    ///
-    public init(title: String?,
-                image: UIImage? = nil,
-                style: TSAlertAction.Style,
-                handler: TSAlertActionHandler?) {
-        self.title = title
-        self.image = image
-        self.style = style
-        self.handler = handler
+    init(actions: [TSAlertAction],
+         viewConfiguration: TSAlertController.ViewConfiguration) {
+        super.init(frame: .zero)
+        
+        for action in actions {
+            addArrangedSubview(action.makeButton())
+        }
+        
+        configure(with: viewConfiguration)
     }
     
-    // MARK: - Internal methods
-    
-    ///
-    func makeButton() -> UIButton {
-        let button = UIButton()
-        button.isEnabled = isEnabled
-        return button
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Private methods
     
-    ///
-    private func setButtonEnabled(_ enable: Bool) {
-        button?.isEnabled = enable
+    // MARK: - Private
+    
+    private func configure(with configuration: TSAlertController.ViewConfiguration) {
+        self.axis = .horizontal
+        self.spacing = 10
+        self.alignment = .fill
+        self.distribution = .fillProportionally
     }
     
 }

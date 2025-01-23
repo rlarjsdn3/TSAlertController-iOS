@@ -57,7 +57,7 @@ public class TSAlertController: UIViewController {
     
     
     ///
-    private var containerView: UIView?
+    private var containerView: TSAlertView?
     
     
     // MARK: - Initializer
@@ -81,6 +81,10 @@ public class TSAlertController: UIViewController {
     
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        view.addSubview(containerView!)
+        view.applyConstraint(size: viewConfiguration.size)
+        containerView?.createView(for: self)
     }
     
     

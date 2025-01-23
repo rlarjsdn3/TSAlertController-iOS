@@ -41,7 +41,7 @@ public extension TSAlertController {
         public var messageTextAttributes: [NSAttributedString.Key: Any]?
         
         ///
-        public var messageTextAligngn: NSTextAlignment
+        public var messageTextAlignment: NSTextAlignment
         
         ///
         public var messageNumberOfLines: Int
@@ -62,7 +62,7 @@ public extension TSAlertController {
         public var dimmedBackgroundViewColor: Background?
         
         ///
-        public var magin: LayoutMargin
+        public var margin: LayoutMargin
         
         ///
         public var size: LayoutSize
@@ -87,14 +87,14 @@ public extension TSAlertController {
             self.titleTextAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
             self.messageTextAttributes = messageTextAttributes
-            self.messageTextAligngn = messageTextAligngn
+            self.messageTextAlignment = messageTextAligngn
             self.messageNumberOfLines = messageNumberOfLines
             self.backgroundColor = backgroundColor
             self.backgroundBorderColor = backgroundBorderColor
             self.backgroundBorderWidth = backgroundBorderWidth
             self.alertCornerRadius = alertCornerRadius
             self.dimmedBackgroundViewColor = dimmedBackgroundViewColor
-            self.magin = magin
+            self.margin = magin
             self.size = size
         }
         
