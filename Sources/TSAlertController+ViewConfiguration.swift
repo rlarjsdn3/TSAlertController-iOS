@@ -65,7 +65,7 @@ public extension TSAlertController {
         public var magin: LayoutMargin
         
         ///
-        public var size: CGSize
+        public var size: LayoutSize
         
         
         // MARK: - Initalizer
@@ -82,7 +82,7 @@ public extension TSAlertController {
                     alertCornerRadius: CGFloat = 10,
                     dimmedBackgroundViewColor: Background? = .color(alpha: 0.5),
                     magin: LayoutMargin = .init(),
-                    size: CGSize = .init(width: 300, height: 300)) {
+                    size: LayoutSize = .init()) {
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
@@ -153,4 +153,45 @@ public extension TSAlertController.ViewConfiguration {
         
     }
     
+}
+
+
+
+///
+public struct LayoutSize {
+    
+    // MARK: - Properties
+    
+    ///
+    public var width: LayoutSize.Constraint
+    
+    ///
+    public var height: LayoutSize.Constraint
+    
+    
+    // MARK: - Intializer
+    
+    ///
+    public init(width: LayoutSize.Constraint = .proportional(),
+                height: LayoutSize.Constraint = .proportional()) {
+        self.width = width
+        self.height = height
+    }
+    
+}
+
+public extension LayoutSize {
+    
+    ///
+    enum Constraint {
+        
+        ///
+        case fixed(CGFloat)
+        
+        ///
+        case flexible(minimum: CGFloat = 10, maximum: CGFloat)
+        
+        ///
+        case proportional(minimumRatio: CGFloat = 0.1, maximumRatio: CGFloat = 0.8)
+    }
 }
