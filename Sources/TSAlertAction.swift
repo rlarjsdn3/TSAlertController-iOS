@@ -72,6 +72,12 @@ public class TSAlertAction {
     func makeButton() -> UIButton {
         let button = UIButton()
         button.isEnabled = isEnabled
+        button.setTitle(title, for: .normal)
+        button.backgroundColor = .lightGray
+        button.addAction(UIAction(handler: { _ in
+            self.handler?(self)
+            Helper.topController()?.dismiss(animated: true)
+        }), for: .touchUpInside)
         return button
     }
     

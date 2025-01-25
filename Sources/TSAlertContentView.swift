@@ -21,16 +21,41 @@
 
 import UIKit
 
-class TSAlertButtonStackView: UIStackView {
+class TSAlertContentView: UIStackView {
+    
+    // MARK: - Properties
+    
+    private let titleLabel = UILabel()
+    private let messageLabel = UILabel()
+
     
     // MARK: - Intializer
     
-    init(actions: [TSAlertAction],
+    init(title: String?,
+         message: String? = nil,
          viewConfiguration: TSAlertController.ViewConfiguration) {
         super.init(frame: .zero)
         
-        for action in actions {
-            addArrangedSubview(action.makeButton())
+        titleLabel.text = title
+        titleLabel.textAlignment = viewConfiguration.titleTextAlignment
+        titleLabel.numberOfLines = viewConfiguration.titleNumberOfLines
+        if let titleTextAttributes = viewConfiguration.titleTextAttributes {
+            let attrText = NSAttributedString(string: title ?? "",
+                                              attributes: titleTextAttributes)
+            titleLabel.attributedText = attrText
+        }
+        addArrangedSubview(titleLabel)
+        
+        if let message = message {
+            messageLabel.text = message
+            messageLabel.textAlignment = viewConfiguration.messageTextAlignment
+            messageLabel.numberOfLines = viewConfiguration.messageNumberOfLines
+            if let messageTextAttributes = viewConfiguration.messageTextAttributes {
+                let attrText = NSAttributedString(string: message,
+                                                  attributes: messageTextAttributes)
+                messageLabel.attributedText = attrText
+            }
+            addArrangedSubview(messageLabel)
         }
         
         configure(with: viewConfiguration)
@@ -40,14 +65,13 @@ class TSAlertButtonStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     // MARK: - Private
     
     private func configure(with configuration: TSAlertController.ViewConfiguration) {
-        self.axis = .horizontal
-        self.spacing = 10
+        self.axis = .vertical
+        self.spacing = 5
         self.alignment = .fill
-        self.distribution = .fillProportionally
+        self.distribution = .fill
     }
     
 }

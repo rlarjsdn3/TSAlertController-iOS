@@ -17,6 +17,7 @@
 		C724ADCF2D4298A100778BB1 /* TSAlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADCE2D4298A100778BB1 /* TSAlertContainerView.swift */; };
 		C724ADD22D429D1900778BB1 /* TSAlertButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */; };
 		C724ADD32D429D1900778BB1 /* TSAlertContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */; };
+		C724ADD72D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */; };
 		C7BBC9D02D424D6100AF4434 /* TSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9CF2D424D6100AF4434 /* TSAlertController.swift */; };
 		C7BBC9D22D424DEA00AF4434 /* TSAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9D12D424DEA00AF4434 /* TSAlertAction.swift */; };
 		C7BBC9D52D424EAA00AF4434 /* TSAlertAction+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9D32D424EAA00AF4434 /* TSAlertAction+Style.swift */; };
@@ -84,6 +85,7 @@
 		C724ADCE2D4298A100778BB1 /* TSAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertContainerView.swift; path = ../../Sources/TSAlertContainerView.swift; sourceTree = SOURCE_ROOT; };
 		C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertButtonStackView.swift; path = ../../Sources/TSAlertButtonStackView.swift; sourceTree = SOURCE_ROOT; };
 		C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertContentView.swift; path = ../../Sources/TSAlertContentView.swift; sourceTree = SOURCE_ROOT; };
+		C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FadeAndScaleDownAnimator.swift; path = ../../Sources/FadeAndScaleDownAnimator.swift; sourceTree = "<group>"; };
 		C7BBC9CF2D424D6100AF4434 /* TSAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertController.swift; path = ../Sources/TSAlertController.swift; sourceTree = "<group>"; };
 		C7BBC9D12D424DEA00AF4434 /* TSAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertAction.swift; path = ../Sources/TSAlertAction.swift; sourceTree = "<group>"; };
 		C7BBC9D32D424EAA00AF4434 /* TSAlertAction+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSAlertAction+Style.swift"; path = "../../Sources/TSAlertAction+Style.swift"; sourceTree = SOURCE_ROOT; };
@@ -222,6 +224,15 @@
 			path = TSAlertView;
 			sourceTree = "<group>";
 		};
+		C724ADD92D44AD2500778BB1 /* Animators */ = {
+			isa = PBXGroup;
+			children = (
+				C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */,
+			);
+			name = Animators;
+			path = Presentation/Animators;
+			sourceTree = "<group>";
+		};
 		C7BBC9DF2D425CD100AF4434 /* TSAlertAction */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +280,7 @@
 		D7805381DA48CD403FAF03C48A27B93B /* TSAlertController */ = {
 			isa = PBXGroup;
 			children = (
+				C724ADD92D44AD2500778BB1 /* Animators */,
 				C724ADC32D4284EE00778BB1 /* Utils */,
 				C7BBC9E02D425CD700AF4434 /* TSAlert */,
 				26BBAD3B48A5BB6C13C5636973AB3D5D /* Pod */,
@@ -475,6 +487,7 @@
 				C7BBC9D22D424DEA00AF4434 /* TSAlertAction.swift in Sources */,
 				C724ADCF2D4298A100778BB1 /* TSAlertContainerView.swift in Sources */,
 				C7BBC9DC2D42535B00AF4434 /* TSAlertController+ViewConfiguration.swift in Sources */,
+				C724ADD72D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift in Sources */,
 				C7BBC9DD2D42535B00AF4434 /* TSAlertController+Configuration.swift in Sources */,
 				C724ADC82D428FC100778BB1 /* UIView+Extension.swift in Sources */,
 				C724ADCC2D42939E00778BB1 /* TSAlertView.swift in Sources */,

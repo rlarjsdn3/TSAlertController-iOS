@@ -50,7 +50,7 @@ public class TSAlertController: UIViewController {
     public var configuration: TSAlertController.Configuration = Configuration()
     
     ///
-    public var viewConfiguration: TSAlertController.ViewConfiguration = ViewConfiguration()
+    public lazy var viewConfiguration: TSAlertController.ViewConfiguration = ViewConfiguration()
     
     ///
     public var alertTransitionStyle: TSAlertController.AlertTransitionStyle = .automatic
@@ -69,7 +69,11 @@ public class TSAlertController: UIViewController {
         self._title = title
         self.message = message
         self.preferredStyle = style
+        
         super.init(nibName: nil, bundle: nil)
+        
+        self.transitioningDelegate = self
+        self.modalPresentationStyle = .custom
     }
     
     required init?(coder: NSCoder) {
@@ -79,12 +83,27 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Lifecycle
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.containerView = TSAlertContainerView(with: viewConfiguration)
+        
+        view.addSubview(containerView!)
+        containerView?.createView(for: self)
+        
+        // For test.
+        view.layer.cornerRadius = viewConfiguration.alertCornerRadius
+        if case let .color(color, _) = viewConfiguration.backgroundColor {
+            self.view.backgroundColor = color
+        }
+    }
+    
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        view.addSubview(containerView!)
-        view.applyConstraint(size: viewConfiguration.size)
-        containerView?.createView(for: self)
+        view.applySizeConstraint(with: viewConfiguration.size)
+        view.layoutIfNeeded()
+        print(view.frame)
     }
     
     
@@ -124,3 +143,35 @@ public extension TSAlertController {
         textfields.append(textfield)
     }
 }
+
+private extension TSAlertController {
+    
+    ///
+    static func defaultAlertTransitionStyle(with presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
+        return presenting
+        ? FadeAndScaldeDownAnimator(duration: 0.5, presenting: true)
+        : FadeAndScaldeDownAnimator(duration: 0.5, presenting: false)
+    }
+}
+
+
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension TSAlertController: UIViewControllerTransitioningDelegate {
+    
+    public func animationController(forPresented presented: UIViewController,
+                                    presenting resenting: UIViewController,
+                                    source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        return alertTransitionStyle.isAutomatic
+        ? Self.defaultAlertTransitionStyle(with: true)
+        : alertTransitionStyle.resolveAnimator(for: true)
+    }
+    
+    public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        return alertTransitionStyle.isAutomatic
+        ? Self.defaultAlertTransitionStyle(with: false)
+        : alertTransitionStyle.resolveAnimator(for: false)
+    }
+}
+
+

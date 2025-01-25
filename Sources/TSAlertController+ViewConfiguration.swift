@@ -82,7 +82,8 @@ public extension TSAlertController {
                     alertCornerRadius: CGFloat = 10,
                     dimmedBackgroundViewColor: Background? = .color(alpha: 0.5),
                     magin: LayoutMargin = .init(),
-                    size: LayoutSize = .init()) {
+                    size: LayoutSize = .init(width: .proportional(minimumRatio: 0.6, maximumRatio: 0.8))) {
+            
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
@@ -142,9 +143,9 @@ public extension TSAlertController.ViewConfiguration {
         
         ///
         public init(contentTop: CGFloat = 15,
-                    contentBottom: CGFloat = 15,
+                    contentBottom: CGFloat = -15,
                     contentLeft: CGFloat = 15,
-                    contentRight: CGFloat = 15) {
+                    contentRight: CGFloat = -15) {
             self.contentTop = contentTop
             self.contentBottom = contentBottom
             self.contentLeft = contentLeft

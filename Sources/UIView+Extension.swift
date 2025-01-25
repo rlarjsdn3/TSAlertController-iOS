@@ -24,9 +24,22 @@ import UIKit
 extension UIView {
     
     ///
-    func applyConstraint(size: LayoutSize,
-                         in baseView: UIView? = Helper.keyWindow()) {
+    func applyCenterXYConstraint(in baseView: UIView? = Helper.keyWindow()) {
         guard let baseView else { return }
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.centerXAnchor.constraint(equalTo: baseView.centerXAnchor),
+            self.centerYAnchor.constraint(equalTo: baseView.centerYAnchor)
+        ])
+    }
+
+    ///
+    func applySizeConstraint(with size: LayoutSize,
+                             in baseView: UIView? = Helper.keyWindow()) {
+        guard let baseView else { return }
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         // Apply width constraint
         switch size.width {

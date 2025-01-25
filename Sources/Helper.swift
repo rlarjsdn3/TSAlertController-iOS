@@ -23,6 +23,17 @@ import UIKit
 
 class Helper {
     
+    ///
+    static func topController() -> UIViewController? {
+        var topController = keyWindow()?.rootViewController
+        
+        while let presented = topController?.presentedViewController {
+            topController = presented
+        }
+        return topController
+    }
+    
+    ///
     static func keyWindow() -> UIWindow? {
         
         for scene in UIApplication.shared.connectedScenes {
