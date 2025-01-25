@@ -50,7 +50,7 @@ public class TSAlertController: UIViewController {
     public var configuration: TSAlertController.Configuration = Configuration()
     
     ///
-    public lazy var viewConfiguration: TSAlertController.ViewConfiguration = ViewConfiguration()
+    public var viewConfiguration: TSAlertController.ViewConfiguration = ViewConfiguration()
     
     ///
     public var alertTransitionStyle: TSAlertController.AlertTransitionStyle = .automatic
@@ -66,10 +66,10 @@ public class TSAlertController: UIViewController {
     public init(title: String?,
                 message: String? = nil,
                 preferredStyle style: TSAlertController.Style) {
+        
         self._title = title
         self.message = message
         self.preferredStyle = style
-        
         super.init(nibName: nil, bundle: nil)
         
         self.transitioningDelegate = self
@@ -103,7 +103,6 @@ public class TSAlertController: UIViewController {
         
         view.applySizeConstraint(with: viewConfiguration.size)
         view.layoutIfNeeded()
-        print(view.frame)
     }
     
     
@@ -122,6 +121,14 @@ public class TSAlertController: UIViewController {
     ///
     public func dismiss(completion: (() -> Void)?) {
         
+    }
+    
+    
+    // MARK: - Deinitializer
+    
+    // For test.
+    deinit {
+        print("Deinit \(Self.self)")
     }
     
 }
