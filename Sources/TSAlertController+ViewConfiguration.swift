@@ -41,7 +41,7 @@ public extension TSAlertController {
         public var messageTextAttributes: [NSAttributedString.Key: Any]?
         
         ///
-        public var messageTextAligngn: NSTextAlignment
+        public var messageTextAlignment: NSTextAlignment
         
         ///
         public var messageNumberOfLines: Int
@@ -62,10 +62,10 @@ public extension TSAlertController {
         public var dimmedBackgroundViewColor: Background?
         
         ///
-        public var magin: LayoutMargin
+        public var margin: LayoutMargin
         
         ///
-        public var size: CGSize
+        public var size: LayoutSize
         
         
         // MARK: - Initalizer
@@ -82,19 +82,19 @@ public extension TSAlertController {
                     alertCornerRadius: CGFloat = 10,
                     dimmedBackgroundViewColor: Background? = .color(alpha: 0.5),
                     magin: LayoutMargin = .init(),
-                    size: CGSize = .init(width: 300, height: 300)) {
+                    size: LayoutSize = .init()) {
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
             self.messageTextAttributes = messageTextAttributes
-            self.messageTextAligngn = messageTextAligngn
+            self.messageTextAlignment = messageTextAligngn
             self.messageNumberOfLines = messageNumberOfLines
             self.backgroundColor = backgroundColor
             self.backgroundBorderColor = backgroundBorderColor
             self.backgroundBorderWidth = backgroundBorderWidth
             self.alertCornerRadius = alertCornerRadius
             self.dimmedBackgroundViewColor = dimmedBackgroundViewColor
-            self.magin = magin
+            self.margin = magin
             self.size = size
         }
         
@@ -153,4 +153,45 @@ public extension TSAlertController.ViewConfiguration {
         
     }
     
+}
+
+
+
+///
+public struct LayoutSize {
+    
+    // MARK: - Properties
+    
+    ///
+    public var width: LayoutSize.Constraint
+    
+    ///
+    public var height: LayoutSize.Constraint
+    
+    
+    // MARK: - Intializer
+    
+    ///
+    public init(width: LayoutSize.Constraint = .proportional(),
+                height: LayoutSize.Constraint = .proportional()) {
+        self.width = width
+        self.height = height
+    }
+    
+}
+
+public extension LayoutSize {
+    
+    ///
+    enum Constraint {
+        
+        ///
+        case fixed(CGFloat)
+        
+        ///
+        case flexible(minimum: CGFloat = 10, maximum: CGFloat)
+        
+        ///
+        case proportional(minimumRatio: CGFloat = 0.1, maximumRatio: CGFloat = 0.8)
+    }
 }
