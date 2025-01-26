@@ -113,7 +113,7 @@ public extension TSAlertController.ViewConfiguration {
         case effect(UIVisualEffect)
         
         ///
-        case color(UIColor = .systemBackground,
+        case color(UIColor = .black,
                    alpha: CGFloat = 1.0)
     }
 }

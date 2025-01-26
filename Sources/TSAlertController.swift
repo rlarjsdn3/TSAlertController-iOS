@@ -166,15 +166,25 @@ private extension TSAlertController {
 
 extension TSAlertController: UIViewControllerTransitioningDelegate {
     
+    public func presentationController(forPresented presented: UIViewController,
+                                       presenting: UIViewController?,
+                                       source: UIViewController) -> UIPresentationController? {
+        return TSAlertPresentationController(presentedViewController: presented,
+                                            presenting: presenting,
+                                            viewConfiguration: viewConfiguration)
+    }
+    
     public func animationController(forPresented presented: UIViewController,
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        
         return alertTransitionStyle.isAutomatic
         ? Self.defaultAlertTransitionStyle(with: true)
         : alertTransitionStyle.resolveAnimator(for: true)
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        
         return alertTransitionStyle.isAutomatic
         ? Self.defaultAlertTransitionStyle(with: false)
         : alertTransitionStyle.resolveAnimator(for: false)

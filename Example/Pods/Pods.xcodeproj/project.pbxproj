@@ -18,6 +18,7 @@
 		C724ADD22D429D1900778BB1 /* TSAlertButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */; };
 		C724ADD32D429D1900778BB1 /* TSAlertContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */; };
 		C724ADD72D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */; };
+		C7252D052D45C71900E4C82B /* TSAlertPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7252D042D45C71900E4C82B /* TSAlertPresentationController.swift */; };
 		C7BBC9D02D424D6100AF4434 /* TSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9CF2D424D6100AF4434 /* TSAlertController.swift */; };
 		C7BBC9D22D424DEA00AF4434 /* TSAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9D12D424DEA00AF4434 /* TSAlertAction.swift */; };
 		C7BBC9D52D424EAA00AF4434 /* TSAlertAction+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9D32D424EAA00AF4434 /* TSAlertAction+Style.swift */; };
@@ -86,6 +87,7 @@
 		C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertButtonStackView.swift; path = ../../Sources/TSAlertButtonStackView.swift; sourceTree = SOURCE_ROOT; };
 		C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertContentView.swift; path = ../../Sources/TSAlertContentView.swift; sourceTree = SOURCE_ROOT; };
 		C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FadeAndScaleDownAnimator.swift; path = ../../Sources/FadeAndScaleDownAnimator.swift; sourceTree = "<group>"; };
+		C7252D042D45C71900E4C82B /* TSAlertPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertPresentationController.swift; path = ../Sources/TSAlertPresentationController.swift; sourceTree = "<group>"; };
 		C7BBC9CF2D424D6100AF4434 /* TSAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertController.swift; path = ../Sources/TSAlertController.swift; sourceTree = "<group>"; };
 		C7BBC9D12D424DEA00AF4434 /* TSAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertAction.swift; path = ../Sources/TSAlertAction.swift; sourceTree = "<group>"; };
 		C7BBC9D32D424EAA00AF4434 /* TSAlertAction+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSAlertAction+Style.swift"; path = "../../Sources/TSAlertAction+Style.swift"; sourceTree = SOURCE_ROOT; };
@@ -230,7 +232,16 @@
 				C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */,
 			);
 			name = Animators;
-			path = Presentation/Animators;
+			path = ../Presentation/Animators;
+			sourceTree = "<group>";
+		};
+		C7252D062D45C72000E4C82B /* PresentationController */ = {
+			isa = PBXGroup;
+			children = (
+				C724ADD92D44AD2500778BB1 /* Animators */,
+				C7252D042D45C71900E4C82B /* TSAlertPresentationController.swift */,
+			);
+			path = PresentationController;
 			sourceTree = "<group>";
 		};
 		C7BBC9DF2D425CD100AF4434 /* TSAlertAction */ = {
@@ -280,7 +291,7 @@
 		D7805381DA48CD403FAF03C48A27B93B /* TSAlertController */ = {
 			isa = PBXGroup;
 			children = (
-				C724ADD92D44AD2500778BB1 /* Animators */,
+				C7252D062D45C72000E4C82B /* PresentationController */,
 				C724ADC32D4284EE00778BB1 /* Utils */,
 				C7BBC9E02D425CD700AF4434 /* TSAlert */,
 				26BBAD3B48A5BB6C13C5636973AB3D5D /* Pod */,
@@ -480,6 +491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7252D052D45C71900E4C82B /* TSAlertPresentationController.swift in Sources */,
 				FCDD72576E464B783CB0432E06954BBA /* TSAlertController-dummy.m in Sources */,
 				C724ADD22D429D1900778BB1 /* TSAlertButtonStackView.swift in Sources */,
 				C724ADD32D429D1900778BB1 /* TSAlertContentView.swift in Sources */,

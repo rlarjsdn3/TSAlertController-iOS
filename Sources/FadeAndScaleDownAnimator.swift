@@ -53,17 +53,15 @@ final class FadeAndScaldeDownAnimator: NSObject, UIViewControllerAnimatedTransit
                 
         //
         if presenting {
-            containerView.addSubview(toVC.view)
-            toVC.view.applyCenterXYConstraint(in: containerView) //
-
-            //
             toVC.view.alpha = 0
             toVC.view.transform = CGAffineTransformMakeScale(1.1, 1.1)
+            
+            containerView.addSubview(toVC.view)
         }
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext),
                        delay: 0,
-                       usingSpringWithDamping: 0.8,
+                       usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 0.8,
                        options: .curveEaseIn,
                        animations: {
