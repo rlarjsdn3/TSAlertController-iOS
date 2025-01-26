@@ -66,10 +66,14 @@ public class TSAlertController: UIViewController {
     public init(title: String?,
                 message: String? = nil,
                 preferredStyle style: TSAlertController.Style) {
+        
         self._title = title
         self.message = message
         self.preferredStyle = style
         super.init(nibName: nil, bundle: nil)
+        
+        self.transitioningDelegate = self
+        self.modalPresentationStyle = .custom
     }
     
     required init?(coder: NSCoder) {
@@ -79,12 +83,26 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Lifecycle
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.containerView = TSAlertContainerView(with: viewConfiguration)
+        
+        view.addSubview(containerView!)
+        containerView?.createView(for: self)
+        
+        // For test.
+        view.layer.cornerRadius = viewConfiguration.alertCornerRadius
+        if case let .color(color, _) = viewConfiguration.backgroundColor {
+            self.view.backgroundColor = color
+        }
+    }
+    
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        view.addSubview(containerView!)
-        view.applyConstraint(size: viewConfiguration.size)
-        containerView?.createView(for: self)
+        view.applySizeConstraint(with: viewConfiguration.size)
+        view.layoutIfNeeded()
     }
     
     
@@ -103,6 +121,14 @@ public class TSAlertController: UIViewController {
     ///
     public func dismiss(completion: (() -> Void)?) {
         
+    }
+    
+    
+    // MARK: - Deinitializer
+    
+    // For test.
+    deinit {
+        print("Deinit \(Self.self)")
     }
     
 }
@@ -124,3 +150,45 @@ public extension TSAlertController {
         textfields.append(textfield)
     }
 }
+
+private extension TSAlertController {
+    
+    ///
+    static func defaultAlertTransitionStyle(with presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
+        return presenting
+        ? FadeAndScaldeDownAnimator(duration: 0.5, presenting: true)
+        : FadeAndScaldeDownAnimator(duration: 0.5, presenting: false)
+    }
+}
+
+
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension TSAlertController: UIViewControllerTransitioningDelegate {
+    
+    public func presentationController(forPresented presented: UIViewController,
+                                       presenting: UIViewController?,
+                                       source: UIViewController) -> UIPresentationController? {
+        return TSAlertPresentationController(presentedViewController: presented,
+                                            presenting: presenting,
+                                            viewConfiguration: viewConfiguration)
+    }
+    
+    public func animationController(forPresented presented: UIViewController,
+                                    presenting resenting: UIViewController,
+                                    source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        
+        return alertTransitionStyle.isAutomatic
+        ? Self.defaultAlertTransitionStyle(with: true)
+        : alertTransitionStyle.resolveAnimator(for: true)
+    }
+    
+    public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        
+        return alertTransitionStyle.isAutomatic
+        ? Self.defaultAlertTransitionStyle(with: false)
+        : alertTransitionStyle.resolveAnimator(for: false)
+    }
+}
+
+

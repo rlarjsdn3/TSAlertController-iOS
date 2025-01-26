@@ -22,7 +22,7 @@
 import UIKit
 
 ///
-protocol TSAlertView: UIStackView {
+protocol TSAlertView: UIView {
     
     ///
     func createView(for alert: TSAlertController)

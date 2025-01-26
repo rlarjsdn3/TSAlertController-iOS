@@ -29,7 +29,7 @@ class TSAlertContainerView: UIStackView, TSAlertView {
     
     // MARK: - Intializer
     
-    init(viewConfiguration: TSAlertController.ViewConfiguration) {
+    init(with viewConfiguration: TSAlertController.ViewConfiguration) {
         self.viewConfiguration = viewConfiguration
         super.init(frame: .zero)
         
