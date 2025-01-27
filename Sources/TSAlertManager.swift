@@ -21,38 +21,58 @@
 
 import UIKit
 
-public extension TSAlertAction {
+final class TSAlertManager {
     
-    /// 
+    // MARK: - Singleton
+    
+    ///
+    static let shared = TSAlertManager()
+    private init() { }
+    
+    
+    // MARK: - TSAlertController
+    
+    var alertTransitionStyle: TSAlertController.AlertTransitionStyle? = nil
+    
+    
+    
+    // MARK: - Configuration
+    
+    ///
+    struct Configuration {
+        
+        ///
+        var `default`: TSAlertController.Configuration? = nil
+    }
+    var configuration: Configuration = .init()
+    
+    
+    // MARK: - ViewConfiguration
+    
+    ///
+    struct ViewConfiguration {
+        
+        ///
+        var `default`: TSAlertController.ViewConfiguration? = nil
+    }
+    var viewConfiguration: ViewConfiguration = .init()
+    
+    
+    // MARK: - StyleConfiguration
+    
+    ///
     struct StyleConfiguration {
         
         ///
-        public var titleTextAttributes: [NSAttributedString.Key: Any]?
+        var cancel: TSAlertAction.StyleConfiguration? = nil
         
         ///
-        public var tintColor: UIColor?
+        var `default`: TSAlertAction.StyleConfiguration? = nil
         
         ///
-        public var borderColor: UIColor?
-        
-        ///
-        public var borderWidth: CGFloat
-        
-        ///
-        public var cornerRadius: CGFloat
-        
-        ///
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = nil,
-                    tintColor: UIColor? = nil,
-                    borderColor: UIColor? = nil,
-                    borderWidth: CGFloat = 0,
-                    cornerRadius: CGFloat = 10) {
-            
-            self.titleTextAttributes = titleTextAttributes
-            self.tintColor = tintColor
-            self.borderColor = borderColor
-            self.borderWidth = borderWidth
-            self.cornerRadius = cornerRadius
-        }
+        var destructive: TSAlertAction.StyleConfiguration? = nil
     }
+    var styleConfiguration: StyleConfiguration = .init()
+    
+    
 }
