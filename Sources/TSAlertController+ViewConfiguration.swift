@@ -56,7 +56,10 @@ public extension TSAlertController {
         public var backgroundBorderWidth: CGFloat
         
         ///
-        public var alertCornerRadius: CGFloat
+        public var shadow: Shadow?
+        
+        ///
+        public var cornerRadius: CGFloat
         
         ///
         public var dimmedBackgroundViewColor: Background?
@@ -66,6 +69,38 @@ public extension TSAlertController {
         
         ///
         public var size: LayoutSize
+        
+        
+        // MARK: - Shadow Properties
+        
+        ///
+        public struct Shadow {
+            
+            ///
+            public var color: CGColor?
+            
+            ///
+            public var opacity: CGFloat
+            
+            ///
+            public var offset: CGSize
+            
+            ///
+            public var radius: CGFloat
+
+            ///
+            public init(color: CGColor? = UIColor.black.cgColor,
+                        opacity: CGFloat = 0.5,
+                        offset: CGSize = CGSize(width: 0, height: 3),
+                        radius: CGFloat = 3) {
+                
+                self.color = color
+                self.opacity = opacity
+                self.offset = offset
+                self.radius = radius
+            }
+        }
+        
         
         
         // MARK: - Initalizer
@@ -79,7 +114,8 @@ public extension TSAlertController {
                     backgroundColor: Background? = .color(),
                     backgroundBorderColor: UIColor? = nil,
                     backgroundBorderWidth: CGFloat = 0,
-                    alertCornerRadius: CGFloat = 10,
+                    shadow: Shadow? = .init(),
+                    cornerRadius: CGFloat = 10,
                     dimmedBackgroundViewColor: Background? = .color(alpha: 0.5),
                     magin: LayoutMargin = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.6, maximumRatio: 0.8))) {
@@ -93,7 +129,8 @@ public extension TSAlertController {
             self.backgroundColor = backgroundColor
             self.backgroundBorderColor = backgroundBorderColor
             self.backgroundBorderWidth = backgroundBorderWidth
-            self.alertCornerRadius = alertCornerRadius
+            self.shadow = shadow
+            self.cornerRadius = cornerRadius
             self.dimmedBackgroundViewColor = dimmedBackgroundViewColor
             self.margin = magin
             self.size = size
@@ -103,6 +140,8 @@ public extension TSAlertController {
     }
 }
 
+
+// MARK: - Background
 
 public extension TSAlertController.ViewConfiguration {
     
@@ -118,6 +157,8 @@ public extension TSAlertController.ViewConfiguration {
     }
 }
 
+
+// MARK: - LayoutMargin
 
 public extension TSAlertController.ViewConfiguration {
     
@@ -157,6 +198,8 @@ public extension TSAlertController.ViewConfiguration {
 }
 
 
+
+// MARK: - LayoutSize
 
 ///
 public struct LayoutSize {

@@ -21,7 +21,6 @@
 
 
 import UIKit
-import UIKit
 
 ///
 final class TSAlertPresentationController: UIPresentationController {
