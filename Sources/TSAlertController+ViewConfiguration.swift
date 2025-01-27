@@ -66,9 +66,13 @@ public extension TSAlertController {
         
         ///
         public var margin: LayoutMargin
-        
+                
         ///
         public var size: LayoutSize
+        
+        ///
+        public var buttonLayoutAxis: ButtonLayoutAxis
+        
         
         
         // MARK: - Shadow Properties
@@ -118,7 +122,8 @@ public extension TSAlertController {
                     cornerRadius: CGFloat = 10,
                     dimmedBackgroundViewColor: Background? = .color(alpha: 0.5),
                     magin: LayoutMargin = .init(),
-                    size: LayoutSize = .init(width: .proportional(minimumRatio: 0.6, maximumRatio: 0.8))) {
+                    size: LayoutSize = .init(width: .proportional(minimumRatio: 0.6, maximumRatio: 0.8)),
+                    buttonLayoutAxis: ButtonLayoutAxis = .automatic) {
             
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
@@ -134,6 +139,7 @@ public extension TSAlertController {
             self.dimmedBackgroundViewColor = dimmedBackgroundViewColor
             self.margin = magin
             self.size = size
+            self.buttonLayoutAxis = buttonLayoutAxis
         }
         
         
@@ -237,5 +243,48 @@ public extension LayoutSize {
         
         ///
         case proportional(minimumRatio: CGFloat = 0.1, maximumRatio: CGFloat = 0.8)
+    }
+}
+
+
+// MARK: - Button LayoutAxis
+
+public extension TSAlertController.ViewConfiguration {
+    
+    ///
+    enum ButtonLayoutAxis {
+        
+        ///
+        case automatic
+        
+        ///
+        case vertical
+        
+        ///
+        case horizontal
+        
+        
+        // MARK: - Resolve
+        
+        func resolveLayoutAxis(for actions: [TSAlertAction]) -> ButtonLayoutAxis {
+            if case .automatic = self {
+                return determineAutomaticLayout(for: actions)
+            }
+            return self
+        }
+        
+        
+        // MARK: - Private Helper
+        
+        ///
+        private func determineAutomaticLayout(for actions: [TSAlertAction]) -> ButtonLayoutAxis {
+            //
+            if actions.count > 2 {
+                return .vertical
+            //
+            } else {
+                return .horizontal
+            }
+        }
     }
 }

@@ -42,8 +42,8 @@ public extension TSAlertAction {
         public var cornerRadius: CGFloat
         
         ///
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = nil,
-                    tintColor: UIColor? = nil,
+        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.boldSystemFont(ofSize: 14)],
+                    tintColor: UIColor? = .lightGray,
                     borderColor: UIColor? = nil,
                     borderWidth: CGFloat = 0,
                     cornerRadius: CGFloat = 10) {

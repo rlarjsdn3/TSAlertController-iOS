@@ -49,9 +49,6 @@ public class TSAlertAction {
         didSet { setButtonEnabled(isEnabled) }
     }
     
-    ///
-    public var styleConfiguration: TSAlertAction.StyleConfiguration? = nil
-    
     
     // MARK: - Intializer
     
@@ -60,6 +57,7 @@ public class TSAlertAction {
                 image: UIImage? = nil,
                 style: TSAlertAction.Style,
                 handler: TSAlertActionHandler?) {
+        
         self.title = title
         self.image = image
         self.style = style

@@ -29,29 +29,30 @@ public extension TSAlertController {
         // MARK: - Properties
         
         ///
-        public var showDimmedBackgroundView: Bool
+        public var dimmedBackgroundViewVisible: Bool
         
         ///
-        public var showKeyboardOnAppear: Bool
+        public var shouldShowKeyboardOnAppear: Bool
         
         ///
-        public var allowDismissWhenTappedOutside: Bool
+        public var isDismissOnOutsideTapEnabled: Bool
         
         ///
-        public var offsetWhenKeuboardAppear: UIOffset?
+        public var keyboardAppearanceOffset: UIOffset?
         
         
         // MARK: - Intializer
         
         ///
-        public init(showDimmedBackgroundView: Bool = true,
-                    showKeyboardOnAppear: Bool = true,
-                    allowDismissWhenTappedOutside: Bool = false,
-                    offsetWhenKeuboardAppear: UIOffset? = nil) {
-            self.showDimmedBackgroundView = showDimmedBackgroundView
-            self.showKeyboardOnAppear = showKeyboardOnAppear
-            self.allowDismissWhenTappedOutside = allowDismissWhenTappedOutside
-            self.offsetWhenKeuboardAppear = offsetWhenKeuboardAppear
+        public init(dimmedBackgroundViewVisible: Bool = true,
+                    shouldShowKeyboardOnAppear: Bool = true,
+                    isDismissOnOutsideTapEnabled: Bool = false,
+                    keyboardAppearanceOffset: UIOffset? = nil) {
+            
+            self.dimmedBackgroundViewVisible = dimmedBackgroundViewVisible
+            self.shouldShowKeyboardOnAppear = shouldShowKeyboardOnAppear
+            self.isDismissOnOutsideTapEnabled = isDismissOnOutsideTapEnabled
+            self.keyboardAppearanceOffset = keyboardAppearanceOffset
         }
     }
 }

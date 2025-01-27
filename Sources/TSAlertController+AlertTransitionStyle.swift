@@ -36,29 +36,25 @@ public extension TSAlertController {
         // MARK: - Resolve
         
         ///
-        func resolveAnimator(for presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
+        func resolveAnimator(for presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
             switch self {
             case .fadeAndScaleDown:
                 return FadeAndScaldeDownAnimator(duration: 0.5,
                                                  presenting: presenting)
                 
             case .automatic:
-                return nil
+                return determineAutomaticAnimator(for: presenting)
             }
         }
-    }
-}
-
-
-// MARK: - Extensions
-
-extension TSAlertController.AlertTransitionStyle {
-    
-    ///
-    var isAutomatic: Bool {
-        if case .automatic = self {
-            return true
+        
+        
+        // MARK: - Private Helper
+        
+        ///
+        private func determineAutomaticAnimator(for presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
+            //
+            return FadeAndScaldeDownAnimator(duration: 0.5,
+                                             presenting: presenting)
         }
-        return false
     }
 }
