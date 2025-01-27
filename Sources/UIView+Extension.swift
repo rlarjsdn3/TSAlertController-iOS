@@ -24,6 +24,22 @@ import UIKit
 extension UIView {
     
     ///
+    func addBlurEffect(_ style: UIBlurEffect.Style,
+                       with viewConfig: TSAlertController.ViewConfiguration) {
+        let blurEffect = UIBlurEffect(style: style)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.bounds
+        blurEffectView.layer.borderColor = viewConfig.backgroundBorderColor
+        blurEffectView.layer.borderWidth = viewConfig.backgroundBorderWidth
+        blurEffectView.layer.cornerRadius = viewConfig.cornerRadius
+        blurEffectView.layer.masksToBounds = true
+        self.insertSubview(blurEffectView, at: 0)
+    }
+}
+
+extension UIView {
+    
+    ///
     func applyCenterXYConstraint(in baseView: UIView? = Helper.keyWindow()) {
         guard let baseView else { return }
         

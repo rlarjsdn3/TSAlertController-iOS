@@ -45,13 +45,13 @@ public extension TSAlertAction {
         func resolveConfiguration() -> TSAlertAction.StyleConfiguration {
             switch self {
             case .cancel:
-                return .init()
+                return .init(backgroundColor: .systemRed)
                 
             case .default:
-                return .init()
+                return .init(backgroundColor: .systemGray3)
                 
             case .destructive:
-                return .init()
+                return .init(backgroundColor: .systemBlue)
                 
             case let .custom(configuration):
                 return configuration

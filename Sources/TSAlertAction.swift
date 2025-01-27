@@ -68,10 +68,23 @@ public class TSAlertAction {
     
     ///
     func makeButton() -> UIButton {
-        let button = UIButton()
+        let styleConfig = style.resolveConfiguration()
+        
+        let button = UIButton(type: .system)
+        if let title = title {
+            button.setAttributedTitle(NSAttributedString(string: title,
+                                                         attributes: styleConfig.titleTextAttributes),
+                                      for: .normal)
+        }
+        button.backgroundColor = styleConfig.backgroundColor
+        
+        if let borderColor = styleConfig.borderColor {
+            button.layer.borderColor = borderColor
+        }
+        button.layer.borderWidth = styleConfig.borderWidth
+        button.layer.cornerRadius = styleConfig.cornerRadius
+        
         button.isEnabled = isEnabled
-        button.setTitle(title, for: .normal)
-        button.backgroundColor = .lightGray
         button.addAction(UIAction(handler: { _ in
             self.handler?(self)
             Helper.topController()?.dismiss(animated: true)

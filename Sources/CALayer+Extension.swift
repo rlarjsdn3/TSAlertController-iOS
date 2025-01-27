@@ -24,7 +24,7 @@ import UIKit
 extension CALayer {
     
     ///
-    func addShadow(_ color: CGColor,
+    func addShadow(_ color: CGColor?,
                    _ offset: CGSize,
                    _ opactiy: CGFloat,
                    _ radius: CGFloat) {

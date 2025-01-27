@@ -89,20 +89,33 @@ public class TSAlertController: UIViewController {
         self.containerView = TSAlertContainerView(with: viewConfiguration)
         
         view.addSubview(containerView!)
+        view.applySizeConstraint(with: viewConfiguration.size)
         containerView?.createView(for: self)
+        view.layoutIfNeeded()
         
-        // For test.
-        view.layer.cornerRadius = viewConfiguration.cornerRadius
-        if case let .color(color, _) = viewConfiguration.backgroundColor {
-            self.view.backgroundColor = color
-        }
+        configure(with: viewConfiguration)
     }
     
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    // MARK: - Configure
+    
+    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
+
+        switch viewConfig.backgroundColor {
+        case let .color(color, alpha):
+            view.backgroundColor = color.withAlphaComponent(alpha)
+        case let .effect(style):
+            view.addBlurEffect(style, with: viewConfiguration)
+        }
+        view.layer.borderColor = viewConfig.backgroundBorderColor
+        view.layer.borderWidth = viewConfig.backgroundBorderWidth
         
-        view.applySizeConstraint(with: viewConfiguration.size)
-        view.layoutIfNeeded()
+        if let shadow = viewConfig.shadow {
+            view.layer.addShadow(shadow.color,
+                                 shadow.offset,
+                                 shadow.opacity,
+                                 shadow.radius)
+        }
+        view.layer.cornerRadius = viewConfiguration.cornerRadius
     }
     
     
@@ -126,7 +139,6 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Deinitializer
     
-    // For test.
     deinit {
         print("Deinit \(Self.self)")
     }

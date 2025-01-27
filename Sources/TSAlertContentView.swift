@@ -33,13 +33,13 @@ class TSAlertContentView: UIStackView {
     
     init(title: String?,
          message: String? = nil,
-         viewConfiguration: TSAlertController.ViewConfiguration) {
+         viewConfig: TSAlertController.ViewConfiguration) {
         super.init(frame: .zero)
         
         titleLabel.text = title
-        titleLabel.textAlignment = viewConfiguration.titleTextAlignment
-        titleLabel.numberOfLines = viewConfiguration.titleNumberOfLines
-        if let titleTextAttributes = viewConfiguration.titleTextAttributes {
+        titleLabel.textAlignment = viewConfig.titleTextAlignment
+        titleLabel.numberOfLines = viewConfig.titleNumberOfLines
+        if let titleTextAttributes = viewConfig.titleTextAttributes {
             let attrText = NSAttributedString(string: title ?? "",
                                               attributes: titleTextAttributes)
             titleLabel.attributedText = attrText
@@ -48,9 +48,9 @@ class TSAlertContentView: UIStackView {
         
         if let message = message {
             messageLabel.text = message
-            messageLabel.textAlignment = viewConfiguration.messageTextAlignment
-            messageLabel.numberOfLines = viewConfiguration.messageNumberOfLines
-            if let messageTextAttributes = viewConfiguration.messageTextAttributes {
+            messageLabel.textAlignment = viewConfig.messageTextAlignment
+            messageLabel.numberOfLines = viewConfig.messageNumberOfLines
+            if let messageTextAttributes = viewConfig.messageTextAttributes {
                 let attrText = NSAttributedString(string: message,
                                                   attributes: messageTextAttributes)
                 messageLabel.attributedText = attrText
@@ -58,7 +58,7 @@ class TSAlertContentView: UIStackView {
             addArrangedSubview(messageLabel)
         }
         
-        configure(with: viewConfiguration)
+        configure(with: viewConfig)
     }
     
     required init(coder: NSCoder) {
@@ -67,9 +67,9 @@ class TSAlertContentView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(with configuration: TSAlertController.ViewConfiguration) {
+    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
         self.axis = .vertical
-        self.spacing = 5
+        self.spacing = 12.5
         self.alignment = .fill
         self.distribution = .fill
     }

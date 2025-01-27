@@ -25,20 +25,17 @@ class ViewController: UIViewController {
     @IBAction func test(_ sender: Any) {
         // TSAlertController Initalization
         let alert = TSAlertController(
-            title: "Hello, World!",
-            message: "TSAlertController",
+            title: "다음에 할까요?",
+            message: "여기서 나가면 처음부터 다시 진행해야 해요.",
             preferredStyle: .alert
         )
-        // ViewConfig Init & assign to it
-        alert.viewConfiguration = TSAlertController.ViewConfiguration(backgroundColor: .color(.secondarySystemBackground, alpha: 0.5))
 
         // Add button actions
-        let okAction = TSAlertAction(title: "Ok", style: .default) { [weak self] _ in
-//            self?.dismiss(animated: true)
+        let okAction = TSAlertAction(title: "이어서 하기", style: .default) { _ in
         }
         alert.addAction(okAction)
-        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
-//            self?.dismiss(animated: true)
+        
+        let cancelAction = TSAlertAction(title: "나가기", style: .cancel) { _ in
         }
         alert.addAction(cancelAction)
 

@@ -47,10 +47,10 @@ public extension TSAlertController {
         public var messageNumberOfLines: Int
         
         ///
-        public var backgroundColor: Background?
+        public var backgroundColor: Background
         
         ///
-        public var backgroundBorderColor: UIColor?
+        public var backgroundBorderColor: CGColor?
         
         ///
         public var backgroundBorderWidth: CGFloat
@@ -93,8 +93,8 @@ public extension TSAlertController {
             public var radius: CGFloat
 
             ///
-            public init(color: CGColor? = UIColor.black.cgColor,
-                        opacity: CGFloat = 0.5,
+            public init(color: CGColor? = UIColor.black.withAlphaComponent(0.1).cgColor,
+                        opacity: CGFloat = 1,
                         offset: CGSize = CGSize(width: 0, height: 3),
                         radius: CGFloat = 3) {
                 
@@ -109,20 +109,22 @@ public extension TSAlertController {
         
         // MARK: - Initalizer
         
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = nil,
+        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.boldSystemFont(ofSize: 18),
+                                                                            .foregroundColor: UIColor.label],
                     titleTextAlignment: NSTextAlignment = .left,
                     titleNumberOfLines: Int = 1,
-                    messageTextAttributes: [NSAttributedString.Key : Any]? = nil,
+                    messageTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.systemFont(ofSize: 14),
+                                                                              .foregroundColor: UIColor.label],
                     messageTextAligngn: NSTextAlignment = .left,
                     messageNumberOfLines: Int = 3,
-                    backgroundColor: Background? = .color(),
-                    backgroundBorderColor: UIColor? = nil,
+                    backgroundColor: Background = .color(.systemBackground, alpha: 1),
+                    backgroundBorderColor: CGColor? = nil,
                     backgroundBorderWidth: CGFloat = 0,
-                    shadow: Shadow? = .init(),
-                    cornerRadius: CGFloat = 10,
-                    dimmedBackgroundViewColor: Background? = .color(alpha: 0.5),
+                    shadow: Shadow? = nil,
+                    cornerRadius: CGFloat = 20,
+                    dimmedBackgroundViewColor: Background? = .color(.black, alpha: 0.5),
                     magin: LayoutMargin = .init(),
-                    size: LayoutSize = .init(width: .proportional(minimumRatio: 0.6, maximumRatio: 0.8)),
+                    size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
                     buttonLayoutAxis: ButtonLayoutAxis = .automatic) {
             
             self.titleTextAttributes = titleTextAttributes
@@ -155,10 +157,10 @@ public extension TSAlertController.ViewConfiguration {
     enum Background {
         
         ///
-        case effect(UIVisualEffect)
+        case effect(UIBlurEffect.Style)
         
         ///
-        case color(UIColor = .black,
+        case color(UIColor,
                    alpha: CGFloat = 1.0)
     }
 }
@@ -189,10 +191,11 @@ public extension TSAlertController.ViewConfiguration {
         // MARK: - Intializer
         
         ///
-        public init(contentTop: CGFloat = 15,
-                    contentBottom: CGFloat = -15,
-                    contentLeft: CGFloat = 15,
-                    contentRight: CGFloat = -15) {
+        public init(contentTop: CGFloat = 22.5,
+                    contentBottom: CGFloat = 17.5,
+                    contentLeft: CGFloat = 17.5,
+                    contentRight: CGFloat = 17.5) {
+            
             self.contentTop = contentTop
             self.contentBottom = contentBottom
             self.contentLeft = contentLeft
@@ -266,6 +269,7 @@ public extension TSAlertController.ViewConfiguration {
         
         // MARK: - Resolve
         
+        ///
         func resolveLayoutAxis(for actions: [TSAlertAction]) -> ButtonLayoutAxis {
             if case .automatic = self {
                 return determineAutomaticLayout(for: actions)
@@ -286,5 +290,15 @@ public extension TSAlertController.ViewConfiguration {
                 return .horizontal
             }
         }
+    }
+}
+
+extension TSAlertController.ViewConfiguration.ButtonLayoutAxis {
+    
+    func isHorizontal(for actions: [TSAlertAction]) -> Bool {
+        if case .automatic = self {
+            return determineAutomaticLayout(for: actions) == .horizontal
+        }
+        return self == .horizontal
     }
 }
