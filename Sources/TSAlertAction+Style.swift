@@ -34,5 +34,30 @@ public extension TSAlertAction {
         
         ///
         case destructive
+        
+        ///
+        case custom
+        
+        
+        // MARK: - Resolve
+        
+        ///
+        func resolveConfiguration() -> TSAlertAction.StyleConfiguration? {
+            let manager = TSAlertManager.shared
+            
+            switch self {
+            case .cancel:
+                return manager.styleConfiguration.cancel ?? .init()
+                
+            case .default:
+                return manager.styleConfiguration.default ?? .init()
+                
+            case .destructive:
+                return manager.styleConfiguration.destructive ?? .init()
+                
+            case .custom:
+                return nil
+            }
+        }
     }
 }

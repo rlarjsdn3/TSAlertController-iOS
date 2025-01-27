@@ -92,7 +92,7 @@ public class TSAlertController: UIViewController {
         containerView?.createView(for: self)
         
         // For test.
-        view.layer.cornerRadius = viewConfiguration.alertCornerRadius
+        view.layer.cornerRadius = viewConfiguration.cornerRadius
         if case let .color(color, _) = viewConfiguration.backgroundColor {
             self.view.backgroundColor = color
         }

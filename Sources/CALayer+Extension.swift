@@ -21,38 +21,16 @@
 
 import UIKit
 
-public extension TSAlertAction {
+extension CALayer {
     
-    /// 
-    struct StyleConfiguration {
-        
-        ///
-        public var titleTextAttributes: [NSAttributedString.Key: Any]?
-        
-        ///
-        public var tintColor: UIColor?
-        
-        ///
-        public var borderColor: UIColor?
-        
-        ///
-        public var borderWidth: CGFloat
-        
-        ///
-        public var cornerRadius: CGFloat
-        
-        ///
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = nil,
-                    tintColor: UIColor? = nil,
-                    borderColor: UIColor? = nil,
-                    borderWidth: CGFloat = 0,
-                    cornerRadius: CGFloat = 10) {
-            
-            self.titleTextAttributes = titleTextAttributes
-            self.tintColor = tintColor
-            self.borderColor = borderColor
-            self.borderWidth = borderWidth
-            self.cornerRadius = cornerRadius
-        }
+    ///
+    func addShadow(_ color: CGColor,
+                   _ offset: CGSize,
+                   _ opactiy: CGFloat,
+                   _ radius: CGFloat) {
+        self.shadowColor = color
+        self.shadowOffset = offset
+        self.shadowOpacity = opacity
+        self.shadowRadius = radius
     }
 }
