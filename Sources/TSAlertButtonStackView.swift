@@ -23,17 +23,22 @@ import UIKit
 
 class TSAlertButtonStackView: UIStackView {
     
+    // MARK: - Properties
+    
+    private let actions: [TSAlertAction]
+    
     // MARK: - Intializer
     
     init(actions: [TSAlertAction],
-         viewConfiguration: TSAlertController.ViewConfiguration) {
+         viewConfig: TSAlertController.ViewConfiguration) {
+        self.actions = actions
         super.init(frame: .zero)
         
         for action in actions {
             addArrangedSubview(action.makeButton())
         }
         
-        configure(with: viewConfiguration)
+        configure(with: viewConfig)
     }
     
     required init(coder: NSCoder) {
@@ -43,9 +48,9 @@ class TSAlertButtonStackView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(with configuration: TSAlertController.ViewConfiguration) {
-        self.axis = .horizontal
-        self.spacing = 10
+    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
+        self.axis = viewConfig.buttonLayoutAxis.isHorizontal(for: actions) ? .horizontal : .vertical
+        self.spacing = 7.5
         self.alignment = .fill
         self.distribution = .fillEqually
     }

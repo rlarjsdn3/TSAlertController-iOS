@@ -30,10 +30,10 @@ public extension TSAlertAction {
         public var titleTextAttributes: [NSAttributedString.Key: Any]?
         
         ///
-        public var tintColor: UIColor?
+        public var backgroundColor: UIColor?
         
         ///
-        public var borderColor: UIColor?
+        public var borderColor: CGColor?
         
         ///
         public var borderWidth: CGFloat
@@ -42,14 +42,15 @@ public extension TSAlertAction {
         public var cornerRadius: CGFloat
         
         ///
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = nil,
-                    tintColor: UIColor? = nil,
-                    borderColor: UIColor? = nil,
+        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.systemFont(ofSize: 15, weight: .black),
+                                                                            .foregroundColor: UIColor.systemBackground],
+                    backgroundColor: UIColor? = .lightGray,
+                    borderColor: CGColor? = nil,
                     borderWidth: CGFloat = 0,
-                    cornerRadius: CGFloat = 10) {
+                    cornerRadius: CGFloat = 12.5) {
             
             self.titleTextAttributes = titleTextAttributes
-            self.tintColor = tintColor
+            self.backgroundColor = backgroundColor
             self.borderColor = borderColor
             self.borderWidth = borderWidth
             self.cornerRadius = cornerRadius

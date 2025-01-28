@@ -21,6 +21,7 @@
 
 import UIKit
 
+///
 final class TSAlertManager {
     
     // MARK: - Singleton

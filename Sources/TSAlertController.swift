@@ -47,10 +47,10 @@ public class TSAlertController: UIViewController {
     public var textfields: [UITextField] = []
     
     ///
-    public var configuration: TSAlertController.Configuration = Configuration()
+    public var configuration: TSAlertController.Configuration = .init()
     
     ///
-    public var viewConfiguration: TSAlertController.ViewConfiguration = ViewConfiguration()
+    public var viewConfiguration: TSAlertController.ViewConfiguration = .init()
     
     ///
     public var alertTransitionStyle: TSAlertController.AlertTransitionStyle = .automatic
@@ -89,20 +89,33 @@ public class TSAlertController: UIViewController {
         self.containerView = TSAlertContainerView(with: viewConfiguration)
         
         view.addSubview(containerView!)
+        view.applySizeConstraint(with: viewConfiguration.size)
         containerView?.createView(for: self)
+        view.layoutIfNeeded()
         
-        // For test.
-        view.layer.cornerRadius = viewConfiguration.cornerRadius
-        if case let .color(color, _) = viewConfiguration.backgroundColor {
-            self.view.backgroundColor = color
-        }
+        configure(with: viewConfiguration)
     }
     
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    // MARK: - Configure
+    
+    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
+
+        switch viewConfig.backgroundColor {
+        case let .color(color, alpha):
+            view.backgroundColor = color.withAlphaComponent(alpha)
+        case let .effect(style):
+            view.addBlurEffect(style, with: viewConfiguration)
+        }
+        view.layer.borderColor = viewConfig.backgroundBorderColor
+        view.layer.borderWidth = viewConfig.backgroundBorderWidth
         
-        view.applySizeConstraint(with: viewConfiguration.size)
-        view.layoutIfNeeded()
+        if let shadow = viewConfig.shadow {
+            view.layer.addShadow(shadow.color,
+                                 shadow.offset,
+                                 shadow.opacity,
+                                 shadow.radius)
+        }
+        view.layer.cornerRadius = viewConfiguration.cornerRadius
     }
     
     
@@ -126,7 +139,6 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Deinitializer
     
-    // For test.
     deinit {
         print("Deinit \(Self.self)")
     }
@@ -151,16 +163,6 @@ public extension TSAlertController {
     }
 }
 
-private extension TSAlertController {
-    
-    ///
-    static func defaultAlertTransitionStyle(with presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
-        return presenting
-        ? FadeAndScaldeDownAnimator(duration: 0.5, presenting: true)
-        : FadeAndScaldeDownAnimator(duration: 0.5, presenting: false)
-    }
-}
-
 
 // MARK: - UIViewControllerTransitioningDelegate
 
@@ -178,16 +180,12 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.isAutomatic
-        ? Self.defaultAlertTransitionStyle(with: true)
-        : alertTransitionStyle.resolveAnimator(for: true)
+        return alertTransitionStyle.resolveAnimator(for: true)
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.isAutomatic
-        ? Self.defaultAlertTransitionStyle(with: false)
-        : alertTransitionStyle.resolveAnimator(for: false)
+        return alertTransitionStyle.resolveAnimator(for: false)
     }
 }
 
