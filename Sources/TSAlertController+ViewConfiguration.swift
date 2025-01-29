@@ -29,6 +29,18 @@ public extension TSAlertController {
         // MARK: - Properties
         
         ///
+        public var titleMinHeight: CGFloat
+        
+        ///
+        public var messageMinHeight: CGFloat
+        
+        ///
+        public var textfieldMinHeight: CGFloat
+        
+        ///
+        public var buttonMinHeight: CGFloat
+        
+        ///
         public var titleTextAttributes: [NSAttributedString.Key: Any]?
         
         ///
@@ -66,6 +78,9 @@ public extension TSAlertController {
         
         ///
         public var margin: LayoutMargin
+        
+        ///
+        public var spacing: LayoutSpacing
                 
         ///
         public var size: LayoutSize
@@ -109,7 +124,11 @@ public extension TSAlertController {
         
         // MARK: - Initalizer
         
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.boldSystemFont(ofSize: 18),
+        public init(titleMinHeight: CGFloat = 0,
+                    messageMinHeight: CGFloat = 0,
+                    textfieldMinHeight: CGFloat = 20,
+                    buttonMinHeight: CGFloat = 42.5,
+                    titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.boldSystemFont(ofSize: 18),
                                                                             .foregroundColor: UIColor.label],
                     titleTextAlignment: NSTextAlignment = .left,
                     titleNumberOfLines: Int = 1,
@@ -124,9 +143,14 @@ public extension TSAlertController {
                     cornerRadius: CGFloat = 20,
                     dimmedBackgroundViewColor: Background? = .color(.black, alpha: 0.5),
                     magin: LayoutMargin = .init(),
+                    spacing: LayoutSpacing = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
                     buttonLayoutAxis: ButtonLayoutAxis = .automatic) {
             
+            self.titleMinHeight = titleMinHeight
+            self.messageMinHeight = messageMinHeight
+            self.textfieldMinHeight = textfieldMinHeight
+            self.buttonMinHeight = buttonMinHeight
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
@@ -140,6 +164,7 @@ public extension TSAlertController {
             self.cornerRadius = cornerRadius
             self.dimmedBackgroundViewColor = dimmedBackgroundViewColor
             self.margin = magin
+            self.spacing = spacing
             self.size = size
             self.buttonLayoutAxis = buttonLayoutAxis
         }
@@ -207,33 +232,74 @@ public extension TSAlertController.ViewConfiguration {
 }
 
 
+// MARK: - LayoutSpacing
+
+public extension TSAlertController.ViewConfiguration {
+    
+    ///
+    struct LayoutSpacing {
+        
+        // MARK: - Properties
+        
+        ///
+        public var titleMessageSpacing: CGFloat
+        
+        ///
+        public var messageTextfieldSpacing: CGFloat
+        
+        ///
+        public var textfieldButtonSpacing: CGFloat
+        
+        ///
+        public var buttonSpacing: CGFloat
+        
+        
+        // MARK: - Intializer
+        
+        ///
+        public init(titleMessageSpacing: CGFloat = 12.5,
+                    messageTextfieldSpacing: CGFloat = 7.5,
+                    textfieldButtonSpacing: CGFloat = 12.5,
+                    buttonSpacing: CGFloat = 7.5) {
+            
+            self.titleMessageSpacing = titleMessageSpacing
+            self.messageTextfieldSpacing = messageTextfieldSpacing
+            self.textfieldButtonSpacing = textfieldButtonSpacing
+            self.buttonSpacing = buttonSpacing
+        }
+    }
+}
+
+
 
 // MARK: - LayoutSize
 
-///
-public struct LayoutSize {
-    
-    // MARK: - Properties
+public extension TSAlertController.ViewConfiguration {
     
     ///
-    public var width: LayoutSize.Constraint
-    
-    ///
-    public var height: LayoutSize.Constraint
-    
-    
-    // MARK: - Intializer
-    
-    ///
-    public init(width: LayoutSize.Constraint = .proportional(),
-                height: LayoutSize.Constraint = .proportional()) {
-        self.width = width
-        self.height = height
+    struct LayoutSize {
+        
+        // MARK: - Properties
+        
+        ///
+        public var width: LayoutSize.Constraint
+        
+        ///
+        public var height: LayoutSize.Constraint
+        
+        
+        // MARK: - Intializer
+        
+        ///
+        public init(width: LayoutSize.Constraint = .proportional(),
+                    height: LayoutSize.Constraint = .proportional()) {
+            self.width = width
+            self.height = height
+        }
     }
-    
 }
 
-public extension LayoutSize {
+public extension TSAlertController.ViewConfiguration.LayoutSize {
     
     ///
     enum Constraint {
@@ -300,5 +366,17 @@ extension TSAlertController.ViewConfiguration.ButtonLayoutAxis {
             return determineAutomaticLayout(for: actions) == .horizontal
         }
         return self == .horizontal
+    }
+}
+
+
+
+// MARK: - Extension
+
+extension TSAlertController.ViewConfiguration {
+    
+    ///
+    func isButtonLayoutAxisHorizontal(for actions: [TSAlertAction]) -> Bool {
+        return self.buttonLayoutAxis.isHorizontal(for: actions)
     }
 }
