@@ -29,6 +29,7 @@
 		C7BBC9DC2D42535B00AF4434 /* TSAlertController+ViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9DB2D42535B00AF4434 /* TSAlertController+ViewConfiguration.swift */; };
 		C7BBC9DD2D42535B00AF4434 /* TSAlertController+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9DA2D42535B00AF4434 /* TSAlertController+Configuration.swift */; };
 		C7BBC9DE2D42535B00AF4434 /* TSAlertController+AlertTransitionStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BBC9D92D42535B00AF4434 /* TSAlertController+AlertTransitionStyle.swift */; };
+		C7EBD07C2D4A27E50064285D /* UITextfield+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EBD07B2D4A27E50064285D /* UITextfield+Extension.swift */; };
 		CB34EA6298AAA39A36FC750C05A4856E /* Pods-TSAlertController_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DD96E360C3A6A762466CBA20CBA1BE /* Pods-TSAlertController_Example-dummy.m */; };
 		DBB453E8BC171CEEB707D69D2125082B /* Pods-TSAlertController_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 210B35D65AB534CCE52F8084B254B8DA /* Pods-TSAlertController_Tests-dummy.m */; };
 		E0998E20114C02E44E56D8FE3B8F80FB /* Pods-TSAlertController_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F22B0CE07C2E106F711D13D408D13F6 /* Pods-TSAlertController_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -100,6 +101,7 @@
 		C7BBC9D92D42535B00AF4434 /* TSAlertController+AlertTransitionStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSAlertController+AlertTransitionStyle.swift"; path = "../Sources/TSAlertController+AlertTransitionStyle.swift"; sourceTree = "<group>"; };
 		C7BBC9DA2D42535B00AF4434 /* TSAlertController+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSAlertController+Configuration.swift"; path = "../Sources/TSAlertController+Configuration.swift"; sourceTree = "<group>"; };
 		C7BBC9DB2D42535B00AF4434 /* TSAlertController+ViewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSAlertController+ViewConfiguration.swift"; path = "../Sources/TSAlertController+ViewConfiguration.swift"; sourceTree = "<group>"; };
+		C7EBD07B2D4A27E50064285D /* UITextfield+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UITextfield+Extension.swift"; path = "../../Sources/UITextfield+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		D717D51E4B3C0D7F690B709DEDEF2855 /* TSAlertController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TSAlertController-prefix.pch"; sourceTree = "<group>"; };
 		E349E59F298E20FB776E385EC4A362BE /* Pods-TSAlertController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TSAlertController_Example.release.xcconfig"; sourceTree = "<group>"; };
 		E723712242AACBBDA256EB01FA5088F0 /* TSAlertController.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = TSAlertController.podspec; sourceTree = "<group>"; tabWidth = 2; };
@@ -214,6 +216,7 @@
 		C724ADC92D428FD400778BB1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				C7EBD07B2D4A27E50064285D /* UITextfield+Extension.swift */,
 				C724ADC72D428FC100778BB1 /* UIView+Extension.swift */,
 				C7252D0A2D47524C00E4C82B /* CALayer+Extension.swift */,
 			);
@@ -225,8 +228,8 @@
 			children = (
 				C724ADCB2D42939E00778BB1 /* TSAlertView.swift */,
 				C724ADCE2D4298A100778BB1 /* TSAlertContainerView.swift */,
-				C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */,
 				C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */,
+				C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */,
 			);
 			path = TSAlertView;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				C724ADD32D429D1900778BB1 /* TSAlertContentView.swift in Sources */,
 				C7BBC9D02D424D6100AF4434 /* TSAlertController.swift in Sources */,
 				C7252D0B2D47524C00E4C82B /* CALayer+Extension.swift in Sources */,
+				C7EBD07C2D4A27E50064285D /* UITextfield+Extension.swift in Sources */,
 				C7BBC9D22D424DEA00AF4434 /* TSAlertAction.swift in Sources */,
 				C724ADCF2D4298A100778BB1 /* TSAlertContainerView.swift in Sources */,
 				C7BBC9DC2D42535B00AF4434 /* TSAlertController+ViewConfiguration.swift in Sources */,

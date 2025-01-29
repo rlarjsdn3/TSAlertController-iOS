@@ -1,3 +1,4 @@
+
 // Copyright (c) 2025 rlarjsdn3 <rlarjsdn3@naver.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,39 +22,48 @@
 
 import UIKit
 
-public extension TSAlertAction {
+extension UITextField {
     
-    /// 
-    struct StyleConfiguration {
+    ///
+    enum PaddingPosition {
         
         ///
-        public var titleTextAttributes: [NSAttributedString.Key: Any]?
+        case left(CGFloat)
         
         ///
-        public var backgroundColor: UIColor?
+        case right(CGFloat)
         
         ///
-        public var borderColor: CGColor?
+        case edge(CGFloat)
+    }
+    
+    ///
+    func setPaddingInsets(_ paddings: PaddingPosition...) {
         
-        ///
-        public var borderWidth: CGFloat
-        
-        ///
-        public var cornerRadius: CGFloat
-        
-        ///
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                            .foregroundColor: UIColor.systemBackground],
-                    backgroundColor: UIColor? = .lightGray,
-                    borderColor: CGColor? = nil,
-                    borderWidth: CGFloat = 0,
-                    cornerRadius: CGFloat = 12.5) {
+        for padding in paddings {
             
-            self.titleTextAttributes = titleTextAttributes
-            self.backgroundColor = backgroundColor
-            self.borderColor = borderColor
-            self.borderWidth = borderWidth
-            self.cornerRadius = cornerRadius
+            switch padding {
+            case let .left(width):
+                let view = UIView(frame: CGRect(x: 0, y: 0,
+                                                width: width, height: self.frame.height))
+                self.leftView = view
+                self.leftViewMode = .always
+                
+            case let .right(width):
+                let view = UIView(frame: CGRect(x: 0, y: 0,
+                                                width: width, height: self.frame.height))
+                self.rightView = view
+                self.rightViewMode = .always
+                
+            case let .edge(width):
+                let view = UIView(frame: CGRect(x: 0, y: 0,
+                                                width: width, height: self.frame.height))
+                self.leftView = view
+                self.leftViewMode = .always
+                self.rightView = view
+                self.rightViewMode = .always
+            }
         }
     }
 }
+

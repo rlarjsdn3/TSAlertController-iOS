@@ -51,7 +51,7 @@ extension UIView {
     }
 
     ///
-    func applySizeConstraint(with size: LayoutSize,
+    func applySizeConstraint(with size: TSAlertController.ViewConfiguration.LayoutSize,
                              in baseView: UIView? = Helper.keyWindow()) {
         guard let baseView else { return }
         

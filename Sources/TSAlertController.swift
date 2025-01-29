@@ -44,7 +44,7 @@ public class TSAlertController: UIViewController {
     public var actions: [TSAlertAction] = []
     
     ///
-    public var textfields: [UITextField] = []
+    public var textfields: [UITextField]  = []
     
     ///
     public var configuration: TSAlertController.Configuration = .init()
@@ -159,6 +159,7 @@ public extension TSAlertController {
     func addTextField(configurationHandler: (UITextField) -> Void) {
         let textfield = UITextField()
         configurationHandler(textfield)
+        textfield.borderStyle = .none
         textfields.append(textfield)
     }
 }

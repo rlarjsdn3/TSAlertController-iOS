@@ -49,8 +49,10 @@ class TSAlertButtonStackView: UIStackView {
     // MARK: - Private
     
     private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
-        self.axis = viewConfig.buttonLayoutAxis.isHorizontal(for: actions) ? .horizontal : .vertical
-        self.spacing = 7.5
+        self.axis = viewConfig.isButtonLayoutAxisHorizontal(for: actions)
+        ? .horizontal
+        : .vertical
+        self.spacing = viewConfig.spacing.buttonSpacing
         self.alignment = .fill
         self.distribution = .fillEqually
     }

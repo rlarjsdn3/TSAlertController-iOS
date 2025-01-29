@@ -27,35 +27,82 @@ class TSAlertContentView: UIStackView {
     
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
-
+    
+    private let labelStack = UIStackView()
+    private let textfieldStack = UIStackView()
     
     // MARK: - Intializer
     
     init(title: String?,
          message: String? = nil,
+         textfields: [UITextField]? = nil,
          viewConfig: TSAlertController.ViewConfiguration) {
         super.init(frame: .zero)
+        
+        labelStack.axis = .vertical
+        labelStack.spacing = viewConfig.spacing.titleMessageSpacing
+        labelStack.alignment = .fill
+        labelStack.distribution = .fillProportionally
         
         titleLabel.text = title
         titleLabel.textAlignment = viewConfig.titleTextAlignment
         titleLabel.numberOfLines = viewConfig.titleNumberOfLines
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: viewConfig.titleMinHeight).isActive = true
         if let titleTextAttributes = viewConfig.titleTextAttributes {
             let attrText = NSAttributedString(string: title ?? "",
                                               attributes: titleTextAttributes)
             titleLabel.attributedText = attrText
         }
-        addArrangedSubview(titleLabel)
+        labelStack.addArrangedSubview(titleLabel)
         
         if let message = message {
             messageLabel.text = message
             messageLabel.textAlignment = viewConfig.messageTextAlignment
             messageLabel.numberOfLines = viewConfig.messageNumberOfLines
+            messageLabel.translatesAutoresizingMaskIntoConstraints = false
+            messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: viewConfig.messageMinHeight).isActive = true
             if let messageTextAttributes = viewConfig.messageTextAttributes {
                 let attrText = NSAttributedString(string: message,
                                                   attributes: messageTextAttributes)
                 messageLabel.attributedText = attrText
             }
-            addArrangedSubview(messageLabel)
+            labelStack.addArrangedSubview(messageLabel)
+        }
+        addArrangedSubview(labelStack)
+        
+        if textfields?.isEmpty == false, let textfields = textfields {
+            textfieldStack.axis = .vertical
+            textfieldStack.spacing = 5
+            textfieldStack.alignment = .fill
+            textfieldStack.distribution = .fillProportionally
+            
+            textfieldStack.isLayoutMarginsRelativeArrangement = true
+            textfieldStack.layoutMargins = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+            
+            textfieldStack.layer.borderColor = UIColor.lightGray.cgColor
+            textfieldStack.layer.borderWidth = 0.75
+            textfieldStack.layer.cornerRadius = 10
+            textfieldStack.layer.cornerCurve = .continuous
+            
+            let textfieldHeight: CGFloat = 22.5
+            let textfieldCount = CGFloat(textfields.count)
+            let margin: CGFloat = 5 * 2  // Outer margin for elements (5 * 2)
+            let spacing: CGFloat = 5 * 2 // Spacing between elements (5 * 2)
+            
+            // Calculate the total height (margin + two spacings + text field heights)
+            let totalHeight = margin + (spacing * (textfieldCount - 1)) + (textfieldHeight * textfieldCount)
+            textfieldStack.translatesAutoresizingMaskIntoConstraints = false
+            textfieldStack.heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
+            
+            for (index, textfield) in textfields.enumerated() {
+                textfield.setPaddingInsets(.edge(10))
+                textfieldStack.addArrangedSubview(textfield)
+                if index < textfields.count - 1 {
+                    textfieldStack.addArrangedSubview(createSeparatorView(.lightGray))
+                }
+            }
+            addArrangedSubview(textfieldStack)
         }
         
         configure(with: viewConfig)
@@ -69,9 +116,21 @@ class TSAlertContentView: UIStackView {
     
     private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
         self.axis = .vertical
-        self.spacing = 12.5
+        self.spacing = viewConfig.spacing.messageTextfieldSpacing
         self.alignment = .fill
-        self.distribution = .fill
+        self.distribution = .fillProportionally
     }
+}
+
+
+// MARK: - Extension
+
+private extension TSAlertContentView {
     
+    func createSeparatorView(_ color: UIColor) -> UIView {
+        let separator = UIView()
+        separator.backgroundColor = color
+        separator.heightAnchor.constraint(equalToConstant: 0.75).isActive = true
+        return separator
+    }
 }
