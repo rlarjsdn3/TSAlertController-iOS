@@ -35,9 +35,6 @@ public extension TSAlertController {
         public var messageMinHeight: CGFloat
         
         ///
-        public var textfieldMinHeight: CGFloat
-        
-        ///
         public var buttonMinHeight: CGFloat
         
         ///
@@ -126,13 +123,12 @@ public extension TSAlertController {
         
         public init(titleMinHeight: CGFloat = 0,
                     messageMinHeight: CGFloat = 0,
-                    textfieldMinHeight: CGFloat = 22.5,
                     buttonMinHeight: CGFloat = 42.5,
-                    titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.boldSystemFont(ofSize: 18),
+                    titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
                                                                             .foregroundColor: UIColor.label],
                     titleTextAlignment: NSTextAlignment = .left,
                     titleNumberOfLines: Int = 1,
-                    messageTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.systemFont(ofSize: 14),
+                    messageTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .subheadline),
                                                                               .foregroundColor: UIColor.label],
                     messageTextAligngn: NSTextAlignment = .left,
                     messageNumberOfLines: Int = 3,
@@ -149,7 +145,6 @@ public extension TSAlertController {
             
             self.titleMinHeight = titleMinHeight
             self.messageMinHeight = messageMinHeight
-            self.textfieldMinHeight = textfieldMinHeight
             self.buttonMinHeight = buttonMinHeight
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
@@ -244,10 +239,18 @@ public extension TSAlertController.ViewConfiguration {
         ///
         public var titleMessageSpacing: CGFloat
         
+        /// The spacing between the message and the text field.
         ///
+        /// This property defines the spacing between the message and the text field.
+        /// The default value is 12.5. If no text field is added to the alert,
+        /// this spacing will not be applied.
         public var messageTextfieldSpacing: CGFloat
         
+        /// The spacing between the text field and the button.
         ///
+        /// This defines the spacing between the text field and the button.
+        /// The default value is 16.5. If no text field is added to the alert,
+        /// this value will be used as the spacing between the message and the button instead.
         public var textfieldButtonSpacing: CGFloat
         
         ///
@@ -258,8 +261,8 @@ public extension TSAlertController.ViewConfiguration {
         
         ///
         public init(titleMessageSpacing: CGFloat = 12.5,
-                    messageTextfieldSpacing: CGFloat = 7.5,
-                    textfieldButtonSpacing: CGFloat = 12.5,
+                    messageTextfieldSpacing: CGFloat = 12.5,
+                    textfieldButtonSpacing: CGFloat = 16.5,
                     buttonSpacing: CGFloat = 7.5) {
             
             self.titleMessageSpacing = titleMessageSpacing

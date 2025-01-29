@@ -228,8 +228,8 @@
 			children = (
 				C724ADCB2D42939E00778BB1 /* TSAlertView.swift */,
 				C724ADCE2D4298A100778BB1 /* TSAlertContainerView.swift */,
-				C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */,
 				C724ADD12D429D1900778BB1 /* TSAlertContentView.swift */,
+				C724ADD02D429D1900778BB1 /* TSAlertButtonStackView.swift */,
 			);
 			path = TSAlertView;
 			sourceTree = "<group>";

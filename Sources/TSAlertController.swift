@@ -44,7 +44,7 @@ public class TSAlertController: UIViewController {
     public var actions: [TSAlertAction] = []
     
     ///
-    public var textfields: [UITextField] = []
+    public var textfields: [UITextField]  = []
     
     ///
     public var configuration: TSAlertController.Configuration = .init()

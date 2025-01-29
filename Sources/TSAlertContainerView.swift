@@ -62,7 +62,7 @@ class TSAlertContainerView: UIStackView, TSAlertView {
     
     private func configure() {
         self.axis = .vertical
-        self.spacing = 20
+        self.spacing = viewConfig.spacing.textfieldButtonSpacing
         self.alignment = .fill
         self.distribution = .fillProportionally
     }
@@ -85,18 +85,18 @@ class TSAlertContainerView: UIStackView, TSAlertView {
         
         var height: CGFloat = 0
         let actionsCount = CGFloat(alert.actions.count)
-        let actionHeight: CGFloat = 37.5
+        let actionHeight: CGFloat = viewConfig.buttonMinHeight
         let spacing: CGFloat = 7.5
         
         //
         if viewConfig.isButtonLayoutAxisHorizontal(for: alert.actions) {
-            height = 42.5
+            height = actionHeight
         //
         } else {
             height = (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
         }
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
-        buttonsView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        buttonsView.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
         addArrangedSubview(buttonsView)
     }
 }

@@ -11,43 +11,38 @@ import UIKit
 import TSAlertController
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     @IBAction func test(_ sender: Any) {
-        // TSAlertController Initalization
+        // TSAlertController Initialization
         let alert = TSAlertController(
-            title: "다음에 할까요?",
-            message: "여기서 나가면 처음부터 다시 진행해야 해요.",
+            title: "Continue?",
+            message: "If you leave now, you will have to start over from the beginning.",
             preferredStyle: .alert
         )
-
+        
         // Add button actions
-        let okAction = TSAlertAction(title: "이어서 하기", style: .default) { _ in
+        let okAction = TSAlertAction(title: "Continue", style: .default) { _ in
         }
         alert.addAction(okAction)
         
-        let cancelAction = TSAlertAction(title: "나가기", style: .cancel) { _ in
+        let cancelAction = TSAlertAction(title: "Exit", style: .cancel) { _ in
         }
         alert.addAction(cancelAction)
         
         // Add textfield
         alert.addTextField {
-            $0.placeholder = "아이디"
+            $0.placeholder = "Authentication Code"
         }
-        alert.addTextField {
-            $0.placeholder = "비밀번호"
-        }
-
+        
         // Present alert
         present(alert, animated: true)
     }
-    
 }
-
