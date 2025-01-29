@@ -14,12 +14,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func test(_ sender: Any) {
@@ -38,8 +36,16 @@ class ViewController: UIViewController {
         let cancelAction = TSAlertAction(title: "나가기", style: .cancel) { _ in
         }
         alert.addAction(cancelAction)
+        
+        // Add textfield
+        alert.addTextField {
+            $0.placeholder = "아이디"
+        }
+        alert.addTextField {
+            $0.placeholder = "비밀번호"
+        }
 
-        // Present Alert
+        // Present alert
         present(alert, animated: true)
     }
     

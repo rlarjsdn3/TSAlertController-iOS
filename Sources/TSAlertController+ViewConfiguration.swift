@@ -126,7 +126,7 @@ public extension TSAlertController {
         
         public init(titleMinHeight: CGFloat = 0,
                     messageMinHeight: CGFloat = 0,
-                    textfieldMinHeight: CGFloat = 20,
+                    textfieldMinHeight: CGFloat = 22.5,
                     buttonMinHeight: CGFloat = 42.5,
                     titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.boldSystemFont(ofSize: 18),
                                                                             .foregroundColor: UIColor.label],

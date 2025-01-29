@@ -159,6 +159,7 @@ public extension TSAlertController {
     func addTextField(configurationHandler: (UITextField) -> Void) {
         let textfield = UITextField()
         configurationHandler(textfield)
+        textfield.borderStyle = .none
         textfields.append(textfield)
     }
 }

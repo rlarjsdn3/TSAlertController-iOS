@@ -71,6 +71,7 @@ class TSAlertContainerView: UIStackView, TSAlertView {
         let contentView = TSAlertContentView(
             title: alert.title,
             message: alert.message,
+            textfields: alert.textfields,
             viewConfig: viewConfig
         )
         addArrangedSubview(contentView)
@@ -88,7 +89,7 @@ class TSAlertContainerView: UIStackView, TSAlertView {
         let spacing: CGFloat = 7.5
         
         //
-        if viewConfig.buttonLayoutAxis.isHorizontal(for: alert.actions) {
+        if viewConfig.isButtonLayoutAxisHorizontal(for: alert.actions) {
             height = 42.5
         //
         } else {

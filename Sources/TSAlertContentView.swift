@@ -27,12 +27,13 @@ class TSAlertContentView: UIStackView {
     
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
-
+    private let textfieldStack = UIStackView()
     
     // MARK: - Intializer
     
     init(title: String?,
          message: String? = nil,
+         textfields: [UITextField]? = nil,
          viewConfig: TSAlertController.ViewConfiguration) {
         super.init(frame: .zero)
         
@@ -58,6 +59,19 @@ class TSAlertContentView: UIStackView {
             addArrangedSubview(messageLabel)
         }
         
+        if let textfields = textfields {
+            configureTextfieldStack(with: viewConfig, textfields: textfields)
+            
+            for (index, textfield) in textfields.enumerated() {
+                textfield.setPaddingInsets(.edge(10))
+                textfieldStack.addArrangedSubview(textfield)
+                if index < textfields.count - 1 {
+                    textfieldStack.addArrangedSubview(createSeparatorView(.lightGray))
+                }
+            }
+            addArrangedSubview(textfieldStack)
+        }
+        
         configure(with: viewConfig)
     }
     
@@ -71,7 +85,45 @@ class TSAlertContentView: UIStackView {
         self.axis = .vertical
         self.spacing = 12.5
         self.alignment = .fill
-        self.distribution = .fill
+        self.distribution = .fillProportionally
     }
     
+    private func configureTextfieldStack(with viewConfig: TSAlertController.ViewConfiguration,
+                                         textfields: [UITextField]) {
+        textfieldStack.axis = .vertical
+        textfieldStack.spacing = 5
+        textfieldStack.alignment = .fill
+        textfieldStack.distribution = .fillProportionally
+        
+        textfieldStack.isLayoutMarginsRelativeArrangement = true
+        textfieldStack.layoutMargins = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        
+        textfieldStack.layer.borderColor = UIColor.lightGray.cgColor
+        textfieldStack.layer.borderWidth = 0.75
+        textfieldStack.layer.cornerRadius = 10
+        textfieldStack.layer.cornerCurve = .continuous
+        
+        let textfieldHeight: CGFloat = 22.5
+        let textfieldCount = CGFloat(textfields.count)
+        let margin: CGFloat = 5 * 2  // Outer margin for elements (5 * 2)
+        let spacing: CGFloat = 5 * 2 // Spacing between elements (5 * 2)
+        
+        // Calculate the total height (margin + two spacings + text field heights)
+        let totalHeight = margin + (spacing * (textfieldCount - 1)) + (textfieldHeight * textfieldCount)
+        textfieldStack.translatesAutoresizingMaskIntoConstraints = false
+        textfieldStack.heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
+    }
+}
+
+
+// MARK: - Extension
+
+private extension TSAlertContentView {
+    
+    func createSeparatorView(_ color: UIColor) -> UIView {
+        let separator = UIView()
+        separator.backgroundColor = color
+        separator.heightAnchor.constraint(equalToConstant: 0.75).isActive = true
+        return separator
+    }
 }
