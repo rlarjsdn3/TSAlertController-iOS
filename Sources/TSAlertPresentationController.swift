@@ -28,75 +28,93 @@ final class TSAlertPresentationController: UIPresentationController {
     // MARK: - Properties
     
     ///
-    private let dimmingView = UIView()
+    private let dimmedView = UIView()
     
     ///
     private let viewConfiguration: TSAlertController.ViewConfiguration
     
     
-    // MARK: - Intializer
+    // MARK: - Initializer
     
     ///
     init(presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
-         viewConfiguration: TSAlertController.ViewConfiguration) {
-        self.viewConfiguration = viewConfiguration
-        
+         viewConfig: TSAlertController.ViewConfiguration) {
+        self.viewConfiguration = viewConfig
         super.init(presentedViewController: presentedViewController,
                    presenting: presentingViewController)
     }
 
-    
     // MARK: - Lifecycle
     
     override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
         
-        configure(with: viewConfiguration)
+        setupViewHierarchy()
+        setupViewConstraints()
+        dimmedView.layoutIfNeeded()
         
-        let coordinator = presentedViewController.transitionCoordinator
+        configureDimmedView(with: viewConfiguration)
         
-        coordinator?.animate(alongsideTransition: { _ in
-            self.dimmingView.alpha = 1.0
-        })
+        animateDimmedViewAppearance(presenting: true)
     }
     
     override func dismissalTransitionWillBegin() {
         super.dismissalTransitionWillBegin()
         
+        animateDimmedViewAppearance(presenting: false)
+    }
+
+    
+    // MARK: - View Setup
+    
+    ///
+    private func setupViewHierarchy() {
+        guard let containerView else { return }
+        
+        containerView.addSubview(dimmedView)
+        containerView.addSubview(presentedViewController.view)
+    }
+    
+    ///
+    private func setupViewConstraints() {
+        guard let containerView else { return }
+        
+        dimmedView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dimmedView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            dimmedView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            dimmedView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            dimmedView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
+        presentedViewController.view.applyCenterXYConstraint(in: containerView)
+    }
+    
+    ///
+    private func configureDimmedView(with viewConfig: TSAlertController.ViewConfiguration) {
+        dimmedView.alpha = 0.0
+        
+        switch viewConfig.dimmedBackgroundViewColor {
+        case let .color(color, alpha):
+            dimmedView.backgroundColor = color.withAlphaComponent(alpha)
+        case let .effect(style):
+            dimmedView.addBlurEffect(style, with: viewConfig)
+        case .none:
+            break
+        }
+    }
+    
+    
+    // MARK: - Animation
+    
+    ///
+    private func animateDimmedViewAppearance(presenting: Bool) {
+        let alpha: CGFloat = presenting ? 1.0 : 0.0
         let coordinator = presentedViewController.transitionCoordinator
         
         coordinator?.animate(alongsideTransition: { _ in
-            self.dimmingView.alpha = 0.0
+            self.dimmedView.alpha = alpha
         })
-    }
-    
-    
-    // MARK: - Configure
-    
-    private func configure(with viewConfiguration: TSAlertController.ViewConfiguration) {
-        
-        dimmingView.alpha = 0.0
-        if case let .color(color, alpha) = viewConfiguration.dimmedBackgroundViewColor {
-            dimmingView.backgroundColor = color.withAlphaComponent(alpha)
-        }
-        
-        configureConstraints()
-    }
-    
-    private func configureConstraints() {
-        guard let containerView else { return }
-        
-        containerView.addSubview(presentedViewController.view)
-        presentedViewController.view.applyCenterXYConstraint(in: containerView)
-        
-        containerView.insertSubview(dimmingView, at: 0)
-        dimmingView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            dimmingView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            dimmingView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            dimmingView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            dimmingView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-        ])
     }
 }

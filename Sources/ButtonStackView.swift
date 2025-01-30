@@ -21,7 +21,7 @@
 
 import UIKit
 
-class TSAlertButtonStackView: UIStackView {
+class ButtonStackView: UIStackView {
     
     // MARK: - Properties
     

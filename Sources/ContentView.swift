@@ -21,7 +21,7 @@
 
 import UIKit
 
-class TSAlertContentView: UIStackView {
+class ContentView: UIStackView {
     
     // MARK: - Properties
     
@@ -125,7 +125,7 @@ class TSAlertContentView: UIStackView {
 
 // MARK: - Extension
 
-private extension TSAlertContentView {
+private extension ContentView {
     
     func createSeparatorView(_ color: UIColor) -> UIView {
         let separator = UIView()

@@ -25,14 +25,17 @@ extension UIView {
     
     ///
     func addBlurEffect(_ style: UIBlurEffect.Style,
-                       with viewConfig: TSAlertController.ViewConfiguration) {
+                       with viewConfig: TSAlertController.ViewConfiguration? = nil) {
         let blurEffect = UIBlurEffect(style: style)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = self.bounds
-        blurEffectView.layer.borderColor = viewConfig.backgroundBorderColor
-        blurEffectView.layer.borderWidth = viewConfig.backgroundBorderWidth
-        blurEffectView.layer.cornerRadius = viewConfig.cornerRadius
-        blurEffectView.layer.masksToBounds = true
+        
+        if let viewConfig = viewConfig {
+            blurEffectView.layer.borderColor = viewConfig.backgroundBorderColor
+            blurEffectView.layer.borderWidth = viewConfig.backgroundBorderWidth
+            blurEffectView.layer.cornerRadius = viewConfig.cornerRadius
+            blurEffectView.layer.masksToBounds = true
+        }
         self.insertSubview(blurEffectView, at: 0)
     }
 }

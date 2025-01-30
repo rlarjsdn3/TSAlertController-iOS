@@ -137,7 +137,7 @@ public extension TSAlertController {
                     backgroundBorderWidth: CGFloat = 0,
                     shadow: Shadow? = nil,
                     cornerRadius: CGFloat = 20,
-                    dimmedBackgroundViewColor: Background? = .color(.black, alpha: 0.5),
+                    dimmedBackgroundViewColor: Background? = .effect(.systemChromeMaterialDark),
                     magin: LayoutMargin = .init(),
                     spacing: LayoutSpacing = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),

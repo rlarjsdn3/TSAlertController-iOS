@@ -21,7 +21,7 @@
 
 import UIKit
 
-class TSAlertContainerView: UIStackView, TSAlertView {
+class DefaultAlertView: UIStackView, TSAlertView {
     
     // MARK: - Properties
     
@@ -68,7 +68,7 @@ class TSAlertContainerView: UIStackView, TSAlertView {
     }
     
     private func configureContentView(for alert: TSAlertController) {
-        let contentView = TSAlertContentView(
+        let contentView = ContentView(
             title: alert.title,
             message: alert.message,
             textfields: alert.textfields,
@@ -78,7 +78,7 @@ class TSAlertContainerView: UIStackView, TSAlertView {
     }
     
     private func configureButtonsView(for alert: TSAlertController) {
-        let buttonsView = TSAlertButtonStackView(
+        let buttonsView = ButtonStackView(
             actions: alert.actions,
             viewConfig: viewConfig
         )
