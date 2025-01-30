@@ -21,7 +21,7 @@
 
 import UIKit
 
-class TSAlertContentView: UIStackView {
+class ContentView: UIStackView {
     
     // MARK: - Properties
     
@@ -72,6 +72,9 @@ class TSAlertContentView: UIStackView {
         addArrangedSubview(labelStack)
         
         if textfields?.isEmpty == false, let textfields = textfields {
+            let borderColor = viewConfig.textFieldContainerBorderColor
+            let borderWidth = viewConfig.textFieldContainerBorderWidth
+            
             textfieldStack.axis = .vertical
             textfieldStack.spacing = 5
             textfieldStack.alignment = .fill
@@ -80,8 +83,8 @@ class TSAlertContentView: UIStackView {
             textfieldStack.isLayoutMarginsRelativeArrangement = true
             textfieldStack.layoutMargins = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
             
-            textfieldStack.layer.borderColor = UIColor.lightGray.cgColor
-            textfieldStack.layer.borderWidth = 0.75
+            textfieldStack.layer.borderColor = borderColor
+            textfieldStack.layer.borderWidth = borderWidth
             textfieldStack.layer.cornerRadius = 10
             textfieldStack.layer.cornerCurve = .continuous
             
@@ -99,7 +102,7 @@ class TSAlertContentView: UIStackView {
                 textfield.setPaddingInsets(.edge(10))
                 textfieldStack.addArrangedSubview(textfield)
                 if index < textfields.count - 1 {
-                    textfieldStack.addArrangedSubview(createSeparatorView(.lightGray))
+                    textfieldStack.addArrangedSubview(createSeparatorView((borderColor != nil) ? UIColor(cgColor: borderColor!) : nil))
                 }
             }
             addArrangedSubview(textfieldStack)
@@ -125,9 +128,9 @@ class TSAlertContentView: UIStackView {
 
 // MARK: - Extension
 
-private extension TSAlertContentView {
+private extension ContentView {
     
-    func createSeparatorView(_ color: UIColor) -> UIView {
+    func createSeparatorView(_ color: UIColor?) -> UIView {
         let separator = UIView()
         separator.backgroundColor = color
         separator.heightAnchor.constraint(equalToConstant: 0.75).isActive = true

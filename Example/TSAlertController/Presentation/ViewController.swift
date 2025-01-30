@@ -23,8 +23,8 @@ class ViewController: UIViewController {
     @IBAction func test(_ sender: Any) {
         // TSAlertController Initialization
         let alert = TSAlertController(
-            title: "Continue?",
-            message: "If you leave now, you will have to start over from the beginning.",
+            title: "Delete?",
+            message: "To delete this item, enter the verification code. You can find the code in the OTP.",
             preferredStyle: .alert
         )
         
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         
         // Add textfield
         alert.addTextField {
-            $0.placeholder = "Authentication Code"
+            $0.placeholder = "Verification Code"
         }
         
         // Present alert

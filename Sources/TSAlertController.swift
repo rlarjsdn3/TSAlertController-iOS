@@ -57,7 +57,14 @@ public class TSAlertController: UIViewController {
     
     
     ///
-    private var containerView: TSAlertView?
+    private var alertView: TSAlertView?
+    
+    
+    ///
+    private var initialAlertTopY: CGFloat = 0
+    
+    ///
+    private var keyboardShiftTopY: CGFloat = 0
     
     
     // MARK: - Initializer
@@ -82,40 +89,82 @@ public class TSAlertController: UIViewController {
     
     
     // MARK: - Lifecycle
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.containerView = TSAlertContainerView(with: viewConfiguration)
-        
-        view.addSubview(containerView!)
-        view.applySizeConstraint(with: viewConfiguration.size)
-        containerView?.createView(for: self)
-        view.layoutIfNeeded()
-        
+        initializeAlertView()
         configure(with: viewConfiguration)
+        registerKeyboardObservers()
     }
-    
-    // MARK: - Configure
-    
-    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
 
+    public override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        
+        initialAlertTopY = view.frame.origin.y
+        activateFirstResponderIfNeeded()
+    }
+
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        unregisterKeyboardObservers()
+    }
+
+    // MARK: - Helpers
+
+    private func initializeAlertView() {
+        self.alertView = DefaultAlertView(with: viewConfiguration)
+        
+        guard let alertView = alertView else { return }
+        view.addSubview(alertView)
+        alertView.createView(for: self)
+        view.applySizeConstraint(with: viewConfiguration.size)
+    }
+
+    private func registerKeyboardObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+
+    private func unregisterKeyboardObservers() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+    }
+
+    private func activateFirstResponderIfNeeded() {
+        if let textField = textfields.first, textField.canBecomeFirstResponder {
+            textField.becomeFirstResponder()
+        }
+    }
+
+    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
         switch viewConfig.backgroundColor {
         case let .color(color, alpha):
             view.backgroundColor = color.withAlphaComponent(alpha)
         case let .effect(style):
-            view.addBlurEffect(style, with: viewConfiguration)
+            view.addBlurEffect(style, with: viewConfig)
         }
-        view.layer.borderColor = viewConfig.backgroundBorderColor
-        view.layer.borderWidth = viewConfig.backgroundBorderWidth
         
-        if let shadow = viewConfig.shadow {
-            view.layer.addShadow(shadow.color,
-                                 shadow.offset,
-                                 shadow.opacity,
-                                 shadow.radius)
-        }
+        view.layer.borderColor = viewConfiguration.backgroundBorderColor
+        view.layer.borderWidth = viewConfiguration.backgroundBorderWidth
         view.layer.cornerRadius = viewConfiguration.cornerRadius
+        
+        guard let shadow = viewConfiguration.shadow else { return }
+        view.layer.shadowColor = shadow.color
+        view.layer.shadowOffset = shadow.offset
+        view.layer.shadowOpacity = shadow.opacity
+        view.layer.shadowRadius = shadow.radius
     }
     
     
@@ -149,7 +198,7 @@ public class TSAlertController: UIViewController {
 // MARK: - Extensions
 
 public extension TSAlertController {
-    
+
     ///
     func addAction(_ action: TSAlertAction) {
         actions.append(action)
@@ -164,6 +213,53 @@ public extension TSAlertController {
     }
 }
 
+private extension TSAlertController {
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
+            return
+        }
+
+        self.initialAlertTopY = view.frame.origin.y
+
+        let alertTopY = initialAlertTopY
+        let keyboardTopY = keyboardFrame.origin.y
+        let alertHeight = view.frame.height
+
+        let duration = keyboardAnimationDuration.doubleValue
+        let adjustedAlertTopY = keyboardTopY - configuration.alertKeyboardSpacing - alertHeight
+        
+        // Move the alert up only if the spacing is smaller than the configured value.
+        // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
+        if adjustedAlertTopY < alertTopY {
+            animate(to: adjustedAlertTopY, withDuration: duration)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
+            return
+        }
+        let duration = keyboardAnimationDuration.doubleValue
+        
+        // To test it properly, switch to software keyboard mode (Command + K) before displaying the alert.
+        animate(to: initialAlertTopY, withDuration: duration)
+    }
+    
+    func animate(to yConstant: CGFloat, withDuration duration: TimeInterval) {
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveEaseIn) {
+            self.view.frame.origin.y = yConstant
+        }
+    }
+}
+
 
 // MARK: - UIViewControllerTransitioningDelegate
 
@@ -173,8 +269,8 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                        presenting: UIViewController?,
                                        source: UIViewController) -> UIPresentationController? {
         return TSAlertPresentationController(presentedViewController: presented,
-                                            presenting: presenting,
-                                            viewConfiguration: viewConfiguration)
+                                             presenting: presenting,
+                                             viewConfig: viewConfiguration)
     }
     
     public func animationController(forPresented presented: UIViewController,

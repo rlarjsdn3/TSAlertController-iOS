@@ -23,76 +23,177 @@ import UIKit
 
 extension UIView {
     
+    // MARK: - Add blur effect
+    
     ///
     func addBlurEffect(_ style: UIBlurEffect.Style,
-                       with viewConfig: TSAlertController.ViewConfiguration) {
+                       with viewConfig: TSAlertController.ViewConfiguration? = nil) {
         let blurEffect = UIBlurEffect(style: style)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = self.bounds
-        blurEffectView.layer.borderColor = viewConfig.backgroundBorderColor
-        blurEffectView.layer.borderWidth = viewConfig.backgroundBorderWidth
-        blurEffectView.layer.cornerRadius = viewConfig.cornerRadius
-        blurEffectView.layer.masksToBounds = true
-        self.insertSubview(blurEffectView, at: 0)
+        
+        if let viewConfig = viewConfig {
+            blurEffectView.layer.borderColor = viewConfig.backgroundBorderColor
+            blurEffectView.layer.borderWidth = viewConfig.backgroundBorderWidth
+            blurEffectView.layer.cornerRadius = viewConfig.cornerRadius
+            blurEffectView.layer.masksToBounds = true
+            
+            self.insertSubview(blurEffectView, at: 0)
+        }
     }
 }
 
 extension UIView {
     
-    ///
-    func applyCenterXYConstraint(in baseView: UIView? = Helper.keyWindow()) {
-        guard let baseView else { return }
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.centerXAnchor.constraint(equalTo: baseView.centerXAnchor),
-            self.centerYAnchor.constraint(equalTo: baseView.centerYAnchor)
-        ])
-    }
-
+    // MARK: - Apply size constraint
+    
     ///
     func applySizeConstraint(with size: TSAlertController.ViewConfiguration.LayoutSize,
-                             in baseView: UIView? = Helper.keyWindow()) {
-        guard let baseView else { return }
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
+                             in view: UIView? = Helper.keyWindow()) {
+        guard let view else { return }
         
         // Apply width constraint
         switch size.width {
-        case let .fixed(value):
-            NSLayoutConstraint.activate([
-                self.widthAnchor.constraint(equalToConstant: value)
-            ])
+        case let .fixed(constant):
+            self.setWidth(equalTo: constant)
+            
         case let .flexible(minimum, maximum):
-            NSLayoutConstraint.activate([
-                self.widthAnchor.constraint(greaterThanOrEqualToConstant: minimum),
-                self.widthAnchor.constraint(lessThanOrEqualToConstant: maximum)
-            ])
+            self.setWidth(greaterThanOrEqualTo: minimum)
+            self.setWidth(lessThanOrEqualTo: maximum)
+            
         case let .proportional(minimumRatio, maximumRatio):
-            let baseWidth = baseView.frame.width
-            NSLayoutConstraint.activate([
-                self.widthAnchor.constraint(greaterThanOrEqualToConstant: baseWidth * minimumRatio),
-                self.widthAnchor.constraint(lessThanOrEqualToConstant: baseWidth * maximumRatio)
-            ])
+            let baseWidth = view.frame.width
+            self.setWidth(greaterThanOrEqualTo: baseWidth * minimumRatio)
+            self.setWidth(lessThanOrEqualTo: baseWidth * maximumRatio)
         }
         
         // Apply height constraint
         switch size.height {
-        case let .fixed(value):
-            NSLayoutConstraint.activate([
-                self.heightAnchor.constraint(equalToConstant: value)
-            ])
-        case let .flexible(minimum, maximu):
-            NSLayoutConstraint.activate([
-                self.heightAnchor.constraint(greaterThanOrEqualToConstant: minimum),
-                self.heightAnchor.constraint(lessThanOrEqualToConstant: maximu),
-            ])
+        case let .fixed(constant):
+            self.setHeight(equalTo: constant)
+            
+        case let .flexible(minimum, maximum):
+            self.setHeight(greaterThanOrEqualTo: minimum)
+            self.setHeight(lessThanOrEqualTo: maximum)
+            
         case let .proportional(minimumRatio, maximumRatio):
-            let baseHeight = baseView.frame.height
-            NSLayoutConstraint.activate([
-                self.heightAnchor.constraint(greaterThanOrEqualToConstant: baseHeight * minimumRatio),
-                self.heightAnchor.constraint(lessThanOrEqualToConstant: baseHeight * maximumRatio)
-            ])
+            let baseHeight = view.frame.height
+            self.setHeight(greaterThanOrEqualTo: baseHeight * minimumRatio)
+            self.setHeight(lessThanOrEqualTo: baseHeight * maximumRatio)
         }
     }
+    
+    
+    // MARK: - Apply center constraint
+    
+    ///
+    func applyCenterConstraint(in view: UIView? = Helper.keyWindow()) {
+        guard let view else { return }
+        self.center(in: view)
+    }
+}
+
+
+extension UIView {
+    
+    // MARK: - Anchor
+    
+    ///
+    func anchor(top: NSLayoutYAxisAnchor? = nil,
+                leading: NSLayoutXAxisAnchor? = nil,
+                trailing: NSLayoutXAxisAnchor? = nil,
+                bottom: NSLayoutYAxisAnchor? = nil,
+                topInset: CGFloat = 0,
+                leadingInset: CGFloat = 0,
+                trailingInset: CGFloat = 0,
+                bottomInset: CGFloat = 0) {
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        if let top = top {
+            topAnchor.constraint(equalTo: top, constant: topInset).isActive = true
+        }
+        
+        if let leading = leading {
+            leadingAnchor.constraint(equalTo: leading, constant: leadingInset).isActive = true
+        }
+        
+        if let trailing = trailing {
+            trailingAnchor.constraint(equalTo: trailing, constant: -trailingInset).isActive = true
+        }
+        
+        if let bottom = bottom {
+            bottomAnchor.constraint(equalTo: bottom, constant: -bottomInset).isActive = true
+        }
+    }
+    
+    
+    // MARK: - Set width
+    
+    ///
+    func setWidth(equalTo constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        widthAnchor.constraint(equalToConstant: constant).isActive = true
+    }
+    
+    ///
+    func setWidth(greaterThanOrEqualTo constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        widthAnchor.constraint(greaterThanOrEqualToConstant: constant).isActive = true
+    }
+    
+    func setWidth(lessThanOrEqualTo constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        widthAnchor.constraint(lessThanOrEqualToConstant: constant).isActive = true
+    }
+    
+    
+    // MARK: - Set height
+    
+    ///
+    func setHeight(equalTo constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(equalToConstant: constant).isActive = true
+    }
+    
+    ///
+    func setHeight(greaterThanOrEqualTo constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(greaterThanOrEqualToConstant: constant).isActive = true
+    }
+    
+    func setHeight(lessThanOrEqualTo constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(lessThanOrEqualToConstant: constant).isActive = true
+    }
+    
+    
+    // MARK: - Center
+    
+    ///
+    func center(in view: UIView,
+                xConstant: CGFloat = 0,
+                yConstant: CGFloat = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
+        centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: xConstant).isActive = true
+        centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: yConstant).isActive = true
+    }
+    
+    
+    // MARK: - Fill
+    
+    ///
+    func fill(to view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        anchor(top: view.topAnchor,
+               leading: view.leadingAnchor,
+               trailing: view.trailingAnchor,
+               bottom: view.bottomAnchor,
+               topInset: 0,
+               leadingInset: 0,
+               trailingInset: 0,
+               bottomInset: 0)
+    }
+    
+    
 }

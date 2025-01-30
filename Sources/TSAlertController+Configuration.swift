@@ -28,31 +28,24 @@ public extension TSAlertController {
         
         // MARK: - Properties
         
+        /// The spacing between the bottom of the alert view and the top of the keyboard when the keyboard appears.
         ///
-        public var dimmedBackgroundViewVisible: Bool
-        
+        /// This property defines the space between the alert view and the keyboard.
+        /// The default value is 100. If the actual space between the alert and the keyboard
+        /// is greater than the specified value, the alert will not move.
         ///
-        public var shouldShowKeyboardOnAppear: Bool
-        
-        ///
-        public var isDismissOnOutsideTapEnabled: Bool
-        
-        ///
-        public var keyboardAppearanceOffset: UIOffset?
+        /// - Note: This property does not account for whether the alert view
+        ///   moves beyond the screen boundaries when the keyboard appears.
+        ///   Use with caution to avoid layout issues.
+        public var alertKeyboardSpacing: CGFloat
         
         
         // MARK: - Intializer
         
         ///
-        public init(dimmedBackgroundViewVisible: Bool = true,
-                    shouldShowKeyboardOnAppear: Bool = true,
-                    isDismissOnOutsideTapEnabled: Bool = false,
-                    keyboardAppearanceOffset: UIOffset? = nil) {
+        public init(alertKeyboardSpacing: CGFloat = 100) {
             
-            self.dimmedBackgroundViewVisible = dimmedBackgroundViewVisible
-            self.shouldShowKeyboardOnAppear = shouldShowKeyboardOnAppear
-            self.isDismissOnOutsideTapEnabled = isDismissOnOutsideTapEnabled
-            self.keyboardAppearanceOffset = keyboardAppearanceOffset
+            self.alertKeyboardSpacing = alertKeyboardSpacing
         }
     }
 }

@@ -56,6 +56,16 @@ public extension TSAlertController {
         public var messageNumberOfLines: Int
         
         ///
+        public var textFieldContainerBorderColor: CGColor?
+        
+        /// The border width of the container wrapping the text field.
+        ///
+        /// The border width helps distinguish the text field from surrounding UI components by providing
+        /// a clear visual boundary. This property affects both the outer container and the internal divider.
+        /// Adjusting this value allows for customization of the text field’s appearance based on design preferences. Default value is 0.75.
+        public var textFieldContainerBorderWidth: CGFloat
+        
+        ///
         public var backgroundColor: Background
         
         ///
@@ -96,7 +106,7 @@ public extension TSAlertController {
             public var color: CGColor?
             
             ///
-            public var opacity: CGFloat
+            public var opacity: Float
             
             ///
             public var offset: CGSize
@@ -106,7 +116,7 @@ public extension TSAlertController {
 
             ///
             public init(color: CGColor? = UIColor.black.withAlphaComponent(0.1).cgColor,
-                        opacity: CGFloat = 1,
+                        opacity: Float = 1,
                         offset: CGSize = CGSize(width: 0, height: 3),
                         radius: CGFloat = 3) {
                 
@@ -132,12 +142,14 @@ public extension TSAlertController {
                                                                               .foregroundColor: UIColor.label],
                     messageTextAligngn: NSTextAlignment = .left,
                     messageNumberOfLines: Int = 3,
+                    textFieldContainerBorderColor: CGColor? = UIColor.lightGray.cgColor,
+                    textFieldContainerBorderWidth: CGFloat = 0.75,
                     backgroundColor: Background = .color(.systemBackground, alpha: 1),
                     backgroundBorderColor: CGColor? = nil,
                     backgroundBorderWidth: CGFloat = 0,
                     shadow: Shadow? = nil,
                     cornerRadius: CGFloat = 20,
-                    dimmedBackgroundViewColor: Background? = .color(.black, alpha: 0.5),
+                    dimmedBackgroundViewColor: Background? = .effect(.systemChromeMaterialDark),
                     magin: LayoutMargin = .init(),
                     spacing: LayoutSpacing = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
@@ -152,6 +164,8 @@ public extension TSAlertController {
             self.messageTextAttributes = messageTextAttributes
             self.messageTextAlignment = messageTextAligngn
             self.messageNumberOfLines = messageNumberOfLines
+            self.textFieldContainerBorderColor = textFieldContainerBorderColor
+            self.textFieldContainerBorderWidth = textFieldContainerBorderWidth
             self.backgroundColor = backgroundColor
             self.backgroundBorderColor = backgroundBorderColor
             self.backgroundBorderWidth = backgroundBorderWidth
