@@ -88,7 +88,7 @@ final class TSAlertPresentationController: UIPresentationController {
             dimmedView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
         
-        presentedViewController.view.applyCenterXYConstraint(in: containerView)
+        presentedViewController.view.applyCenterConstraint(in: containerView)
     }
     
     ///

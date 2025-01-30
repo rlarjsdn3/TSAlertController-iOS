@@ -64,7 +64,7 @@ public class TSAlertController: UIViewController {
     private var initialAlertTopY: CGFloat = 0
     
     ///
-    private var keyboardShiftY: CGFloat = 0
+    private var keyboardShiftTopY: CGFloat = 0
     
     
     // MARK: - Initializer
@@ -101,6 +101,7 @@ public class TSAlertController: UIViewController {
     public override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
+        initialAlertTopY = view.frame.origin.y
         activateFirstResponderIfNeeded()
     }
 
@@ -160,7 +161,10 @@ public class TSAlertController: UIViewController {
         view.layer.cornerRadius = viewConfiguration.cornerRadius
         
         guard let shadow = viewConfiguration.shadow else { return }
-        view.layer.addShadow(shadow.color, shadow.offset, shadow.opacity, shadow.radius)
+        view.layer.shadowColor = shadow.color
+        view.layer.shadowOffset = shadow.offset
+        view.layer.shadowOpacity = shadow.opacity
+        view.layer.shadowRadius = shadow.radius
     }
     
     
@@ -194,7 +198,7 @@ public class TSAlertController: UIViewController {
 // MARK: - Extensions
 
 public extension TSAlertController {
-    
+
     ///
     func addAction(_ action: TSAlertAction) {
         actions.append(action)
@@ -214,7 +218,8 @@ private extension TSAlertController {
     @objc func keyboardWillShow(_ notification: Notification) {
         
         guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
             return
         }
 
@@ -224,22 +229,33 @@ private extension TSAlertController {
         let keyboardTopY = keyboardFrame.origin.y
         let alertHeight = view.frame.height
 
+        let duration = keyboardAnimationDuration.doubleValue
         let adjustedAlertTopY = keyboardTopY - configuration.alertKeyboardSpacing - alertHeight
         
         // Move the alert up only if the spacing is smaller than the configured value.
         // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
         if adjustedAlertTopY < alertTopY {
-            UIView.animate(withDuration: 0.5) { [self] in
-                self.view.frame.origin.y = adjustedAlertTopY
-            }
+            animate(to: adjustedAlertTopY, withDuration: duration)
         }
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
         
+        guard let userInfo = notification.userInfo,
+              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
+            return
+        }
+        let duration = keyboardAnimationDuration.doubleValue
+        
         // To test it properly, switch to software keyboard mode (Command + K) before displaying the alert.
-        UIView.animate(withDuration: 0.5) { [self] in
-            self.view.frame.origin.y = initialAlertTopY
+        animate(to: initialAlertTopY, withDuration: duration)
+    }
+    
+    func animate(to yConstant: CGFloat, withDuration duration: TimeInterval) {
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveEaseIn) {
+            self.view.frame.origin.y = yConstant
         }
     }
 }
