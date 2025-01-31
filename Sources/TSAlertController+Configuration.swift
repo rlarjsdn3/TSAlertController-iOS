@@ -28,24 +28,10 @@ public extension TSAlertController {
         
         // MARK: - Properties
         
-        /// The spacing between the bottom of the alert view and the top of the keyboard when the keyboard appears.
-        ///
-        /// This property defines the space between the alert view and the keyboard.
-        /// The default value is 100. If the actual space between the alert and the keyboard
-        /// is greater than the specified value, the alert will not move.
-        ///
-        /// - Note: This property does not account for whether the alert view
-        ///   moves beyond the screen boundaries when the keyboard appears.
-        ///   Use with caution to avoid layout issues.
-        public var alertKeyboardSpacing: CGFloat
+        
         
         
         // MARK: - Intializer
-        
-        ///
-        public init(alertKeyboardSpacing: CGFloat = 100) {
-            
-            self.alertKeyboardSpacing = alertKeyboardSpacing
-        }
+       
     }
 }

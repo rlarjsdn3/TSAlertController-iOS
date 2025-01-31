@@ -36,7 +36,7 @@ class ButtonStackView: UIStackView {
         super.init(frame: .zero)
         
         for action in alert.actions {
-            addArrangedSubview(action.instantiateButton(preferredStyle: alert.preferredStyle!))
+            addArrangedSubview(action.instantiateButton(preferredStyle: alert.preferredStyle))
         }
         
         configure(with: viewConfig)

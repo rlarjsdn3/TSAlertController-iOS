@@ -38,7 +38,7 @@ public class TSAlertController: UIViewController {
     public var message: String?
     
     ///
-    public var preferredStyle: TSAlertController.Style?
+    public var preferredStyle: TSAlertController.Style = .alert
     
     ///
     public var actions: [TSAlertAction] = []
@@ -47,13 +47,13 @@ public class TSAlertController: UIViewController {
     public var textfields: [UITextField]  = []
     
     ///
-    public var configuration: TSAlertController.Configuration = .init()
+    public lazy var configuration: TSAlertController.Configuration = Self.defaultConfiguration(preferredStyle: preferredStyle)
     
     ///
-    public var viewConfiguration: TSAlertController.ViewConfiguration = .init()
+    public lazy var viewConfiguration: TSAlertController.ViewConfiguration = Self.defaultViewConfiguration(preferredStyle: preferredStyle)
     
     ///
-    public var alertTransitionStyle: TSAlertController.AlertTransitionStyle = .automatic
+    public lazy var alertTransitionStyle: TSAlertController.AlertTransitionStyle = Self.defaultAlertTransitionStyle(preferredStyle: preferredStyle)
     
     
     ///
@@ -93,6 +93,7 @@ public class TSAlertController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        checkVaildConfigurationBeforePresent(preferredStyle: preferredStyle)
         initializeAlertView()
         configure(with: viewConfiguration)
         registerKeyboardObservers()
@@ -119,7 +120,6 @@ public class TSAlertController: UIViewController {
         guard let alertView = alertView else { return }
         view.addSubview(alertView)
         alertView.createView(for: self)
-        view.applySizeConstraint(with: viewConfiguration.size)
     }
 
     private func registerKeyboardObservers() {
@@ -165,6 +165,19 @@ public class TSAlertController: UIViewController {
         view.layer.shadowOffset = shadow.offset
         view.layer.shadowOpacity = shadow.opacity
         view.layer.shadowRadius = shadow.radius
+    }
+    
+    ///
+    private func checkVaildConfigurationBeforePresent(preferredStyle: TSAlertController.Style) {
+        if case .actionSheet = preferredStyle {
+            let width = viewConfiguration.size.width
+            let minimumAllowedWidth = ViewConfiguration.LayoutSize.Constraint.proportional(minimumRatio: 0.9, maximumRatio: 0.9)
+            
+            //
+            if width < minimumAllowedWidth {
+                viewConfiguration.size.width = minimumAllowedWidth
+            }
+        }
     }
     
     
@@ -230,7 +243,7 @@ private extension TSAlertController {
         let alertHeight = view.frame.height
 
         let duration = keyboardAnimationDuration.doubleValue
-        let adjustedAlertTopY = keyboardTopY - configuration.alertKeyboardSpacing - alertHeight
+        let adjustedAlertTopY = keyboardTopY - viewConfiguration.spacing.keyboardSpacing - alertHeight
         
         // Move the alert up only if the spacing is smaller than the configured value.
         // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
@@ -260,6 +273,42 @@ private extension TSAlertController {
     }
 }
 
+private extension TSAlertController {
+    
+    ///
+    private static func defaultConfiguration(preferredStyle: TSAlertController.Style) -> TSAlertController.Configuration {
+        switch preferredStyle {
+        case .alert:
+            return .init()
+            
+        case .actionSheet:
+            return .init()
+        }
+    }
+    
+    ///
+    private static func defaultViewConfiguration(preferredStyle: TSAlertController.Style) -> TSAlertController.ViewConfiguration {
+        switch preferredStyle {
+        case .alert:
+            return .init()
+            
+        case .actionSheet:
+            return .init(size: .init(width: .proportional(minimumRatio: 0.95, maximumRatio: 0.95)))
+        }
+    }
+    
+    ///
+    private static func defaultAlertTransitionStyle(preferredStyle: TSAlertController.Style) -> TSAlertController.AlertTransitionStyle {
+        switch preferredStyle {
+        case .alert:
+            return .fadeAndScaleDown
+            
+        case .actionSheet:
+            return .slideUp
+        }
+    }
+}
+
 
 // MARK: - UIViewControllerTransitioningDelegate
 
@@ -270,6 +319,7 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                        source: UIViewController) -> UIPresentationController? {
         return TSAlertPresentationController(presentedViewController: presented,
                                              presenting: presenting,
+                                             preferredStyle: preferredStyle,
                                              viewConfig: viewConfiguration)
     }
     
@@ -277,13 +327,11 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.resolveAnimator(for: true)
+        return alertTransitionStyle.resolve(presenting: true)
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.resolveAnimator(for: false)
+        return alertTransitionStyle.resolve(presenting: false)
     }
 }
-
-

@@ -174,8 +174,19 @@ extension UIView {
     func center(in view: UIView,
                 xConstant: CGFloat = 0,
                 yConstant: CGFloat = 0) {
+        centerX(in: view, xConstant: xConstant)
+        centerY(in: view, yConstant: yConstant)
+    }
+    
+    func centerX(in view: UIView,
+                xConstant: CGFloat = 0) {
         translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: xConstant).isActive = true
+    }
+    
+    func centerY(in view: UIView,
+                yConstant: CGFloat = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
         centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: yConstant).isActive = true
     }
     

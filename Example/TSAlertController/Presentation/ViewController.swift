@@ -25,9 +25,9 @@ class ViewController: UIViewController {
         let alert = TSAlertController(
             title: "Delete?",
             message: "To delete this item, enter the verification code. You can find the code in the OTP.",
-            preferredStyle: .alert
+            preferredStyle: .actionSheet
         )
-        alert.viewConfiguration = .init(buttonLayoutAxis: .vertical)
+        alert.viewConfiguration = .init(size: .init(width: .proportional(minimumRatio: 0.95, maximumRatio: 0.95)), buttonLayoutAxis: .vertical)
         
         // Add button actions
         let okAction = TSAlertAction(title: "Continue",

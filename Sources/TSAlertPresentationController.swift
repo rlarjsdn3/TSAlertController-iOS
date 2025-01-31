@@ -31,6 +31,9 @@ final class TSAlertPresentationController: UIPresentationController {
     private let dimmedView = UIView()
     
     ///
+    private let preferredStyle: TSAlertController.Style
+    
+    ///
     private let viewConfiguration: TSAlertController.ViewConfiguration
     
     
@@ -39,7 +42,9 @@ final class TSAlertPresentationController: UIPresentationController {
     ///
     init(presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
+         preferredStyle style: TSAlertController.Style,
          viewConfig: TSAlertController.ViewConfiguration) {
+        self.preferredStyle = style
         self.viewConfiguration = viewConfig
         super.init(presentedViewController: presentedViewController,
                    presenting: presentingViewController)
@@ -52,7 +57,7 @@ final class TSAlertPresentationController: UIPresentationController {
         
         setupViewHierarchy()
         setupViewConstraints()
-        dimmedView.layoutIfNeeded()
+        containerView?.layoutIfNeeded()
         
         configureDimmedView(with: viewConfiguration)
         
@@ -79,16 +84,19 @@ final class TSAlertPresentationController: UIPresentationController {
     ///
     private func setupViewConstraints() {
         guard let containerView else { return }
+        let presentedView = presentedViewController.view
         
-        dimmedView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            dimmedView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            dimmedView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            dimmedView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            dimmedView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-        ])
+        dimmedView.fill(to: containerView)
         
-        presentedViewController.view.applyCenterConstraint(in: containerView)
+        presentedView?.applySizeConstraint(with: viewConfiguration.size)
+        switch preferredStyle {
+        case .alert:
+            presentedView?.center(in: containerView)
+            
+        case .actionSheet:
+            presentedView?.centerX(in: containerView)
+            presentedView?.anchor(bottom: containerView.safeAreaLayoutGuide.bottomAnchor, bottomInset: 10)
+        }
     }
     
     ///
