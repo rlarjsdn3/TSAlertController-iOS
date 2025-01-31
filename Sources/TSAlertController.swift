@@ -277,12 +277,14 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.resolveAnimator(for: true)
+//        return alertTransitionStyle.resolveAnimator(for: true)
+        return SlideUpAnimator(duration: 0.5, presenting: true)
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.resolveAnimator(for: false)
+//        return alertTransitionStyle.resolveAnimator(for: false)
+        return SlideUpAnimator(duration: 0.5, presenting: false)
     }
 }
 

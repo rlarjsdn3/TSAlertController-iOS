@@ -19,15 +19,14 @@
 // THE SOFTWARE.
 //
 
-
 import UIKit
 
 ///
-final class FadeAndScaleDownAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-        
+final class SlideUpAnimator: NSObject,  UIViewControllerAnimatedTransitioning {
+    
     ///
-    private var duration: TimeInterval
-
+    private let duration: TimeInterval
+    
     ///
     private var presenting: Bool
     
@@ -38,49 +37,52 @@ final class FadeAndScaleDownAnimator: NSObject, UIViewControllerAnimatedTransiti
     }
     
     ///
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    func transitionDuration(using transitionContext: (any UIViewControllerContextTransitioning)?) -> TimeInterval {
         
         return duration
     }
     
     ///
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
         
         guard let containerView = transitionContext.containerView as UIView?,
               let fromVC = transitionContext.viewController(forKey: .from),
               let toVC = transitionContext.viewController(forKey: .to) else {
             return
         }
-                
-        //
+        
+        let animationOffset: CGFloat = 100
+        let initialToViewMinY = toVC.view.frame.minY
+        let containerMaxY = containerView.frame.maxY
+        
         if presenting {
-            toVC.view.alpha = 0
-            toVC.view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            toVC.view.frame.origin.y = containerMaxY + animationOffset
             containerView.addSubview(toVC.view)
         }
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext),
-                       delay: 0,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0.7,
-                       options: .curveEaseIn,
-                       animations: {
-            //
-            if self.presenting {
-                toVC.view.alpha = 1
-                toVC.view.transform = .identity
-            //
-            } else {
-                fromVC.view.alpha = 0
+        UIView.animate(
+            withDuration: transitionDuration(using: transitionContext),
+            delay: 0,
+            usingSpringWithDamping: 0.9,
+            initialSpringVelocity: 0.9,
+            options: .curveEaseIn,
+            animations: {
+                if self.presenting {
+                    toVC.view.frame.origin.y = initialToViewMinY
+                } else {
+                    fromVC.view.frame.origin.y = containerMaxY + animationOffset
+                }
+            },
+            completion: { _ in
+                let success = !transitionContext.transitionWasCancelled
+                
+                //
+                if (success && !self.presenting) {
+                    fromVC.view.removeFromSuperview()
+                }
+                transitionContext.completeTransition(success)
             }
-        }, completion: { _ in
-            let success = !transitionContext.transitionWasCancelled
-            
-            //
-            if (success && !self.presenting) {
-                fromVC.view.removeFromSuperview()
-            }
-            transitionContext.completeTransition(success)
-        })
+        )
     }
+    
 }

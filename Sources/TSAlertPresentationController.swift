@@ -52,7 +52,7 @@ final class TSAlertPresentationController: UIPresentationController {
         
         setupViewHierarchy()
         setupViewConstraints()
-        dimmedView.layoutIfNeeded()
+        containerView?.layoutIfNeeded()
         
         configureDimmedView(with: viewConfiguration)
         
