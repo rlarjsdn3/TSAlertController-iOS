@@ -36,67 +36,73 @@ public class TSAlertAction {
     public var image: UIImage?
     
     ///
-    public var style: TSAlertAction.Style
+    public var configuration: TSAlertAction.StyleConfiguration
     
     ///
     public var handler: TSAlertActionHandler?
     
     ///
-    private var button: UIButton?
+    public var highlightType: TSButton.HighlightType = .fadeAndScaleDown()
     
     ///
     public var isEnabled: Bool = true {
-        didSet { setButtonEnabled(isEnabled) }
+        didSet { updateButtonEnabled() }
     }
     
+    ///
+    private var button: UIButton?
     
     // MARK: - Intializer
     
     ///
     public init(title: String?,
                 image: UIImage? = nil,
-                style: TSAlertAction.Style,
+                configuration: TSAlertAction.StyleConfiguration = .default(),
                 handler: TSAlertActionHandler?) {
         
         self.title = title
         self.image = image
-        self.style = style
+        self.configuration = configuration
         self.handler = handler
     }
     
-    // MARK: - Internal methods
+    // MARK: - Make
     
     ///
-    func makeButton() -> UIButton {
-        let styleConfig = style.resolveConfiguration()
-        
-        let button = UIButton(type: .system)
-        if let title = title {
-            button.setAttributedTitle(NSAttributedString(string: title,
-                                                         attributes: styleConfig.titleTextAttributes),
-                                      for: .normal)
-        }
-        button.backgroundColor = styleConfig.backgroundColor
-        
-        if let borderColor = styleConfig.borderColor {
-            button.layer.borderColor = borderColor
-        }
-        button.layer.borderWidth = styleConfig.borderWidth
-        button.layer.cornerRadius = styleConfig.cornerRadius
+    func instantiateButton() -> TSButton {
+        let button = TSButton()
+        applyConfiguration(to: button)
         
         button.isEnabled = isEnabled
-        button.addAction(UIAction(handler: { _ in
+        button.highlightType = highlightType
+        
+        let action = UIAction(handler: { _ in
             self.handler?(self)
             Helper.topController()?.dismiss(animated: true)
-        }), for: .touchUpInside)
+        })
+        button.addAction(action, for: .touchUpInside)
+
+        self.button = button
         return button
     }
     
-    // MARK: - Private methods
+    
+    // MARK: - Private
     
     ///
-    private func setButtonEnabled(_ enable: Bool) {
-        button?.isEnabled = enable
+    private func applyConfiguration(to button: UIButton) {
+        if let title = title {
+            button.setAttributedTitle(NSAttributedString(string: title,
+                                                         attributes: configuration.titleAttributes),
+                                      for: .normal)
+        }
+        button.backgroundColor = configuration.backgroundColor
+        button.layer.cornerRadius = configuration.cornerRadius
+    }
+    
+    ///
+    private func updateButtonEnabled() {
+        button?.isEnabled = isEnabled
     }
     
 }

@@ -29,11 +29,14 @@ class ViewController: UIViewController {
         )
         
         // Add button actions
-        let okAction = TSAlertAction(title: "Continue", style: .default) { _ in
+        let okAction = TSAlertAction(title: "Continue",
+                                     image: UIImage(systemName: "sun.max"),
+                                     configuration: .default()) { _ in
         }
         alert.addAction(okAction)
         
-        let cancelAction = TSAlertAction(title: "Exit", style: .cancel) { _ in
+        let cancelAction = TSAlertAction(title: "Exit",
+                                         configuration: .cancel()) { _ in
         }
         alert.addAction(cancelAction)
         

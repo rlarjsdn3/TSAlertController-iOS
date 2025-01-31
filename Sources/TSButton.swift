@@ -1,3 +1,4 @@
+
 // Copyright (c) 2025 rlarjsdn3 <rlarjsdn3@naver.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,41 +22,37 @@
 
 import UIKit
 
-class ButtonStackView: UIStackView {
+public class TSButton: UIButton {
     
     // MARK: - Properties
     
-    private let actions: [TSAlertAction]
+    public override var isHighlighted: Bool {
+        didSet { updateHightlightState() }
+    }
     
+    public var highlightType: TSButton.HighlightType = .fadeAndScaleDown()
     
     // MARK: - Intializer
     
-    init(actions: [TSAlertAction],
-         viewConfig: TSAlertController.ViewConfiguration) {
-        self.actions = actions
-        super.init(frame: .zero)
-        
-        for action in actions {
-            addArrangedSubview(action.instantiateButton())
-        }
-        
-        configure(with: viewConfig)
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
     }
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    // MARK: - Private
+    // MARK: - Helper
     
-    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
-        self.axis = viewConfig.isButtonLayoutAxisHorizontal(for: actions)
-        ? .horizontal
-        : .vertical
-        self.spacing = viewConfig.spacing.buttonSpacing
-        self.alignment = .fill
-        self.distribution = .fillEqually
+    private func setup() {
     }
     
+    
+    private func updateHightlightState() {
+        UIView.animate(withDuration: 0.1) {
+            self.isHighlighted ? self.highlightType.apply(to: self) : self.highlightType.undo(for: self)
+        }
+    }
 }

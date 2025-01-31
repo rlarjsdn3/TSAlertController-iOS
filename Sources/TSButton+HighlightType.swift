@@ -1,3 +1,4 @@
+
 // Copyright (c) 2025 rlarjsdn3 <rlarjsdn3@naver.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,43 +20,50 @@
 // THE SOFTWARE.
 //
 
-import Foundation
+import UIKit
 
-public extension TSAlertAction {
+public extension TSButton {
     
     ///
-    enum Style {
+    enum HighlightType {
         
         ///
-        case cancel
+        case fade(alpha: CGFloat = 0.75)
         
         ///
-        case `default`
+        case fadeAndScaleDown(scaleX: CGFloat = 0.95,
+                              y: CGFloat = 0.95, alpha: CGFloat = 0.75)
         
-        ///
-        case destructive
-        
-        ///
-        case custom(TSAlertAction.StyleConfiguration)
+        case custom(CGAffineTransform, alpha: CGFloat)
         
         
-        // MARK: - Resolve
+        // MARK: - Apply
         
-        ///
-        func resolveConfiguration() -> TSAlertAction.StyleConfiguration {
+        func apply(to view: UIView) {
             switch self {
-            case .cancel:
-                return .init(backgroundColor: .systemRed)
+            case let .fade(alpha):
+                view.alpha = alpha
                 
-            case .default:
-                return .init(backgroundColor: .systemGray3)
+            case let .fadeAndScaleDown(scaleX, y, alpha):
+                view.alpha = alpha
+                view.transform = CGAffineTransform(scaleX: scaleX, y: y)
                 
-            case .destructive:
-                return .init(backgroundColor: .systemBlue)
-                
-            case let .custom(configuration):
-                return configuration
+            case let .custom(transform, alpha):
+                view.alpha = alpha
+                view.transform = transform
+            }
+        }
+        
+        
+        // MARK: - Undo
+        
+        func undo(for view: UIView) {
+            switch self {
+            case .fade, .fadeAndScaleDown, .custom:
+                view.alpha = 1
+                view.transform = .identity
             }
         }
     }
+    
 }

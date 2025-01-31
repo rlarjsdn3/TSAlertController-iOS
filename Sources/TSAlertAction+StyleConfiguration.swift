@@ -27,33 +27,46 @@ public extension TSAlertAction {
     struct StyleConfiguration {
         
         ///
-        public var titleTextAttributes: [NSAttributedString.Key: Any]?
+        public var titleAttributes: [NSAttributedString.Key: Any]?
         
         ///
         public var backgroundColor: UIColor?
         
         ///
-        public var borderColor: CGColor?
-        
-        ///
-        public var borderWidth: CGFloat
-        
-        ///
         public var cornerRadius: CGFloat
+
+        ///
+        public var imageToTitleSpacing: CGFloat
         
         ///
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                            .foregroundColor: UIColor.systemBackground],
+        public init(titleAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                                        .foregroundColor: UIColor.systemBackground],
                     backgroundColor: UIColor? = .lightGray,
-                    borderColor: CGColor? = nil,
-                    borderWidth: CGFloat = 0,
-                    cornerRadius: CGFloat = 12.5) {
+                    cornerRadius: CGFloat = 12.5,
+                    imageToTitleSpacing: CGFloat = 10) {
             
-            self.titleTextAttributes = titleTextAttributes
+            self.titleAttributes = titleAttributes
             self.backgroundColor = backgroundColor
-            self.borderColor = borderColor
-            self.borderWidth = borderWidth
             self.cornerRadius = cornerRadius
+            self.imageToTitleSpacing = imageToTitleSpacing
         }
+    }
+}
+
+public extension TSAlertAction.StyleConfiguration {
+    
+    ///
+    static func cancel() -> TSAlertAction.StyleConfiguration {
+        .init(backgroundColor: .systemBlue)
+    }
+    
+    ///
+    static func `default`() -> TSAlertAction.StyleConfiguration {
+        .init()
+    }
+    
+    ///
+    static func destructive() -> TSAlertAction.StyleConfiguration {
+        .init(backgroundColor: .systemRed)
     }
 }
