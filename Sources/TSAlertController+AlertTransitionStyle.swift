@@ -39,14 +39,15 @@ public extension TSAlertController {
         // MARK: - Resolve
         
         ///
-        func resolveAnimator(for presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
+        func resolve(presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
             switch self {
             case .fadeAndScaleDown:
                 return FadeAndScaleDownAnimator(duration: 0.5,
                                                  presenting: presenting)
                 
             case .slideUp:
-                return SlideUpAnimator(duration: 0.5, presenting: presenting)
+                return SlideUpAnimator(duration: 0.5,
+                                       presenting: presenting)
                 
             case .automatic:
                 return determineAutomaticAnimator(for: presenting)

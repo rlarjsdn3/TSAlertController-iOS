@@ -88,7 +88,7 @@ public extension TSAlertController {
         
         ///
         public var spacing: LayoutSpacing
-                
+        
         ///
         public var size: LayoutSize
         
@@ -150,7 +150,7 @@ public extension TSAlertController {
                     shadow: Shadow? = nil,
                     cornerRadius: CGFloat = 20,
                     dimmedBackgroundViewColor: Background? = .effect(.systemChromeMaterialDark),
-                    magin: LayoutMargin = .init(),
+                    margin: LayoutMargin = .init(),
                     spacing: LayoutSpacing = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
                     buttonLayoutAxis: ButtonLayoutAxis = .automatic) {
@@ -172,7 +172,7 @@ public extension TSAlertController {
             self.shadow = shadow
             self.cornerRadius = cornerRadius
             self.dimmedBackgroundViewColor = dimmedBackgroundViewColor
-            self.margin = magin
+            self.margin = margin
             self.spacing = spacing
             self.size = size
             self.buttonLayoutAxis = buttonLayoutAxis
@@ -270,6 +270,18 @@ public extension TSAlertController.ViewConfiguration {
         ///
         public var buttonSpacing: CGFloat
         
+        /// The spacing between the bottom of the alert view and the top of the keyboard when the keyboard appears.
+        ///
+        /// This property defines the space between the alert view and the keyboard.
+        /// The default value is 100. If the actual space between the alert and the keyboard
+        /// is greater than the specified value, the alert will not move.
+        ///
+        /// - Note: This property does not account for whether the alert view
+        ///   moves beyond the screen boundaries when the keyboard appears.
+        ///   Use with caution to avoid layout issues.
+        public var keyboardSpacing: CGFloat
+        
+        
         
         // MARK: - Intializer
         
@@ -277,12 +289,14 @@ public extension TSAlertController.ViewConfiguration {
         public init(titleMessageSpacing: CGFloat = 12.5,
                     messageTextfieldSpacing: CGFloat = 12.5,
                     textfieldButtonSpacing: CGFloat = 16.5,
-                    buttonSpacing: CGFloat = 7.5) {
+                    buttonSpacing: CGFloat = 7.5,
+                    keyboardSpacing: CGFloat = 100) {
             
             self.titleMessageSpacing = titleMessageSpacing
             self.messageTextfieldSpacing = messageTextfieldSpacing
             self.textfieldButtonSpacing = textfieldButtonSpacing
             self.buttonSpacing = buttonSpacing
+            self.keyboardSpacing = keyboardSpacing
         }
     }
 }
@@ -329,6 +343,60 @@ public extension TSAlertController.ViewConfiguration.LayoutSize {
         
         ///
         case proportional(minimumRatio: CGFloat = 0.1, maximumRatio: CGFloat = 0.8)
+    }
+}
+
+extension TSAlertController.ViewConfiguration.LayoutSize.Constraint: Comparable {
+    
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case let (.fixed(lValue), .fixed(rValue)):
+            return lValue < rValue
+            
+        case let (.flexible(lMin, lMax), .flexible(rMin, rMax)):
+            return lMin < rMin && lMax < rMax
+            
+        case let (.proportional(lMinRatio, lMaxRatio), .proportional(rMinRatio, rMaxRatio)):
+            return lMinRatio < rMinRatio && lMaxRatio < rMaxRatio
+            
+        //
+        default:
+            return true
+        }
+    }
+    
+    public static func > (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case let (.fixed(lValue), .fixed(rValue)):
+            return lValue > rValue
+            
+        case let (.flexible(lMin, lMax), .flexible(rMin, rMax)):
+            return lMin > rMin && lMax > rMax
+            
+        case let (.proportional(lMinRatio, lMaxRatio), .proportional(rMinRatio, rMaxRatio)):
+            return lMinRatio > rMinRatio && lMaxRatio > rMaxRatio
+            
+        //
+        default:
+            return true
+        }
+    }
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case let (.fixed(lValue), .fixed(rValue)):
+            return lValue == rValue
+            
+        case let (.flexible(lMin, lMax), .flexible(rMin, rMax)):
+            return lMin == rMin && lMax == rMax
+            
+        case let (.proportional(lMinRatio, lMaxRatio), .proportional(rMinRatio, rMaxRatio)):
+            return lMinRatio == rMinRatio && lMaxRatio == rMaxRatio
+           
+        // 
+        default:
+            return true
+        }
     }
 }
 
