@@ -79,7 +79,7 @@ class DefaultAlertView: UIStackView, TSAlertView {
     
     private func configureButtonsView(for alert: TSAlertController) {
         let buttonsView = ButtonStackView(
-            actions: alert.actions,
+            for: alert,
             viewConfig: viewConfig
         )
         

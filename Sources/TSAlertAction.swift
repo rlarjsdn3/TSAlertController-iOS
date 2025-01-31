@@ -32,7 +32,7 @@ public class TSAlertAction {
     ///
     public var title: String?
     
-    ///
+    /// This property is applied only when the `preferredStyle` of `TSAlertController` is set to `.actionSheet`.
     public var image: UIImage?
     
     ///
@@ -42,15 +42,13 @@ public class TSAlertAction {
     public var handler: TSAlertActionHandler?
     
     ///
-    public var highlightType: TSButton.HighlightType = .fadeAndScaleDown()
-    
-    ///
     public var isEnabled: Bool = true {
         didSet { updateButtonEnabled() }
     }
     
     ///
-    private var button: UIButton?
+    private var button = TSButton()
+    
     
     // MARK: - Intializer
     
@@ -69,20 +67,9 @@ public class TSAlertAction {
     // MARK: - Make
     
     ///
-    func instantiateButton() -> TSButton {
-        let button = TSButton()
+    func instantiateButton(preferredStyle style: TSAlertController.Style) -> TSButton {
         applyConfiguration(to: button)
-        
-        button.isEnabled = isEnabled
-        button.highlightType = highlightType
-        
-        let action = UIAction(handler: { _ in
-            self.handler?(self)
-            Helper.topController()?.dismiss(animated: true)
-        })
-        button.addAction(action, for: .touchUpInside)
-
-        self.button = button
+        button.addAction(createButtonAction(), for: .touchUpInside)
         return button
     }
     
@@ -90,19 +77,39 @@ public class TSAlertAction {
     // MARK: - Private
     
     ///
-    private func applyConfiguration(to button: UIButton) {
+    private func applyConfiguration(to button: TSButton) {
         if let title = title {
-            button.setAttributedTitle(NSAttributedString(string: title,
-                                                         attributes: configuration.titleAttributes),
-                                      for: .normal)
+            let titleString = NSAttributedString(string: title,
+                                                 attributes: configuration.titleAttributes)
+            button.setAttributedTitle(titleString, for: .normal)
         }
-        button.backgroundColor = configuration.backgroundColor
-        button.layer.cornerRadius = configuration.cornerRadius
+
+        var buttonConfig = UIButton.Configuration.filled()
+        buttonConfig.imagePlacement = configuration.imagePlacement
+        buttonConfig.imageReservation = configuration.imageReservation
+        buttonConfig.contentInsets = configuration.contentEdgeInset
+        buttonConfig.background.backgroundColor = configuration.backgroundColor
+        buttonConfig.background.cornerRadius = configuration.cornerRadius
+        button.configuration = buttonConfig
+
+        button.contentVerticalAlignment = configuration.contentVerticalAlignment
+        button.contentHorizontalAlignment = configuration.contentHorizontalAlignment
+        button.highlightType = configuration.highlightType
+        button.isEnabled = isEnabled
+    }
+    
+    ///
+    private func createButtonAction() -> UIAction {
+        return UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.handler?(self)
+            Helper.topController()?.dismiss(animated: true)
+        }
     }
     
     ///
     private func updateButtonEnabled() {
-        button?.isEnabled = isEnabled
+        button.isEnabled = isEnabled
     }
     
 }

@@ -30,13 +30,13 @@ class ButtonStackView: UIStackView {
     
     // MARK: - Intializer
     
-    init(actions: [TSAlertAction],
+    init(for alert: TSAlertController,
          viewConfig: TSAlertController.ViewConfiguration) {
-        self.actions = actions
+        self.actions = alert.actions
         super.init(frame: .zero)
         
-        for action in actions {
-            addArrangedSubview(action.instantiateButton())
+        for action in alert.actions {
+            addArrangedSubview(action.instantiateButton(preferredStyle: alert.preferredStyle!))
         }
         
         configure(with: viewConfig)
