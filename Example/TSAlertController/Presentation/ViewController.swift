@@ -27,13 +27,16 @@ class ViewController: UIViewController {
             message: "To delete this item, enter the verification code. You can find the code in the OTP.",
             preferredStyle: .alert
         )
+        alert.viewConfiguration = .init(buttonLayoutAxis: .vertical)
         
         // Add button actions
-        let okAction = TSAlertAction(title: "Continue", style: .default) { _ in
+        let okAction = TSAlertAction(title: "Continue",
+                                     configuration: .default()) { _ in
         }
         alert.addAction(okAction)
         
-        let cancelAction = TSAlertAction(title: "Exit", style: .cancel) { _ in
+        let cancelAction = TSAlertAction(title: "Exit",
+                                         configuration: .cancel()) { _ in
         }
         alert.addAction(cancelAction)
         

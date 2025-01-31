@@ -32,22 +32,22 @@ public class TSAlertAction {
     ///
     public var title: String?
     
-    ///
+    /// This property is applied only when the `preferredStyle` of `TSAlertController` is set to `.actionSheet`.
     public var image: UIImage?
     
     ///
-    public var style: TSAlertAction.Style
+    public var configuration: TSAlertAction.StyleConfiguration
     
     ///
     public var handler: TSAlertActionHandler?
     
     ///
-    private var button: UIButton?
+    public var isEnabled: Bool = true {
+        didSet { updateButtonEnabled() }
+    }
     
     ///
-    public var isEnabled: Bool = true {
-        didSet { setButtonEnabled(isEnabled) }
-    }
+    private var button = TSButton()
     
     
     // MARK: - Intializer
@@ -55,48 +55,61 @@ public class TSAlertAction {
     ///
     public init(title: String?,
                 image: UIImage? = nil,
-                style: TSAlertAction.Style,
+                configuration: TSAlertAction.StyleConfiguration = .default(),
                 handler: TSAlertActionHandler?) {
         
         self.title = title
         self.image = image
-        self.style = style
+        self.configuration = configuration
         self.handler = handler
     }
     
-    // MARK: - Internal methods
+    // MARK: - Make
     
     ///
-    func makeButton() -> UIButton {
-        let styleConfig = style.resolveConfiguration()
-        
-        let button = UIButton(type: .system)
-        if let title = title {
-            button.setAttributedTitle(NSAttributedString(string: title,
-                                                         attributes: styleConfig.titleTextAttributes),
-                                      for: .normal)
-        }
-        button.backgroundColor = styleConfig.backgroundColor
-        
-        if let borderColor = styleConfig.borderColor {
-            button.layer.borderColor = borderColor
-        }
-        button.layer.borderWidth = styleConfig.borderWidth
-        button.layer.cornerRadius = styleConfig.cornerRadius
-        
-        button.isEnabled = isEnabled
-        button.addAction(UIAction(handler: { _ in
-            self.handler?(self)
-            Helper.topController()?.dismiss(animated: true)
-        }), for: .touchUpInside)
+    func instantiateButton(preferredStyle style: TSAlertController.Style) -> TSButton {
+        applyConfiguration(to: button)
+        button.addAction(createButtonAction(), for: .touchUpInside)
         return button
     }
     
-    // MARK: - Private methods
+    
+    // MARK: - Private
     
     ///
-    private func setButtonEnabled(_ enable: Bool) {
-        button?.isEnabled = enable
+    private func applyConfiguration(to button: TSButton) {
+        if let title = title {
+            let titleString = NSAttributedString(string: title,
+                                                 attributes: configuration.titleAttributes)
+            button.setAttributedTitle(titleString, for: .normal)
+        }
+
+        var buttonConfig = UIButton.Configuration.filled()
+        buttonConfig.imagePlacement = configuration.imagePlacement
+        buttonConfig.imageReservation = configuration.imageReservation
+        buttonConfig.contentInsets = configuration.contentEdgeInset
+        buttonConfig.background.backgroundColor = configuration.backgroundColor
+        buttonConfig.background.cornerRadius = configuration.cornerRadius
+        button.configuration = buttonConfig
+
+        button.contentVerticalAlignment = configuration.contentVerticalAlignment
+        button.contentHorizontalAlignment = configuration.contentHorizontalAlignment
+        button.highlightType = configuration.highlightType
+        button.isEnabled = isEnabled
+    }
+    
+    ///
+    private func createButtonAction() -> UIAction {
+        return UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.handler?(self)
+            Helper.topController()?.dismiss(animated: true)
+        }
+    }
+    
+    ///
+    private func updateButtonEnabled() {
+        button.isEnabled = isEnabled
     }
     
 }

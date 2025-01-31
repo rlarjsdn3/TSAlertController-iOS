@@ -26,34 +26,90 @@ public extension TSAlertAction {
     /// 
     struct StyleConfiguration {
         
+        // MARK: - Properties
+        
         ///
-        public var titleTextAttributes: [NSAttributedString.Key: Any]?
+        public var titleAttributes: [NSAttributedString.Key: Any]?
+        
+        ///
+        public var titleAlignment: UIButton.Configuration.TitleAlignment
+
+        /// This property is applied only when the `preferredStyle` of `TSAlertController` is set to `.actionSheet`.
+        public var imagePlacement: NSDirectionalRectEdge
+        
+        /// This property is applied only when the `preferredStyle` of `TSAlertController` is set to `.actionSheet`.
+        public var imageReservation: CGFloat
+        
+        ///
+        public var contentVerticalAlignment: UIControl.ContentVerticalAlignment
+        
+        ///
+        public var contentHorizontalAlignment: UIControl.ContentHorizontalAlignment
+        
+        ///
+        public var contentEdgeInset: NSDirectionalEdgeInsets
         
         ///
         public var backgroundColor: UIColor?
         
         ///
-        public var borderColor: CGColor?
-        
-        ///
-        public var borderWidth: CGFloat
-        
-        ///
         public var cornerRadius: CGFloat
         
+        /// This property is applied only when the `preferredStyle` of `TSAlertController` is set to `.actionSheet`.
+        public var imageSpacing: CGFloat
+        
         ///
-        public init(titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                            .foregroundColor: UIColor.systemBackground],
-                    backgroundColor: UIColor? = .lightGray,
-                    borderColor: CGColor? = nil,
-                    borderWidth: CGFloat = 0,
-                    cornerRadius: CGFloat = 12.5) {
-            
-            self.titleTextAttributes = titleTextAttributes
-            self.backgroundColor = backgroundColor
-            self.borderColor = borderColor
-            self.borderWidth = borderWidth
-            self.cornerRadius = cornerRadius
-        }
+        public var highlightType: TSButton.HighlightType
+
+        
+        // MARK: - Intializer
+        
+        public init(
+               titleAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                                   .foregroundColor: UIColor.systemBackground],
+               titleAlignment: UIButton.Configuration.TitleAlignment = .leading,
+               imagePlacement: NSDirectionalRectEdge = .leading,
+               imageReservation: CGFloat = 0,
+               contentVerticalAlignment: UIControl.ContentVerticalAlignment = .center,
+               contentHorizontalAlignment: UIControl.ContentHorizontalAlignment = .center,
+               contentEdgeInset: NSDirectionalEdgeInsets = .zero,
+               backgroundColor: UIColor? = .lightGray,
+               cornerRadius: CGFloat = 12.5,
+               imageSpacing: CGFloat = 0,
+               highlightType: TSButton.HighlightType = .fadeAndScaleDown()
+           ) {
+               self.titleAttributes = titleAttributes
+               self.titleAlignment = titleAlignment
+               self.imagePlacement = imagePlacement
+               self.imageReservation = imageReservation
+               self.contentVerticalAlignment = contentVerticalAlignment
+               self.contentHorizontalAlignment = contentHorizontalAlignment
+               self.contentEdgeInset = contentEdgeInset
+               self.backgroundColor = backgroundColor
+               self.cornerRadius = cornerRadius
+               self.imageSpacing = imageSpacing
+               self.highlightType = highlightType
+           }
+    }
+}
+
+
+// MARK: - Extension
+
+public extension TSAlertAction.StyleConfiguration {
+    
+    ///
+    static func cancel() -> TSAlertAction.StyleConfiguration {
+        .init(backgroundColor: .systemBlue)
+    }
+    
+    ///
+    static func `default`() -> TSAlertAction.StyleConfiguration {
+        .init()
+    }
+    
+    ///
+    static func destructive() -> TSAlertAction.StyleConfiguration {
+        .init(backgroundColor: .systemRed)
     }
 }
