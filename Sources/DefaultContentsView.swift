@@ -21,7 +21,7 @@
 
 import UIKit
 
-class ContentsView: UIStackView {
+class DefaultContentsView: UIStackView {
     
     // MARK: - Properties
     
@@ -102,7 +102,7 @@ class ContentsView: UIStackView {
                 textfield.setPaddingInsets(.edge(10))
                 textfieldStack.addArrangedSubview(textfield)
                 if index < textfields.count - 1 {
-                    textfieldStack.addArrangedSubview(createSeparatorView((borderColor != nil) ? UIColor(cgColor: borderColor!) : nil))
+                    textfieldStack.addArrangedSubview(createSeparatorView((borderColor != nil) ? UIColor(cgColor: borderColor!) : nil, height: borderWidth))
                 }
             }
             addArrangedSubview(textfieldStack)
@@ -128,12 +128,12 @@ class ContentsView: UIStackView {
 
 // MARK: - Extension
 
-private extension ContentsView {
+private extension DefaultContentsView {
     
-    func createSeparatorView(_ color: UIColor?) -> UIView {
+    func createSeparatorView(_ color: UIColor?, height: CGFloat) -> UIView {
         let separator = UIView()
         separator.backgroundColor = color
-        separator.heightAnchor.constraint(equalToConstant: 0.75).isActive = true
+        separator.heightAnchor.constraint(equalToConstant: height).isActive = true
         return separator
     }
 }

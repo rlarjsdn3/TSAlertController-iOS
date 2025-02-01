@@ -21,7 +21,7 @@
 
 import UIKit
 
-class ButtonStackView: UIStackView {
+class DefaultButtonsView: UIStackView {
    
     
     // MARK: - Intializer
@@ -45,9 +45,7 @@ class ButtonStackView: UIStackView {
     // MARK: - Private
     
     private func configure(with alert: TSAlertController, configuration: TSAlertController.Configuration) {
-        self.axis = configuration.isButtonLayoutAxisHorizontal(with: alert)
-        ? .horizontal
-        : .vertical
+        self.axis = configuration.buttonLayoutAxis.resolve(with: alert) == .horizontal ? .horizontal : .vertical
         self.spacing = configuration.spacing.buttonSpacing
         self.alignment = .fill
         self.distribution = .fillEqually

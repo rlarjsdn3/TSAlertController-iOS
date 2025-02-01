@@ -15,12 +15,12 @@
 		C724ADC82D428FC100778BB1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADC72D428FC100778BB1 /* UIView+Extension.swift */; };
 		C724ADCC2D42939E00778BB1 /* TSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADCB2D42939E00778BB1 /* TSAlertView.swift */; };
 		C724ADCF2D4298A100778BB1 /* DefaultAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADCE2D4298A100778BB1 /* DefaultAlertView.swift */; };
-		C724ADD22D429D1900778BB1 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD02D429D1900778BB1 /* ButtonStackView.swift */; };
+		C724ADD22D429D1900778BB1 /* DefaultButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD02D429D1900778BB1 /* DefaultButtonsView.swift */; };
 		C724ADD72D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */; };
 		C7252D052D45C71900E4C82B /* TSAlertPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7252D042D45C71900E4C82B /* TSAlertPresentationController.swift */; };
 		C7252D082D4745D800E4C82B /* TSAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7252D072D4745D800E4C82B /* TSAlertManager.swift */; };
 		C741C0CA2D4DEEBC004B39FF /* TSAlertController+Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741C0C92D4DEEBC004B39FF /* TSAlertController+Options.swift */; };
-		C741C0CE2D4E2C6A004B39FF /* ContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741C0CD2D4E2C6A004B39FF /* ContentsView.swift */; };
+		C741C0CE2D4E2C6A004B39FF /* DefaultContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741C0CD2D4E2C6A004B39FF /* DefaultContentsView.swift */; };
 		C7B8D4372D4B732900EED82A /* TSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B8D4362D4B732900EED82A /* TSButton.swift */; };
 		C7B8D43A2D4B734500EED82A /* TSButton+HighlightType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B8D4392D4B734500EED82A /* TSButton+HighlightType.swift */; };
 		C7B8D43C2D4C959800EED82A /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B8D43B2D4C959800EED82A /* SlideUpAnimator.swift */; };
@@ -88,12 +88,12 @@
 		C724ADC72D428FC100778BB1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "../../Sources/UIView+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		C724ADCB2D42939E00778BB1 /* TSAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertView.swift; path = ../../Sources/TSAlertView.swift; sourceTree = SOURCE_ROOT; };
 		C724ADCE2D4298A100778BB1 /* DefaultAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultAlertView.swift; path = ../../Sources/DefaultAlertView.swift; sourceTree = SOURCE_ROOT; };
-		C724ADD02D429D1900778BB1 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ButtonStackView.swift; path = ../../Sources/ButtonStackView.swift; sourceTree = SOURCE_ROOT; };
+		C724ADD02D429D1900778BB1 /* DefaultButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultButtonsView.swift; path = ../../Sources/DefaultButtonsView.swift; sourceTree = SOURCE_ROOT; };
 		C724ADD42D44AD1200778BB1 /* FadeAndScaleDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FadeAndScaleDownAnimator.swift; path = ../../Sources/FadeAndScaleDownAnimator.swift; sourceTree = "<group>"; };
 		C7252D042D45C71900E4C82B /* TSAlertPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertPresentationController.swift; path = ../Sources/TSAlertPresentationController.swift; sourceTree = "<group>"; };
 		C7252D072D4745D800E4C82B /* TSAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSAlertManager.swift; path = ../Sources/TSAlertManager.swift; sourceTree = "<group>"; };
 		C741C0C92D4DEEBC004B39FF /* TSAlertController+Options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSAlertController+Options.swift"; path = "../../Sources/TSAlertController+Options.swift"; sourceTree = SOURCE_ROOT; };
-		C741C0CD2D4E2C6A004B39FF /* ContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentsView.swift; path = ../../Sources/ContentsView.swift; sourceTree = SOURCE_ROOT; };
+		C741C0CD2D4E2C6A004B39FF /* DefaultContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultContentsView.swift; path = ../../Sources/DefaultContentsView.swift; sourceTree = SOURCE_ROOT; };
 		C7B8D4362D4B732900EED82A /* TSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TSButton.swift; path = ../Sources/TSButton.swift; sourceTree = "<group>"; };
 		C7B8D4392D4B734500EED82A /* TSButton+HighlightType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TSButton+HighlightType.swift"; path = "../../Sources/TSButton+HighlightType.swift"; sourceTree = SOURCE_ROOT; };
 		C7B8D43B2D4C959800EED82A /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SlideUpAnimator.swift; path = ../../Sources/SlideUpAnimator.swift; sourceTree = SOURCE_ROOT; };
@@ -295,8 +295,8 @@
 			isa = PBXGroup;
 			children = (
 				C724ADCE2D4298A100778BB1 /* DefaultAlertView.swift */,
-				C741C0CD2D4E2C6A004B39FF /* ContentsView.swift */,
-				C724ADD02D429D1900778BB1 /* ButtonStackView.swift */,
+				C741C0CD2D4E2C6A004B39FF /* DefaultContentsView.swift */,
+				C724ADD02D429D1900778BB1 /* DefaultButtonsView.swift */,
 			);
 			path = DefaultAlertView;
 			sourceTree = "<group>";
@@ -526,10 +526,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C741C0CE2D4E2C6A004B39FF /* ContentsView.swift in Sources */,
+				C741C0CE2D4E2C6A004B39FF /* DefaultContentsView.swift in Sources */,
 				C7252D052D45C71900E4C82B /* TSAlertPresentationController.swift in Sources */,
 				FCDD72576E464B783CB0432E06954BBA /* TSAlertController-dummy.m in Sources */,
-				C724ADD22D429D1900778BB1 /* ButtonStackView.swift in Sources */,
+				C724ADD22D429D1900778BB1 /* DefaultButtonsView.swift in Sources */,
 				C7252D082D4745D800E4C82B /* TSAlertManager.swift in Sources */,
 				C7BBC9D02D424D6100AF4434 /* TSAlertController.swift in Sources */,
 				C7EBD07C2D4A27E50064285D /* UITextfield+Extension.swift in Sources */,

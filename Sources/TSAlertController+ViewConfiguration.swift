@@ -183,7 +183,7 @@ public extension TSAlertController {
 extension TSAlertController.Configuration {
     
     ///
-    func isButtonLayoutAxisHorizontal(with alert: TSAlertController) -> Bool {
+    func isButtonLayoutAxisHorizontal(_ alert: TSAlertController) -> Bool {
         return self.buttonLayoutAxis.isHorizontal(with: alert)
     }
 }
@@ -220,27 +220,36 @@ public extension TSAlertController.Configuration {
         public var contentTop: CGFloat
         
         ///
-        public var contentBottom: CGFloat
-        
-        ///
         public var contentLeft: CGFloat
         
         ///
         public var contentRight: CGFloat
         
+        ///
+        public var buttonLeft: CGFloat
+        
+        ///
+        public var buttonRight: CGFloat
+        
+        ///
+        public var buttonBottom: CGFloat
+        
         
         // MARK: - Intializer
         
-        ///
         public init(contentTop: CGFloat = 22.5,
-                    contentBottom: CGFloat = 17.5,
                     contentLeft: CGFloat = 17.5,
-                    contentRight: CGFloat = 17.5) {
+                    contentRight: CGFloat = 17.5,
+                    buttonLeft: CGFloat = 17.5,
+                    buttonRight: CGFloat = 17.5,
+                    buttonBottom: CGFloat = 17.5) {
             
             self.contentTop = contentTop
-            self.contentBottom = contentBottom
             self.contentLeft = contentLeft
             self.contentRight = contentRight
+            self.buttonLeft = buttonLeft
+            self.buttonRight = buttonRight
+            self.buttonBottom = buttonBottom
         }
         
     }
@@ -436,7 +445,7 @@ public extension TSAlertController.Configuration {
         }
         
         
-        // MARK: - Private Helper
+        // MARK: - Private
         
         ///
         private func determineAutomaticLayout(with alert: TSAlertController) -> ButtonLayoutAxis {
