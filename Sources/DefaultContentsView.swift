@@ -33,8 +33,10 @@ class DefaultContentsView: UIStackView {
     
     // MARK: - Intializer
     
-    init(_ alert: TSAlertController,
-         configuration: TSAlertController.Configuration) {
+    init(_ title: String?,
+         _ message: String?,
+         _ textfields: [UITextField]? = nil,
+         _ configuration: TSAlertController.Configuration) {
         super.init(frame: .zero)
         
         labelStack.axis = .vertical
@@ -42,7 +44,7 @@ class DefaultContentsView: UIStackView {
         labelStack.alignment = .fill
         labelStack.distribution = .fillProportionally
         
-        let title = alert.title
+        let title = title
         titleLabel.text = title
         titleLabel.textAlignment = configuration.titleTextAlignment
         titleLabel.numberOfLines = configuration.titleNumberOfLines
@@ -55,7 +57,7 @@ class DefaultContentsView: UIStackView {
         }
         labelStack.addArrangedSubview(titleLabel)
         
-        if let message = alert.message {
+        if let message = message {
             messageLabel.text = message
             messageLabel.textAlignment = configuration.messageTextAlignment
             messageLabel.numberOfLines = configuration.messageNumberOfLines
@@ -70,8 +72,7 @@ class DefaultContentsView: UIStackView {
         }
         addArrangedSubview(labelStack)
         
-        if alert.textfields.isEmpty == false {
-            let textfields = alert.textfields
+        if textfields?.isEmpty == false, let textfields = textfields {
             let borderColor = configuration.textFieldContainerBorderColor
             let borderWidth = configuration.textFieldContainerBorderWidth
             

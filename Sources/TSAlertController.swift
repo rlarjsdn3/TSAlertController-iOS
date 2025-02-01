@@ -55,6 +55,8 @@ public class TSAlertController: UIViewController {
     ///
     public var transitionStyle: TSAlertController.TransitionStyle = .automatic
     
+    ///
+    private var customView: UIView?
     
     ///
     private var alertView: (any TSAlertView)?
@@ -73,6 +75,18 @@ public class TSAlertController: UIViewController {
     // MARK: - Initializer
     
     ///
+    public init(_ customView: UIView,
+                options: TSAlertController.Options = [],
+                preferredStyle style: TSAlertController.Style) {
+        self.customView = customView
+        self.options = options
+        self.preferredStyle = style
+        super.init(nibName: nil, bundle: nil)
+        
+        commonInit()
+    }
+    
+    ///
     public init(title: String?,
                 message: String? = nil,
                 options: TSAlertController.Options = [],
@@ -84,21 +98,26 @@ public class TSAlertController: UIViewController {
         self.preferredStyle = style
         super.init(nibName: nil, bundle: nil)
         
-        self.transitioningDelegate = self
-        self.modalPresentationStyle = .custom
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func commonInit() {
+        self.transitioningDelegate = self
+        self.modalPresentationStyle = .custom
+    }
+    
     
     // MARK: - Lifecycle
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        initialize()
+
+        validateConfiguration()
+        setupUI()
         registerKeyboardNotifications()
         registerGestureRecognizers()
     }
@@ -119,52 +138,15 @@ public class TSAlertController: UIViewController {
     }
 
     // MARK: - Helpers
-
-    ///
-    private func initialize() {
-        checkConfigurationBeforePresent()
-        
-        alertView = DefaultAlertView(with: configuration)
-        
-        setupHierarchy()
-        setupConstraints()
-        setupAttributes()
-        
-        alertView!.createView(for: self)
-    }
     
+    /// Adjusts certain configuration properties based on the `preferredStyle`.
     ///
-    private func setupHierarchy() {
-        view.addSubview(alertView!)
-    }
-    
+    /// This method must be called before initializing other sub-alert views
+    /// to ensure that a properly adjusted configuration is passed.
     ///
-    private func setupConstraints() {
-        view.applySizeConstraint(with: configuration.size)
-    }
-    
-    ///
-    private func setupAttributes() {
-        switch configuration.backgroundColor {
-        case let .color(color, alpha):
-            view.backgroundColor = color.withAlphaComponent(alpha)
-        case let .blur(style):
-            view.addBlurEffect(style, with: configuration)
-        }
-        
-        view.layer.borderColor = configuration.backgroundBorderColor
-        view.layer.borderWidth = configuration.backgroundBorderWidth
-        view.layer.cornerRadius = configuration.cornerRadius
-        
-        guard let shadow = configuration.shadow else { return }
-        view.layer.shadowColor = shadow.color
-        view.layer.shadowOffset = shadow.offset
-        view.layer.shadowOpacity = shadow.opacity
-        view.layer.shadowRadius = shadow.radius
-    }
-    
-    ///
-    private func checkConfigurationBeforePresent() {
+    /// - Note: If the `preferredStyle` is `.actionSheet`, the width is adjusted to meet
+    /// the minimum allowed constraint, and the button layout is forced to vertical.
+    private func validateConfiguration() {
         if case .actionSheet = preferredStyle {
             let configuredWidth = configuration.size.width
             let minimumAllowedWidth: Configuration.LayoutSize.Constraint = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
@@ -175,6 +157,51 @@ public class TSAlertController: UIViewController {
             }
             configuration.buttonLayoutAxis = .vertical
         }
+    }
+    
+    ///
+    private func setupUI() {
+        setupAlertView()
+        setupConstraints()
+        setupAttributes()
+    }
+    
+    ///
+    private func setupAlertView() {
+        let buttons = actions.map { $0.instantiateButton(preferredStyle: preferredStyle) }
+        let contentView = customView ?? DefaultContentsView(title, message, textfields, configuration)
+        let buttonsView = DefaultButtonsView(buttons, configuration)
+        alertView = DefaultAlertView(contentView, buttonsView, configuration)
+
+        guard let alertView = alertView else { return }
+        
+        view.addSubview(alertView)
+        alertView.createView(for: self)
+    }
+
+    ///
+    private func setupConstraints() {
+        view.applySizeConstraint(with: configuration.size)
+    }
+
+    ///
+    private func setupAttributes() {
+        switch configuration.backgroundColor {
+        case let .color(color, alpha):
+            view.backgroundColor = color.withAlphaComponent(alpha)
+        case let .blur(style):
+            view.addBlurEffect(style, with: configuration)
+        }
+
+        view.layer.borderColor = configuration.backgroundBorderColor
+        view.layer.borderWidth = configuration.backgroundBorderWidth
+        view.layer.cornerRadius = configuration.cornerRadius
+
+        guard let shadow = configuration.shadow else { return }
+        view.layer.shadowColor = shadow.color
+        view.layer.shadowOffset = shadow.offset
+        view.layer.shadowOpacity = shadow.opacity
+        view.layer.shadowRadius = shadow.radius
     }
 
     ///

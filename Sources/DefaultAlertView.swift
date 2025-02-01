@@ -25,13 +25,23 @@ class DefaultAlertView: UIView, TSAlertView {
     
     // MARK: - Properties
     
+    private let buttons: UIView
+    private let content: UIView
+    
     private var configuration: TSAlertController.Configuration
     
     // MARK: - Intializer
     
-    init(with configuration: TSAlertController.Configuration) {
+    init(_ content: UIView,
+         _ buttons: UIView,
+         _ configuration: TSAlertController.Configuration) {
+        self.content = content
+        self.buttons = buttons
         self.configuration = configuration
         super.init(frame: .zero)
+        
+        addSubview(content)
+        addSubview(buttons)
     }
     
     required init(coder: NSCoder) {
@@ -42,16 +52,8 @@ class DefaultAlertView: UIView, TSAlertView {
     // MARK: - Create View
     
     func createView(for alert: TSAlertController) {
-        guard let superview = superview else { return }
-        
-        let contentsView = DefaultContentsView(alert,
-                                              configuration: configuration)
-        let buttonsView = DefaultButtonsView(alert,
-                                             configuration: configuration)
-        
-        addSubview(buttonsView)
-        addSubview(contentsView)
-        
+        guard let superview = superview else { print("xcxc"); return }
+
         self.anchor(top: superview.topAnchor,
                     leading: superview.leadingAnchor,
                     trailing: superview.trailingAnchor,
@@ -61,21 +63,21 @@ class DefaultAlertView: UIView, TSAlertView {
                     trailingInset: 0,
                     bottomInset: 0)
         
-        contentsView.anchor(top: self.topAnchor,
-                            leading: self.leadingAnchor,
-                            trailing: self.trailingAnchor,
-                            bottom: buttonsView.topAnchor,
-                            topInset: configuration.margin.contentTop,
-                            leadingInset: configuration.margin.contentLeft,
-                            trailingInset: configuration.margin.contentRight,
-                            bottomInset: configuration.spacing.textfieldButtonSpacing)
+        content.anchor(top: self.topAnchor,
+                       leading: self.leadingAnchor,
+                       trailing: self.trailingAnchor,
+                       bottom: buttons.topAnchor,
+                       topInset: configuration.margin.contentTop,
+                       leadingInset: configuration.margin.contentLeft,
+                       trailingInset: configuration.margin.contentRight,
+                       bottomInset: configuration.spacing.textfieldButtonSpacing)
         
-        buttonsView.anchor(leading: self.leadingAnchor,
-                           trailing: self.trailingAnchor,
-                           bottom: self.bottomAnchor,
-                           leadingInset: configuration.margin.buttonLeft,
-                           trailingInset: configuration.margin.buttonRight,
-                           bottomInset: configuration.margin.buttonBottom)
+        buttons.anchor(leading: self.leadingAnchor,
+                       trailing: self.trailingAnchor,
+                       bottom: self.bottomAnchor,
+                       leadingInset: configuration.margin.buttonLeft,
+                       trailingInset: configuration.margin.buttonRight,
+                       bottomInset: configuration.margin.buttonBottom)
 
         var height: CGFloat = 0
         let actionsCount = CGFloat(alert.actions.count)
@@ -89,7 +91,7 @@ class DefaultAlertView: UIView, TSAlertView {
         } else {
             height = (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
         }
-        buttonsView.setHeight(greaterThanOrEqualTo: height)
+        buttons.setHeight(greaterThanOrEqualTo: height)
     }
     
     
