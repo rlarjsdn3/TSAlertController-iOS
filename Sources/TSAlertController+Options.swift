@@ -32,7 +32,7 @@ public extension TSAlertController {
         /// Dismisses the action sheet when dragged downward beyond a certain threshold.
         ///
         /// This option is only applicable to _.actionSheet_ style alerts
-        public static let dismissOnDragDown = Options(rawValue: 1 << 1)
+        public static let dismissOnSwipeDown = Options(rawValue: 1 << 1)
         
         /// Dismisses the alert by tapping the outside area.
         public static let dismissOnTapOutside = Options(rawValue: 1 << 2)

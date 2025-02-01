@@ -29,8 +29,8 @@ class DefaultAlertView: UIStackView, TSAlertView {
     
     // MARK: - Intializer
     
-    init(with config: TSAlertController.Configuration) {
-        self.configuration = config
+    init(with configuration: TSAlertController.Configuration) {
+        self.configuration = configuration
         super.init(frame: .zero)
         
         configure()
@@ -74,19 +74,17 @@ class DefaultAlertView: UIStackView, TSAlertView {
     }
     
     private func configureContentView(for alert: TSAlertController) {
-        let contentView = ContentView(
-            title: alert.title,
-            message: alert.message,
-            textfields: alert.textfields,
-            viewConfig: configuration
+        let contentView = ContentsView(
+            alert,
+            configuration: configuration
         )
         addArrangedSubview(contentView)
     }
     
     private func configureButtonsView(for alert: TSAlertController) {
         let buttonsView = ButtonStackView(
-            for: alert,
-            viewConfig: configuration
+            alert,
+            configuration: configuration
         )
         
         var height: CGFloat = 0
@@ -95,7 +93,7 @@ class DefaultAlertView: UIStackView, TSAlertView {
         let spacing: CGFloat = 7.5
         
         //
-        if configuration.isButtonLayoutAxisHorizontal(for: alert.actions) {
+        if configuration.isButtonLayoutAxisHorizontal(with: alert) {
             height = actionHeight
         //
         } else {
