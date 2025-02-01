@@ -28,13 +28,13 @@ final class TSAlertPresentationController: UIPresentationController {
     // MARK: - Properties
     
     ///
-    private let dimmedView = UIView()
+    private let dimmedView: UIView
     
     ///
     private let preferredStyle: TSAlertController.Style
     
     ///
-    private let viewConfiguration: TSAlertController.ViewConfiguration
+    private let configuration: TSAlertController.Configuration
     
     
     // MARK: - Initializer
@@ -42,14 +42,16 @@ final class TSAlertPresentationController: UIPresentationController {
     ///
     init(presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
+         dimmedView view: UIView,
          preferredStyle style: TSAlertController.Style,
-         viewConfig: TSAlertController.ViewConfiguration) {
+         config: TSAlertController.Configuration) {
+        self.dimmedView = view
         self.preferredStyle = style
-        self.viewConfiguration = viewConfig
+        self.configuration = config
         super.init(presentedViewController: presentedViewController,
                    presenting: presentingViewController)
     }
-
+    
     // MARK: - Lifecycle
     
     override func presentationTransitionWillBegin() {
@@ -59,7 +61,7 @@ final class TSAlertPresentationController: UIPresentationController {
         setupViewConstraints()
         containerView?.layoutIfNeeded()
         
-        configureDimmedView(with: viewConfiguration)
+        configureDimmedView(with: configuration)
         
         animateDimmedViewAppearance(presenting: true)
     }
@@ -69,7 +71,7 @@ final class TSAlertPresentationController: UIPresentationController {
         
         animateDimmedViewAppearance(presenting: false)
     }
-
+    
     
     // MARK: - View Setup
     
@@ -88,7 +90,6 @@ final class TSAlertPresentationController: UIPresentationController {
         
         dimmedView.fill(to: containerView)
         
-        presentedView?.applySizeConstraint(with: viewConfiguration.size)
         switch preferredStyle {
         case .alert:
             presentedView?.center(in: containerView)
@@ -100,21 +101,21 @@ final class TSAlertPresentationController: UIPresentationController {
     }
     
     ///
-    private func configureDimmedView(with viewConfig: TSAlertController.ViewConfiguration) {
-        dimmedView.alpha = 0.0
+    private func configureDimmedView(with config: TSAlertController.Configuration) {
+        dimmedView.alpha = 0
         
-        switch viewConfig.dimmedBackgroundViewColor {
+        switch config.dimmedBackgroundViewColor {
         case let .color(color, alpha):
             dimmedView.backgroundColor = color.withAlphaComponent(alpha)
         case let .effect(style):
-            dimmedView.addBlurEffect(style, with: viewConfig)
+            dimmedView.addBlurEffect(style, with: config)
         case .none:
             break
         }
     }
     
     
-    // MARK: - Animation
+    // MARK: - Private
     
     ///
     private func animateDimmedViewAppearance(presenting: Bool) {
@@ -126,3 +127,5 @@ final class TSAlertPresentationController: UIPresentationController {
         })
     }
 }
+
+

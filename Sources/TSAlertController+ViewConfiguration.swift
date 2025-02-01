@@ -24,7 +24,7 @@ import UIKit
 public extension TSAlertController {
     
     ///
-    struct ViewConfiguration {
+    struct Configuration {
         
         // MARK: - Properties
         
@@ -185,7 +185,7 @@ public extension TSAlertController {
 
 // MARK: - Background
 
-public extension TSAlertController.ViewConfiguration {
+public extension TSAlertController.Configuration {
     
     ///
     enum Background {
@@ -202,7 +202,7 @@ public extension TSAlertController.ViewConfiguration {
 
 // MARK: - LayoutMargin
 
-public extension TSAlertController.ViewConfiguration {
+public extension TSAlertController.Configuration {
     
     ///
     struct LayoutMargin {
@@ -243,7 +243,7 @@ public extension TSAlertController.ViewConfiguration {
 
 // MARK: - LayoutSpacing
 
-public extension TSAlertController.ViewConfiguration {
+public extension TSAlertController.Configuration {
     
     ///
     struct LayoutSpacing {
@@ -305,7 +305,7 @@ public extension TSAlertController.ViewConfiguration {
 
 // MARK: - LayoutSize
 
-public extension TSAlertController.ViewConfiguration {
+public extension TSAlertController.Configuration {
     
     ///
     struct LayoutSize {
@@ -330,7 +330,7 @@ public extension TSAlertController.ViewConfiguration {
     }
 }
 
-public extension TSAlertController.ViewConfiguration.LayoutSize {
+public extension TSAlertController.Configuration.LayoutSize {
     
     ///
     enum Constraint {
@@ -346,7 +346,7 @@ public extension TSAlertController.ViewConfiguration.LayoutSize {
     }
 }
 
-extension TSAlertController.ViewConfiguration.LayoutSize.Constraint: Comparable {
+extension TSAlertController.Configuration.LayoutSize.Constraint: Comparable {
     
     public static func < (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
@@ -403,7 +403,7 @@ extension TSAlertController.ViewConfiguration.LayoutSize.Constraint: Comparable 
 
 // MARK: - Button LayoutAxis
 
-public extension TSAlertController.ViewConfiguration {
+public extension TSAlertController.Configuration {
     
     ///
     enum ButtonLayoutAxis {
@@ -444,8 +444,9 @@ public extension TSAlertController.ViewConfiguration {
     }
 }
 
-extension TSAlertController.ViewConfiguration.ButtonLayoutAxis {
+extension TSAlertController.Configuration.ButtonLayoutAxis {
     
+    ///
     func isHorizontal(for actions: [TSAlertAction]) -> Bool {
         if case .automatic = self {
             return determineAutomaticLayout(for: actions) == .horizontal
@@ -458,7 +459,7 @@ extension TSAlertController.ViewConfiguration.ButtonLayoutAxis {
 
 // MARK: - Extension
 
-extension TSAlertController.ViewConfiguration {
+extension TSAlertController.Configuration {
     
     ///
     func isButtonLayoutAxisHorizontal(for actions: [TSAlertAction]) -> Bool {

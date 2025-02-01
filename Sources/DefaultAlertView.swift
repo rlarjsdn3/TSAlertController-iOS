@@ -25,12 +25,12 @@ class DefaultAlertView: UIStackView, TSAlertView {
     
     // MARK: - Properties
     
-    private var viewConfig: TSAlertController.ViewConfiguration
+    private var configuration: TSAlertController.Configuration
     
     // MARK: - Intializer
     
-    init(with viewConfiguration: TSAlertController.ViewConfiguration) {
-        self.viewConfig = viewConfiguration
+    init(with config: TSAlertController.Configuration) {
+        self.configuration = config
         super.init(frame: .zero)
         
         configure()
@@ -48,21 +48,27 @@ class DefaultAlertView: UIStackView, TSAlertView {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.topAnchor.constraint(equalTo: superview.topAnchor, constant: viewConfig.margin.contentTop),
-            self.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -viewConfig.margin.contentBottom),
-            self.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: viewConfig.margin.contentLeft),
-            self.rightAnchor.constraint(equalTo: superview.rightAnchor, constant: -viewConfig.margin.contentRight)
+            self.topAnchor.constraint(equalTo: superview.topAnchor, constant: configuration.margin.contentTop),
+            self.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -configuration.margin.contentBottom),
+            self.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: configuration.margin.contentLeft),
+            self.rightAnchor.constraint(equalTo: superview.rightAnchor, constant: -configuration.margin.contentRight)
         ])
         
         configureContentView(for: alert)
         configureButtonsView(for: alert)
     }
     
+    
+    // MARK: - Animate View
+    
+    func animateView(for alert: TSAlertController) {
+    }
+    
     // MARK: - Private
     
     private func configure() {
         self.axis = .vertical
-        self.spacing = viewConfig.spacing.textfieldButtonSpacing
+        self.spacing = configuration.spacing.textfieldButtonSpacing
         self.alignment = .fill
         self.distribution = .fillProportionally
     }
@@ -72,7 +78,7 @@ class DefaultAlertView: UIStackView, TSAlertView {
             title: alert.title,
             message: alert.message,
             textfields: alert.textfields,
-            viewConfig: viewConfig
+            viewConfig: configuration
         )
         addArrangedSubview(contentView)
     }
@@ -80,16 +86,16 @@ class DefaultAlertView: UIStackView, TSAlertView {
     private func configureButtonsView(for alert: TSAlertController) {
         let buttonsView = ButtonStackView(
             for: alert,
-            viewConfig: viewConfig
+            viewConfig: configuration
         )
         
         var height: CGFloat = 0
         let actionsCount = CGFloat(alert.actions.count)
-        let actionHeight: CGFloat = viewConfig.buttonMinHeight
+        let actionHeight: CGFloat = configuration.buttonMinHeight
         let spacing: CGFloat = 7.5
         
         //
-        if viewConfig.isButtonLayoutAxisHorizontal(for: alert.actions) {
+        if configuration.isButtonLayoutAxisHorizontal(for: alert.actions) {
             height = actionHeight
         //
         } else {

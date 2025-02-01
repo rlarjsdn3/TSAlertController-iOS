@@ -24,7 +24,7 @@ import UIKit
 public extension TSAlertController {
     
     ///
-    enum AlertTransitionStyle {
+    enum TransitionStyle {
         
         ///
         case automatic

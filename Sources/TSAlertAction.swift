@@ -36,7 +36,7 @@ public class TSAlertAction {
     public var image: UIImage?
     
     ///
-    public var configuration: TSAlertAction.StyleConfiguration
+    public var configuration: TSAlertAction.Configuration
     
     ///
     public var handler: TSAlertActionHandler?
@@ -55,7 +55,7 @@ public class TSAlertAction {
     ///
     public init(title: String?,
                 image: UIImage? = nil,
-                configuration: TSAlertAction.StyleConfiguration = .default(),
+                style configuration: TSAlertAction.Configuration = .default(),
                 handler: TSAlertActionHandler?) {
         
         self.title = title

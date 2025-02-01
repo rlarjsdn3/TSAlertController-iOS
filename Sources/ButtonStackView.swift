@@ -31,7 +31,7 @@ class ButtonStackView: UIStackView {
     // MARK: - Intializer
     
     init(for alert: TSAlertController,
-         viewConfig: TSAlertController.ViewConfiguration) {
+         viewConfig: TSAlertController.Configuration) {
         self.actions = alert.actions
         super.init(frame: .zero)
         
@@ -49,7 +49,7 @@ class ButtonStackView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
+    private func configure(with viewConfig: TSAlertController.Configuration) {
         self.axis = viewConfig.isButtonLayoutAxisHorizontal(for: actions)
         ? .horizontal
         : .vertical

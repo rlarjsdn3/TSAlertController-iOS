@@ -22,8 +22,25 @@
 import UIKit
 
 ///
-protocol TSAlertView: UIView {
+public protocol TSAlertView: TSAlertViewCreatable, TSAlertViewAnimatable { }
+
+
+///
+public protocol TSAlertViewCreatable: UIView {
     
     ///
     func createView(for alert: TSAlertController)
+}
+
+
+///
+public protocol TSAlertViewAnimatable: UIView {
+    
+    ///
+    func animateView(for alert: TSAlertController)
+}
+
+public extension TSAlertViewAnimatable {
+    
+    func animateView(for alert: TSAlertController) { }
 }

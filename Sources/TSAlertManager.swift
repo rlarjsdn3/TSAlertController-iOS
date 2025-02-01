@@ -33,7 +33,7 @@ final class TSAlertManager {
     
     // MARK: - TSAlertController
     
-    var alertTransitionStyle: TSAlertController.AlertTransitionStyle? = nil
+    var alertTransitionStyle: TSAlertController.TransitionStyle? = nil
     
     
     
@@ -48,30 +48,19 @@ final class TSAlertManager {
     var configuration: Configuration = .init()
     
     
-    // MARK: - ViewConfiguration
-    
-    ///
-    struct ViewConfiguration {
-        
-        ///
-        var `default`: TSAlertController.ViewConfiguration? = nil
-    }
-    var viewConfiguration: ViewConfiguration = .init()
-    
-    
     // MARK: - StyleConfiguration
     
     ///
     struct StyleConfiguration {
         
         ///
-        var cancel: TSAlertAction.StyleConfiguration? = nil
+        var cancel: TSAlertAction.Configuration? = nil
         
         ///
-        var `default`: TSAlertAction.StyleConfiguration? = nil
+        var `default`: TSAlertAction.Configuration? = nil
         
         ///
-        var destructive: TSAlertAction.StyleConfiguration? = nil
+        var destructive: TSAlertAction.Configuration? = nil
     }
     var styleConfiguration: StyleConfiguration = .init()
     

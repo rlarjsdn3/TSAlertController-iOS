@@ -36,7 +36,7 @@ class ContentView: UIStackView {
     init(title: String?,
          message: String? = nil,
          textfields: [UITextField]? = nil,
-         viewConfig: TSAlertController.ViewConfiguration) {
+         viewConfig: TSAlertController.Configuration) {
         super.init(frame: .zero)
         
         labelStack.axis = .vertical
@@ -117,7 +117,7 @@ class ContentView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
+    private func configure(with viewConfig: TSAlertController.Configuration) {
         self.axis = .vertical
         self.spacing = viewConfig.spacing.messageTextfieldSpacing
         self.alignment = .fill
