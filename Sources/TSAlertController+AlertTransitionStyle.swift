@@ -24,7 +24,7 @@ import UIKit
 public extension TSAlertController {
     
     ///
-    enum AlertTransitionStyle {
+    enum TransitionStyle {
         
         ///
         case automatic
@@ -35,22 +35,27 @@ public extension TSAlertController {
         ///
         case slideUp
         
+        ///
+        case custom(any UIViewControllerAnimatedTransitioning)
+        
         
         // MARK: - Resolve
         
         ///
-        func resolve(presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
+        func resolve(_ alert: TSAlertController,
+                     presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
             switch self {
             case .fadeAndScaleDown:
-                return FadeAndScaleDownAnimator(duration: 0.5,
-                                                 presenting: presenting)
+                return FadeAndScaleDownAnimator(duration: 0.5, presenting: presenting)
                 
             case .slideUp:
-                return SlideUpAnimator(duration: 0.5,
-                                       presenting: presenting)
+                return SlideUpAnimator(duration: 0.5, presenting: presenting)
+                
+            case let .custom(animator):
+                return animator
                 
             case .automatic:
-                return determineAutomaticAnimator(for: presenting)
+                return determineAutomaticStyle(alert, presenting: presenting)
             }
         }
         
@@ -58,10 +63,12 @@ public extension TSAlertController {
         // MARK: - Private Helper
         
         ///
-        private func determineAutomaticAnimator(for presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
-            //
-            return FadeAndScaleDownAnimator(duration: 0.5,
-                                             presenting: presenting)
+        private func determineAutomaticStyle(_ alert: TSAlertController,
+                                                presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
+            if alert.preferredStyle == .actionSheet {
+                return SlideUpAnimator(duration: 0.5, presenting: presenting)
+            }
+            return FadeAndScaleDownAnimator(duration: 0.5, presenting: presenting)
         }
     }
 }

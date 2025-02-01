@@ -38,6 +38,9 @@ public class TSAlertController: UIViewController {
     public var message: String?
     
     ///
+    public var options: TSAlertController.Options = []
+    
+    ///
     public var preferredStyle: TSAlertController.Style = .alert
     
     ///
@@ -47,21 +50,21 @@ public class TSAlertController: UIViewController {
     public var textfields: [UITextField]  = []
     
     ///
-    public lazy var configuration: TSAlertController.Configuration = Self.defaultConfiguration(preferredStyle: preferredStyle)
+    public var configuration: TSAlertController.Configuration = .init()
     
     ///
-    public lazy var viewConfiguration: TSAlertController.ViewConfiguration = Self.defaultViewConfiguration(preferredStyle: preferredStyle)
-    
-    ///
-    public lazy var alertTransitionStyle: TSAlertController.AlertTransitionStyle = Self.defaultAlertTransitionStyle(preferredStyle: preferredStyle)
+    public var transitionStyle: TSAlertController.TransitionStyle = .automatic
     
     
     ///
-    private var alertView: TSAlertView?
+    private var alertView: (any TSAlertView)?
+    
+    ///
+    private var background = UIView()
     
     
     ///
-    private var initialAlertTopY: CGFloat = 0
+    private var initialViewTopY: CGFloat = 0
     
     ///
     private var keyboardShiftTopY: CGFloat = 0
@@ -72,10 +75,12 @@ public class TSAlertController: UIViewController {
     ///
     public init(title: String?,
                 message: String? = nil,
+                options: TSAlertController.Options = [],
                 preferredStyle style: TSAlertController.Style) {
         
         self._title = title
         self.message = message
+        self.options = options
         self.preferredStyle = style
         super.init(nibName: nil, bundle: nil)
         
@@ -93,36 +98,87 @@ public class TSAlertController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        checkVaildConfigurationBeforePresent(preferredStyle: preferredStyle)
-        initializeAlertView()
-        configure(with: viewConfiguration)
-        registerKeyboardObservers()
+        initialize()
+        registerKeyboardNotifications()
+        registerGestureRecognizers()
     }
-
+    
     public override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
-        initialAlertTopY = view.frame.origin.y
+#if targetEnvironment(simulator)
+        initialViewTopY = view.frame.origin.y
+#endif
         activateFirstResponderIfNeeded()
     }
-
+    
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        unregisterKeyboardObservers()
+        unregisterKeyboardNotifications()
     }
 
     // MARK: - Helpers
 
-    private func initializeAlertView() {
-        self.alertView = DefaultAlertView(with: viewConfiguration)
+    ///
+    private func initialize() {
+        checkConfigurationBeforePresent()
         
-        guard let alertView = alertView else { return }
-        view.addSubview(alertView)
-        alertView.createView(for: self)
+        alertView = DefaultAlertView(with: configuration)
+        
+        setupHierarchy()
+        setupConstraints()
+        setupAttributes()
+        
+        alertView!.createView(for: self)
+    }
+    
+    ///
+    private func setupHierarchy() {
+        view.addSubview(alertView!)
+    }
+    
+    ///
+    private func setupConstraints() {
+        view.applySizeConstraint(with: configuration.size)
+    }
+    
+    ///
+    private func setupAttributes() {
+        switch configuration.backgroundColor {
+        case let .color(color, alpha):
+            view.backgroundColor = color.withAlphaComponent(alpha)
+        case let .blur(style):
+            view.addBlurEffect(style, with: configuration)
+        }
+        
+        view.layer.borderColor = configuration.backgroundBorderColor
+        view.layer.borderWidth = configuration.backgroundBorderWidth
+        view.layer.cornerRadius = configuration.cornerRadius
+        
+        guard let shadow = configuration.shadow else { return }
+        view.layer.shadowColor = shadow.color
+        view.layer.shadowOffset = shadow.offset
+        view.layer.shadowOpacity = shadow.opacity
+        view.layer.shadowRadius = shadow.radius
+    }
+    
+    ///
+    private func checkConfigurationBeforePresent() {
+        if case .actionSheet = preferredStyle {
+            let configuredWidth = configuration.size.width
+            let minimumAllowedWidth: Configuration.LayoutSize.Constraint = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
+            
+            //
+            if configuredWidth < minimumAllowedWidth {
+                configuration.size.width = minimumAllowedWidth
+            }
+            configuration.buttonLayoutAxis = .vertical
+        }
     }
 
-    private func registerKeyboardObservers() {
+    ///
+    private func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -133,7 +189,8 @@ public class TSAlertController: UIViewController {
                                                object: nil)
     }
 
-    private func unregisterKeyboardObservers() {
+    ///
+    private func unregisterKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillShowNotification,
                                                   object: nil)
@@ -141,43 +198,27 @@ public class TSAlertController: UIViewController {
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
     }
-
-    private func activateFirstResponderIfNeeded() {
-        if let textField = textfields.first, textField.canBecomeFirstResponder {
-            textField.becomeFirstResponder()
-        }
-    }
-
-    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
-        switch viewConfig.backgroundColor {
-        case let .color(color, alpha):
-            view.backgroundColor = color.withAlphaComponent(alpha)
-        case let .effect(style):
-            view.addBlurEffect(style, with: viewConfig)
-        }
-        
-        view.layer.borderColor = viewConfiguration.backgroundBorderColor
-        view.layer.borderWidth = viewConfiguration.backgroundBorderWidth
-        view.layer.cornerRadius = viewConfiguration.cornerRadius
-        
-        guard let shadow = viewConfiguration.shadow else { return }
-        view.layer.shadowColor = shadow.color
-        view.layer.shadowOffset = shadow.offset
-        view.layer.shadowOpacity = shadow.opacity
-        view.layer.shadowRadius = shadow.radius
-    }
     
     ///
-    private func checkVaildConfigurationBeforePresent(preferredStyle: TSAlertController.Style) {
-        if case .actionSheet = preferredStyle {
-            let width = viewConfiguration.size.width
-            let minimumAllowedWidth = ViewConfiguration.LayoutSize.Constraint.proportional(minimumRatio: 0.9, maximumRatio: 0.9)
-            
-            //
-            if width < minimumAllowedWidth {
-                viewConfiguration.size.width = minimumAllowedWidth
-            }
-        }
+    private func registerGestureRecognizers() {
+        addGestureRecognizerIfNeeded(for: .interactiveScaleAndDrag,
+                                     gesture: UIPanGestureRecognizer(target: self,
+                                                                     action: #selector(handleTapDragSpringGesture(_:))),
+                                     to: view)
+        
+        addGestureRecognizerIfNeeded(for: .dismissOnSwipeDown,
+                                     gesture: UIPanGestureRecognizer(target: self,
+                                                                     action: #selector(handleSwipeToDismissGesture(_:))),
+                                     to: view)
+        
+        addGestureRecognizerIfNeeded(for: .dismissOnTapOutside,
+                                     gesture: UITapGestureRecognizer(target: self,
+                                                                     action: #selector(handleTapOutsideToDismissGesture(_:))),
+                                     to: background)
+        
+        addGestureRecognizerIfNeeded(for: .dismissOnTapInside,
+                                     gesture: UITapGestureRecognizer(target: self, action: #selector(handleTapInsideToDismissGesture(_:))),
+                                     to: view)
     }
     
     
@@ -194,16 +235,19 @@ public class TSAlertController: UIViewController {
     // MARK: - Dismiss
     
     ///
-    public func dismiss(completion: (() -> Void)?) {
-        
+    public func dismiss(aniamted: Bool = true, completion: (() -> Void)? = nil) {
+        guard let presenting = self.presentingViewController else { return }
+        presenting.dismiss(animated: aniamted, completion: completion)
     }
     
     
     // MARK: - Deinitializer
     
+#if targetEnvironment(simulator)
     deinit {
         print("Deinit \(Self.self)")
     }
+#endif
     
 }
 
@@ -227,6 +271,31 @@ public extension TSAlertController {
 }
 
 private extension TSAlertController {
+
+    ///
+    private func activateFirstResponderIfNeeded() {
+        if let textField = textfields.first, textField.canBecomeFirstResponder {
+            textField.becomeFirstResponder()
+        }
+    }
+    
+    ///
+    private func addGestureRecognizerIfNeeded(for option: Options,
+                                              gesture: UIGestureRecognizer,
+                                              to targetView: UIView) {
+        guard options.contains(option) else { return }
+        targetView.addGestureRecognizer(gesture)
+        
+        if let panGesture = gesture as? UIPanGestureRecognizer {
+            panGesture.delegate = self
+        }
+    }
+}
+
+
+// MARK: - Keyboard Extension
+
+private extension TSAlertController {
     
     @objc func keyboardWillShow(_ notification: Notification) {
         
@@ -236,19 +305,18 @@ private extension TSAlertController {
             return
         }
 
-        self.initialAlertTopY = view.frame.origin.y
+        self.initialViewTopY = view.frame.origin.y
 
-        let alertTopY = initialAlertTopY
+        let viewHeight = view.frame.height
         let keyboardTopY = keyboardFrame.origin.y
-        let alertHeight = view.frame.height
 
         let duration = keyboardAnimationDuration.doubleValue
-        let adjustedAlertTopY = keyboardTopY - viewConfiguration.spacing.keyboardSpacing - alertHeight
+        let adjustedViewTopY = keyboardTopY - configuration.spacing.keyboardSpacing - viewHeight
         
         // Move the alert up only if the spacing is smaller than the configured value.
         // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
-        if adjustedAlertTopY < alertTopY {
-            animate(to: adjustedAlertTopY, withDuration: duration)
+        if adjustedViewTopY < initialViewTopY {
+            animate(to: adjustedViewTopY, withDuration: duration)
         }
     }
     
@@ -261,7 +329,7 @@ private extension TSAlertController {
         let duration = keyboardAnimationDuration.doubleValue
         
         // To test it properly, switch to software keyboard mode (Command + K) before displaying the alert.
-        animate(to: initialAlertTopY, withDuration: duration)
+        animate(to: initialViewTopY, withDuration: duration)
     }
     
     func animate(to yConstant: CGFloat, withDuration duration: TimeInterval) {
@@ -273,38 +341,119 @@ private extension TSAlertController {
     }
 }
 
+
+// MARK: - Gesture Extension
+
 private extension TSAlertController {
     
-    ///
-    private static func defaultConfiguration(preferredStyle: TSAlertController.Style) -> TSAlertController.Configuration {
-        switch preferredStyle {
-        case .alert:
-            return .init()
+    @objc private func handleTapInsideToDismissGesture(_ gesture: UITapGestureRecognizer) {
+        dismiss()
+    }
+    
+    @objc private func handleTapOutsideToDismissGesture(_ gesture: UITapGestureRecognizer) {
+        dismiss()
+    }
+    
+    @objc private func handleSwipeToDismissGesture(_ gesture: UIPanGestureRecognizer) {
+        
+        guard let presentingView = self.presentingViewController?.view else { return }
+        
+        //
+        let scaleDownFactor: CGFloat = 0.95
+        let dismissThreshold: CGFloat = 100
+        let velocityThreshold: CGFloat = 800
+        
+        //
+        let velocity = gesture.velocity(in: self.view)
+        let translation = gesture.translation(in: self.view)
+
+        switch gesture.state {
+        case .changed:
+            //
+            if translation.y > 0 {
+                self.view.transform = CGAffineTransform(translationX: translation.x * 0.1, y: translation.y)
+                
+                //
+                if options.contains(.interactiveScaleAndDrag) {
+                    self.view.transform = CGAffineTransform(translationX: translation.x * 0.1, y: translation.y)
+                        .scaledBy(x: scaleDownFactor, y: scaleDownFactor)
+                }
+            }
             
-        case .actionSheet:
-            return .init()
+        case .ended, .cancelled, .failed:
+            let shouldDismiss = (translation.y > dismissThreshold) || (velocity.y > velocityThreshold)
+            //
+            if shouldDismiss {
+                UIView.animate(withDuration: 0.5,
+                               delay: 0,
+                               usingSpringWithDamping: 0.6,
+                               initialSpringVelocity: 1.0,
+                               options: .curveEaseIn,
+                               animations: {
+                    
+                    self.view.alpha = 0
+                    self.view.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+                    self.view.frame.origin.y = presentingView.frame.maxY + 100
+                    self.background.alpha = 0.0
+                }, completion: { finished in
+                    if finished { self.dismiss(aniamted: false) }
+                })
+            //
+            } else {
+                UIView.animate(withDuration: 0.5,
+                               delay: 0,
+                               usingSpringWithDamping: 0.6,
+                               initialSpringVelocity: 1.0,
+                               options: .curveEaseIn,
+                               animations: {
+                    
+                    self.view.transform = .identity
+                })
+            }
+            
+        default:
+            break
         }
     }
     
-    ///
-    private static func defaultViewConfiguration(preferredStyle: TSAlertController.Style) -> TSAlertController.ViewConfiguration {
-        switch preferredStyle {
-        case .alert:
-            return .init()
+    @objc private func handleTapDragSpringGesture(_ gesture: UIPanGestureRecognizer) {
+        
+        //
+        let scaleDownFactor: CGFloat = 0.95
+        let interpolationFactor: CGFloat = 0.1
+        let translation = gesture.translation(in: self.view)
+        
+        switch gesture.state {
+        case .began:
+            //
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 0.6,
+                           initialSpringVelocity: 1.0,
+                           options: .curveEaseIn,
+                           animations: {
+                
+                self.view.transform = CGAffineTransform(scaleX: scaleDownFactor, y: scaleDownFactor)
+            })
             
-        case .actionSheet:
-            return .init(size: .init(width: .proportional(minimumRatio: 0.95, maximumRatio: 0.95)))
-        }
-    }
-    
-    ///
-    private static func defaultAlertTransitionStyle(preferredStyle: TSAlertController.Style) -> TSAlertController.AlertTransitionStyle {
-        switch preferredStyle {
-        case .alert:
-            return .fadeAndScaleDown
+        case .changed:
+                self.view.transform = CGAffineTransform(translationX: translation.x * interpolationFactor,
+                                                        y: translation.y * interpolationFactor).scaledBy(x: scaleDownFactor, y: scaleDownFactor)
             
-        case .actionSheet:
-            return .slideUp
+        case .ended, .cancelled, .failed:
+            //
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 0.6,
+                           initialSpringVelocity: 1.0,
+                           options: .curveEaseIn,
+                           animations: {
+                
+                self.view.transform = .identity
+            })
+            
+        default:
+            break
         }
     }
 }
@@ -317,21 +466,35 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController,
                                        presenting: UIViewController?,
                                        source: UIViewController) -> UIPresentationController? {
-        return TSAlertPresentationController(presentedViewController: presented,
+        
+        return TSAlertPresentationController(presented: presented,
                                              presenting: presenting,
+                                             background: background,
                                              preferredStyle: preferredStyle,
-                                             viewConfig: viewConfiguration)
+                                             configuration: configuration)
     }
     
     public func animationController(forPresented presented: UIViewController,
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.resolve(presenting: true)
+        return transitionStyle.resolve(self, presenting: true)
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return alertTransitionStyle.resolve(presenting: false)
+        return transitionStyle.resolve(self, presenting: false)
+    }
+}
+
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension TSAlertController: UIGestureRecognizerDelegate {
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                                  shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return true
     }
 }

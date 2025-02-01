@@ -1,3 +1,4 @@
+
 // Copyright (c) 2025 rlarjsdn3 <rlarjsdn3@naver.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,15 +24,25 @@ import UIKit
 
 public extension TSAlertController {
     
-    ///
-    struct Configuration {
+    struct Options: OptionSet {
         
-        // MARK: - Properties
+        /// Adds an interactive scaling and dragging effect to the alert
+        public static let interactiveScaleAndDrag = Options(rawValue: 1 << 0)
         
+        /// Dismisses the action sheet when dragged downward beyond a certain threshold.
+        ///
+        /// This option is only applicable to _.actionSheet_ style alerts
+        public static let dismissOnSwipeDown = Options(rawValue: 1 << 1)
         
+        /// Dismisses the alert by tapping the outside area.
+        public static let dismissOnTapOutside = Options(rawValue: 1 << 2)
         
+        /// Dismisses the alert by tapping the inside area.
+        public static let dismissOnTapInside = Options(rawValue: 1 << 3)
         
-        // MARK: - Intializer
-       
+        public var rawValue: Int
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
     }
 }

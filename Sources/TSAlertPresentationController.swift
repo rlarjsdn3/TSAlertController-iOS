@@ -28,67 +28,66 @@ final class TSAlertPresentationController: UIPresentationController {
     // MARK: - Properties
     
     ///
-    private let dimmedView = UIView()
+    private let background: UIView
     
     ///
     private let preferredStyle: TSAlertController.Style
     
     ///
-    private let viewConfiguration: TSAlertController.ViewConfiguration
+    private let configuration: TSAlertController.Configuration
     
     
     // MARK: - Initializer
     
     ///
-    init(presentedViewController: UIViewController,
+    init(presented presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
+         background view: UIView,
          preferredStyle style: TSAlertController.Style,
-         viewConfig: TSAlertController.ViewConfiguration) {
+         configuration: TSAlertController.Configuration) {
+        self.background = view
         self.preferredStyle = style
-        self.viewConfiguration = viewConfig
+        self.configuration = configuration
         super.init(presentedViewController: presentedViewController,
                    presenting: presentingViewController)
     }
-
+    
     // MARK: - Lifecycle
     
     override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
         
-        setupViewHierarchy()
-        setupViewConstraints()
-        containerView?.layoutIfNeeded()
+        setupHierarchy()
+        setupConstraints()
+        setupAttributes()
         
-        configureDimmedView(with: viewConfiguration)
-        
-        animateDimmedViewAppearance(presenting: true)
+        animateBackgroundAppearance(presenting: true)
     }
     
     override func dismissalTransitionWillBegin() {
         super.dismissalTransitionWillBegin()
         
-        animateDimmedViewAppearance(presenting: false)
+        animateBackgroundAppearance(presenting: false)
     }
-
     
-    // MARK: - View Setup
+    
+    // MARK: - Setup
     
     ///
-    private func setupViewHierarchy() {
+    private func setupHierarchy() {
         guard let containerView else { return }
         
-        containerView.addSubview(dimmedView)
+        containerView.addSubview(background)
         containerView.addSubview(presentedViewController.view)
     }
     
     ///
-    private func setupViewConstraints() {
+    private func setupConstraints() {
         guard let containerView else { return }
         let presentedView = presentedViewController.view
         
-        dimmedView.fill(to: containerView)
+        background.fill(to: containerView)
         
-        presentedView?.applySizeConstraint(with: viewConfiguration.size)
         switch preferredStyle {
         case .alert:
             presentedView?.center(in: containerView)
@@ -100,29 +99,31 @@ final class TSAlertPresentationController: UIPresentationController {
     }
     
     ///
-    private func configureDimmedView(with viewConfig: TSAlertController.ViewConfiguration) {
-        dimmedView.alpha = 0.0
-        
-        switch viewConfig.dimmedBackgroundViewColor {
+    private func setupAttributes() {
+        background.alpha = 0
+
+        switch configuration.dimmedBackgroundViewColor {
         case let .color(color, alpha):
-            dimmedView.backgroundColor = color.withAlphaComponent(alpha)
-        case let .effect(style):
-            dimmedView.addBlurEffect(style, with: viewConfig)
+            background.backgroundColor = color.withAlphaComponent(alpha)
+        case let .blur(style):
+            background.addBlurEffect(style)
         case .none:
             break
         }
     }
     
     
-    // MARK: - Animation
+    // MARK: - Private
     
     ///
-    private func animateDimmedViewAppearance(presenting: Bool) {
+    private func animateBackgroundAppearance(presenting: Bool) {
         let alpha: CGFloat = presenting ? 1.0 : 0.0
         let coordinator = presentedViewController.transitionCoordinator
         
         coordinator?.animate(alongsideTransition: { _ in
-            self.dimmedView.alpha = alpha
+            self.background.alpha = alpha
         })
     }
 }
+
+

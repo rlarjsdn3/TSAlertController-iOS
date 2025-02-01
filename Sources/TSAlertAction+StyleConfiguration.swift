@@ -24,7 +24,7 @@ import UIKit
 public extension TSAlertAction {
     
     /// 
-    struct StyleConfiguration {
+    struct Configuration {
         
         // MARK: - Properties
         
@@ -96,20 +96,20 @@ public extension TSAlertAction {
 
 // MARK: - Extension
 
-public extension TSAlertAction.StyleConfiguration {
+public extension TSAlertAction.Configuration {
     
     ///
-    static func cancel() -> TSAlertAction.StyleConfiguration {
+    static func cancel() -> TSAlertAction.Configuration {
         .init(backgroundColor: .systemBlue)
     }
     
     ///
-    static func `default`() -> TSAlertAction.StyleConfiguration {
+    static func `default`() -> TSAlertAction.Configuration {
         .init()
     }
     
     ///
-    static func destructive() -> TSAlertAction.StyleConfiguration {
+    static func destructive() -> TSAlertAction.Configuration {
         .init(backgroundColor: .systemRed)
     }
 }

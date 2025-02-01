@@ -25,18 +25,19 @@ class ViewController: UIViewController {
         let alert = TSAlertController(
             title: "Delete?",
             message: "To delete this item, enter the verification code. You can find the code in the OTP.",
-            preferredStyle: .actionSheet
+            options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
+            preferredStyle: .alert
         )
-        alert.viewConfiguration = .init(size: .init(width: .proportional(minimumRatio: 0.95, maximumRatio: 0.95)), buttonLayoutAxis: .vertical)
+        alert.transitionStyle = .slideUp
         
         // Add button actions
         let okAction = TSAlertAction(title: "Continue",
-                                     configuration: .default()) { _ in
+                                     style: .default()) { _ in
         }
         alert.addAction(okAction)
         
         let cancelAction = TSAlertAction(title: "Exit",
-                                         configuration: .cancel()) { _ in
+                                         style: .cancel()) { _ in
         }
         alert.addAction(cancelAction)
         
