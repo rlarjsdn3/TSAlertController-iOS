@@ -21,19 +21,27 @@
 
 import UIKit
 
-class DefaultAlertView: UIStackView, TSAlertView {
+class DefaultAlertView: UIView, TSAlertView {
     
     // MARK: - Properties
+    
+    private let buttons: UIView
+    private let content: UIView
     
     private var configuration: TSAlertController.Configuration
     
     // MARK: - Intializer
     
-    init(with configuration: TSAlertController.Configuration) {
+    init(_ content: UIView,
+         _ buttons: UIView,
+         _ configuration: TSAlertController.Configuration) {
+        self.content = content
+        self.buttons = buttons
         self.configuration = configuration
         super.init(frame: .zero)
         
-        configure()
+        addSubview(content)
+        addSubview(buttons)
     }
     
     required init(coder: NSCoder) {
@@ -44,63 +52,51 @@ class DefaultAlertView: UIStackView, TSAlertView {
     // MARK: - Create View
     
     func createView(for alert: TSAlertController) {
-        guard let superview = superview else { return }
+        guard let superview = superview else { print("xcxc"); return }
+
+        self.anchor(top: superview.topAnchor,
+                    leading: superview.leadingAnchor,
+                    trailing: superview.trailingAnchor,
+                    bottom: superview.bottomAnchor,
+                    topInset: 0,
+                    leadingInset: 0,
+                    trailingInset: 0,
+                    bottomInset: 0)
         
-        self.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.topAnchor.constraint(equalTo: superview.topAnchor, constant: configuration.margin.contentTop),
-            self.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -configuration.margin.contentBottom),
-            self.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: configuration.margin.contentLeft),
-            self.rightAnchor.constraint(equalTo: superview.rightAnchor, constant: -configuration.margin.contentRight)
-        ])
+        content.anchor(top: self.topAnchor,
+                       leading: self.leadingAnchor,
+                       trailing: self.trailingAnchor,
+                       bottom: buttons.topAnchor,
+                       topInset: configuration.margin.contentTop,
+                       leadingInset: configuration.margin.contentLeft,
+                       trailingInset: configuration.margin.contentRight,
+                       bottomInset: configuration.spacing.textfieldButtonSpacing)
         
-        configureContentView(for: alert)
-        configureButtonsView(for: alert)
-    }
-    
-    
-    // MARK: - Animate View
-    
-    func animateView(for alert: TSAlertController) {
-    }
-    
-    // MARK: - Private
-    
-    private func configure() {
-        self.axis = .vertical
-        self.spacing = configuration.spacing.textfieldButtonSpacing
-        self.alignment = .fill
-        self.distribution = .fillProportionally
-    }
-    
-    private func configureContentView(for alert: TSAlertController) {
-        let contentView = ContentsView(
-            alert,
-            configuration: configuration
-        )
-        addArrangedSubview(contentView)
-    }
-    
-    private func configureButtonsView(for alert: TSAlertController) {
-        let buttonsView = ButtonStackView(
-            alert,
-            configuration: configuration
-        )
-        
+        buttons.anchor(leading: self.leadingAnchor,
+                       trailing: self.trailingAnchor,
+                       bottom: self.bottomAnchor,
+                       leadingInset: configuration.margin.buttonLeft,
+                       trailingInset: configuration.margin.buttonRight,
+                       bottomInset: configuration.margin.buttonBottom)
+
         var height: CGFloat = 0
         let actionsCount = CGFloat(alert.actions.count)
         let actionHeight: CGFloat = configuration.buttonMinHeight
         let spacing: CGFloat = 7.5
         
         //
-        if configuration.isButtonLayoutAxisHorizontal(with: alert) {
+        if configuration.isButtonLayoutAxisHorizontal(alert) {
             height = actionHeight
         //
         } else {
             height = (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
         }
-        buttonsView.translatesAutoresizingMaskIntoConstraints = false
-        buttonsView.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        addArrangedSubview(buttonsView)
+        buttons.setHeight(greaterThanOrEqualTo: height)
+    }
+    
+    
+    // MARK: - Animate View
+    
+    func animateView(for alert: TSAlertController) {
     }
 }

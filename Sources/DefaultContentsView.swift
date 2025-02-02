@@ -21,7 +21,7 @@
 
 import UIKit
 
-class ContentsView: UIStackView {
+class DefaultContentsView: UIStackView {
     
     // MARK: - Properties
     
@@ -33,8 +33,10 @@ class ContentsView: UIStackView {
     
     // MARK: - Intializer
     
-    init(_ alert: TSAlertController,
-         configuration: TSAlertController.Configuration) {
+    init(_ title: String?,
+         _ message: String?,
+         _ textfields: [UITextField]? = nil,
+         _ configuration: TSAlertController.Configuration) {
         super.init(frame: .zero)
         
         labelStack.axis = .vertical
@@ -42,7 +44,7 @@ class ContentsView: UIStackView {
         labelStack.alignment = .fill
         labelStack.distribution = .fillProportionally
         
-        let title = alert.title
+        let title = title
         titleLabel.text = title
         titleLabel.textAlignment = configuration.titleTextAlignment
         titleLabel.numberOfLines = configuration.titleNumberOfLines
@@ -55,7 +57,7 @@ class ContentsView: UIStackView {
         }
         labelStack.addArrangedSubview(titleLabel)
         
-        if let message = alert.message {
+        if let message = message {
             messageLabel.text = message
             messageLabel.textAlignment = configuration.messageTextAlignment
             messageLabel.numberOfLines = configuration.messageNumberOfLines
@@ -70,8 +72,7 @@ class ContentsView: UIStackView {
         }
         addArrangedSubview(labelStack)
         
-        if alert.textfields.isEmpty == false {
-            let textfields = alert.textfields
+        if textfields?.isEmpty == false, let textfields = textfields {
             let borderColor = configuration.textFieldContainerBorderColor
             let borderWidth = configuration.textFieldContainerBorderWidth
             
@@ -102,7 +103,7 @@ class ContentsView: UIStackView {
                 textfield.setPaddingInsets(.edge(10))
                 textfieldStack.addArrangedSubview(textfield)
                 if index < textfields.count - 1 {
-                    textfieldStack.addArrangedSubview(createSeparatorView((borderColor != nil) ? UIColor(cgColor: borderColor!) : nil))
+                    textfieldStack.addArrangedSubview(createSeparatorView((borderColor != nil) ? UIColor(cgColor: borderColor!) : nil, height: borderWidth))
                 }
             }
             addArrangedSubview(textfieldStack)
@@ -128,12 +129,12 @@ class ContentsView: UIStackView {
 
 // MARK: - Extension
 
-private extension ContentsView {
+private extension DefaultContentsView {
     
-    func createSeparatorView(_ color: UIColor?) -> UIView {
+    func createSeparatorView(_ color: UIColor?, height: CGFloat) -> UIView {
         let separator = UIView()
         separator.backgroundColor = color
-        separator.heightAnchor.constraint(equalToConstant: 0.75).isActive = true
+        separator.heightAnchor.constraint(equalToConstant: height).isActive = true
         return separator
     }
 }
