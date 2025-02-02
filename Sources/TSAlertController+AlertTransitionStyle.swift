@@ -36,39 +36,21 @@ public extension TSAlertController {
         case slideUp
         
         ///
-        case custom(any UIViewControllerAnimatedTransitioning)
-        
-        
-        // MARK: - Resolve
-        
-        ///
-        func resolve(_ alert: TSAlertController,
-                     presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
-            switch self {
-            case .fadeAndScaleDown:
-                return FadeAndScaleDownAnimator(duration: 0.5, presenting: presenting)
-                
-            case .slideUp:
-                return SlideUpAnimator(duration: 0.5, presenting: presenting)
-                
-            case let .custom(animator):
-                return animator
-                
-            case .automatic:
-                return determineAutomaticStyle(alert, presenting: presenting)
+        var isAutomatic: Bool {
+            if case .automatic = self {
+                return true
             }
+            return false
         }
         
-        
-        // MARK: - Private Helper
-        
         ///
-        private func determineAutomaticStyle(_ alert: TSAlertController,
-                                                presenting: Bool) -> (any UIViewControllerAnimatedTransitioning) {
-            if alert.preferredStyle == .actionSheet {
+        func toAnimator(presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
+            switch self {
+            case .fadeAndScaleDown, .automatic:
+                return FadeAndScaleDownAnimator(duration: 0.5, presenting: presenting)
+            case .slideUp:
                 return SlideUpAnimator(duration: 0.5, presenting: presenting)
             }
-            return FadeAndScaleDownAnimator(duration: 0.5, presenting: presenting)
         }
     }
 }

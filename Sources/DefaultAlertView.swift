@@ -85,7 +85,7 @@ class DefaultAlertView: UIView, TSAlertView {
         let spacing: CGFloat = 7.5
         
         //
-        if configuration.isButtonLayoutAxisHorizontal(alert) {
+        if configuration.buttonLayoutAxis == .horizontal {
             height = actionHeight
         //
         } else {

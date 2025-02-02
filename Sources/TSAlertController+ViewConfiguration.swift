@@ -21,12 +21,13 @@
 
 import UIKit
 
+
+// MARK: - Configuration
+
 public extension TSAlertController {
     
     ///
     struct Configuration {
-        
-        // MARK: - Properties
         
         ///
         public var titleMinHeight: CGFloat
@@ -97,8 +98,6 @@ public extension TSAlertController {
         
         
         
-        // MARK: - Shadow Properties
-        
         ///
         public struct Shadow {
             
@@ -128,8 +127,6 @@ public extension TSAlertController {
         }
         
         
-        
-        // MARK: - Initalizer
         
         public init(titleMinHeight: CGFloat = 0,
                     messageMinHeight: CGFloat = 0,
@@ -180,15 +177,6 @@ public extension TSAlertController {
     }
 }
 
-extension TSAlertController.Configuration {
-    
-    ///
-    func isButtonLayoutAxisHorizontal(_ alert: TSAlertController) -> Bool {
-        return self.buttonLayoutAxis.isHorizontal(with: alert)
-    }
-}
-
-
 
 // MARK: - Background
 
@@ -213,9 +201,7 @@ public extension TSAlertController.Configuration {
     
     ///
     struct LayoutMargin {
-        
-        // MARK: - Properties
-        
+            
         ///
         public var contentTop: CGFloat
         
@@ -233,10 +219,8 @@ public extension TSAlertController.Configuration {
         
         ///
         public var buttonBottom: CGFloat
-        
-        
-        // MARK: - Intializer
-        
+
+        ///
         public init(contentTop: CGFloat = 22.5,
                     contentLeft: CGFloat = 17.5,
                     contentRight: CGFloat = 17.5,
@@ -263,8 +247,6 @@ public extension TSAlertController.Configuration {
     
     ///
     struct LayoutSpacing {
-        
-        // MARK: - Properties
         
         ///
         public var titleMessageSpacing: CGFloat
@@ -298,9 +280,6 @@ public extension TSAlertController.Configuration {
         public var keyboardSpacing: CGFloat
         
         
-        
-        // MARK: - Intializer
-        
         ///
         public init(titleMessageSpacing: CGFloat = 12.5,
                     messageTextfieldSpacing: CGFloat = 12.5,
@@ -326,16 +305,11 @@ public extension TSAlertController.Configuration {
     ///
     struct LayoutSize {
         
-        // MARK: - Properties
-        
         ///
         public var width: LayoutSize.Constraint
         
         ///
         public var height: LayoutSize.Constraint
-        
-        
-        // MARK: - Intializer
         
         ///
         public init(width: LayoutSize.Constraint = .proportional(),
@@ -432,46 +406,13 @@ public extension TSAlertController.Configuration {
         
         ///
         case horizontal
-        
-        
-        // MARK: - Resolve
-        
-        ///
-        func resolve(with alert: TSAlertController) -> ButtonLayoutAxis {
-            if case .automatic = self {
-                return determineAutomaticLayout(with: alert)
-            }
-            return self
-        }
-        
-        
-        // MARK: - Private
-        
-        ///
-        private func determineAutomaticLayout(with alert: TSAlertController) -> ButtonLayoutAxis {
-            //
-            if alert.preferredStyle == .actionSheet {
-                return .vertical
-            } else {
-                //
-                if alert.actions.count > 2 {
-                    return .vertical
-                //
-                } else {
-                    return .horizontal
-                }
-            }
-        }
-    }
-}
-
-extension TSAlertController.Configuration.ButtonLayoutAxis {
     
-    ///
-    func isHorizontal(with alert: TSAlertController) -> Bool {
-        if case .automatic = self {
-            return determineAutomaticLayout(with: alert) == .horizontal
+        ///
+        var isAutomatic: Bool {
+            if case .automatic = self {
+                return true
+            }
+            return false
         }
-        return self == .horizontal
     }
 }

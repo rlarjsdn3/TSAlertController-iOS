@@ -50,7 +50,7 @@ public class TSAlertController: UIViewController {
     public var textfields: [UITextField]  = []
     
     ///
-    public var configuration: TSAlertController.Configuration = .init()
+    public lazy var configuration: TSAlertController.Configuration = .init()
     
     ///
     public var transitionStyle: TSAlertController.TransitionStyle = .automatic
@@ -78,6 +78,7 @@ public class TSAlertController: UIViewController {
     public init(_ customView: UIView,
                 options: TSAlertController.Options = [],
                 preferredStyle style: TSAlertController.Style) {
+        
         self.customView = customView
         self.options = options
         self.preferredStyle = style
@@ -139,23 +140,27 @@ public class TSAlertController: UIViewController {
 
     // MARK: - Helpers
     
-    /// Adjusts certain configuration properties based on the `preferredStyle`.
-    ///
-    /// This method must be called before initializing other sub-alert views
-    /// to ensure that a properly adjusted configuration is passed.
-    ///
-    /// - Note: If the `preferredStyle` is `.actionSheet`, the width is adjusted to meet
-    /// the minimum allowed constraint, and the button layout is forced to vertical.
+    /// 
     private func validateConfiguration() {
-        if case .actionSheet = preferredStyle {
-            let configuredWidth = configuration.size.width
-            let minimumAllowedWidth: Configuration.LayoutSize.Constraint = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
-            
-            //
-            if configuredWidth < minimumAllowedWidth {
-                configuration.size.width = minimumAllowedWidth
-            }
-            configuration.buttonLayoutAxis = .vertical
+        adjustButtonLayoutAxis()
+        adjustActionSheetWidth()
+    }
+    
+    ///
+    private func adjustButtonLayoutAxis() {
+        guard configuration.buttonLayoutAxis.isAutomatic else { return }
+        configuration.buttonLayoutAxis = actions.count > 2 ? .vertical : .horizontal
+    }
+    
+    ///
+    private func adjustActionSheetWidth() {
+        guard case .actionSheet = preferredStyle else { return }
+        
+        let configuredWidth = configuration.size.width
+        let minimumAllowedWidth: Configuration.LayoutSize.Constraint = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
+        
+        if configuredWidth < minimumAllowedWidth { 
+            configuration.size.width = minimumAllowedWidth
         }
     }
     
@@ -169,6 +174,7 @@ public class TSAlertController: UIViewController {
     ///
     private func setupAlertView() {
         let buttons = actions.map { $0.instantiateButton(preferredStyle: preferredStyle) }
+        let textfields = preferredStyle == .alert ? textfields : []
         let contentView = customView ?? DefaultContentsView(title, message, textfields, configuration)
         let buttonsView = DefaultButtonsView(buttons, configuration)
         alertView = DefaultAlertView(contentView, buttonsView, configuration)
@@ -320,56 +326,7 @@ private extension TSAlertController {
 }
 
 
-// MARK: - Keyboard Extension
-
-private extension TSAlertController {
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
-            return
-        }
-
-        self.initialViewTopY = view.frame.origin.y
-
-        let viewHeight = view.frame.height
-        let keyboardTopY = keyboardFrame.origin.y
-
-        let duration = keyboardAnimationDuration.doubleValue
-        let adjustedViewTopY = keyboardTopY - configuration.spacing.keyboardSpacing - viewHeight
-        
-        // Move the alert up only if the spacing is smaller than the configured value.
-        // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
-        if adjustedViewTopY < initialViewTopY {
-            animate(to: adjustedViewTopY, withDuration: duration)
-        }
-    }
-    
-    @objc func keyboardWillHide(_ notification: Notification) {
-        
-        guard let userInfo = notification.userInfo,
-              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
-            return
-        }
-        let duration = keyboardAnimationDuration.doubleValue
-        
-        // To test it properly, switch to software keyboard mode (Command + K) before displaying the alert.
-        animate(to: initialViewTopY, withDuration: duration)
-    }
-    
-    func animate(to yConstant: CGFloat, withDuration duration: TimeInterval) {
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       options: .curveEaseIn) {
-            self.view.frame.origin.y = yConstant
-        }
-    }
-}
-
-
-// MARK: - Gesture Extension
+// MARK: - Gesture
 
 private extension TSAlertController {
     
@@ -486,6 +443,55 @@ private extension TSAlertController {
 }
 
 
+// MARK: - Keyboard
+
+private extension TSAlertController {
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
+            return
+        }
+
+        self.initialViewTopY = view.frame.origin.y
+
+        let viewHeight = view.frame.height
+        let keyboardTopY = keyboardFrame.origin.y
+
+        let duration = keyboardAnimationDuration.doubleValue
+        let adjustedViewTopY = keyboardTopY - configuration.spacing.keyboardSpacing - viewHeight
+        
+        // Move the alert up only if the spacing is smaller than the configured value.
+        // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
+        if adjustedViewTopY < initialViewTopY {
+            animate(to: adjustedViewTopY, duration: duration)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
+            return
+        }
+        let duration = keyboardAnimationDuration.doubleValue
+        
+        // To test it properly, switch to software keyboard mode (Command + K) before displaying the alert.
+        animate(to: initialViewTopY, duration: duration)
+    }
+    
+    func animate(to yConstant: CGFloat, duration: TimeInterval) {
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveEaseIn) {
+            self.view.frame.origin.y = yConstant
+        }
+    }
+}
+
+
 // MARK: - UIViewControllerTransitioningDelegate
 
 extension TSAlertController: UIViewControllerTransitioningDelegate {
@@ -505,12 +511,12 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return transitionStyle.resolve(self, presenting: true)
+        return resolve(transitionStyle, presenting: true)
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return transitionStyle.resolve(self, presenting: false)
+        return resolve(transitionStyle, presenting: false)
     }
 }
 
@@ -523,5 +529,18 @@ extension TSAlertController: UIGestureRecognizerDelegate {
                                   shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         
         return true
+    }
+}
+
+
+// MARK: - Private
+
+private extension TSAlertController {
+    
+    func resolve(_ style: TSAlertController.TransitionStyle, presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
+        guard style.isAutomatic else { return style.toAnimator(presenting: presenting) }
+        return (preferredStyle == .alert
+                ? TSAlertController.TransitionStyle.fadeAndScaleDown
+                : TSAlertController.TransitionStyle.slideUp).toAnimator(presenting: presenting)
     }
 }

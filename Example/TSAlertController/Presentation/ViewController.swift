@@ -28,6 +28,7 @@ class ViewController: UIViewController {
             options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
             preferredStyle: .alert
         )
+//        alert.configuration.buttonLayoutAxis = .vertical
         alert.transitionStyle = .slideUp
         
         // Add button actions
