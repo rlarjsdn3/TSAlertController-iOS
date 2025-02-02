@@ -22,23 +22,22 @@
 
 import UIKit
 
-public extension TSButton {
+public extension TSAlertController {
     
     ///
-    enum HighlightType {
+    enum AnimationType {
         
         ///
-        case fade(alpha: CGFloat = 0.75)
+        case fade(alpha: CGFloat = 0)
         
         ///
-        case fadeAndScaleDown(scaleX: CGFloat = 0.95,
-                              y: CGFloat = 0.95,
-                              alpha: CGFloat = 0.75)
+        case slide(translationX: CGFloat = 0,
+                   y: CGFloat = 20,
+                   alpha: CGFloat = 0)
         
         ///
         case custom(transform: CGAffineTransform,
                     alpha: CGFloat)
-        
         
         ///
         func apply(to view: UIView) {
@@ -46,9 +45,9 @@ public extension TSButton {
             case let .fade(alpha):
                 view.alpha = alpha
                 
-            case let .fadeAndScaleDown(scaleX, y, alpha):
+            case let .slide(translationX, y, alpha):
                 view.alpha = alpha
-                view.transform = CGAffineTransform(scaleX: scaleX, y: y)
+                view.transform = CGAffineTransform(translationX: translationX, y: y)
                 
             case let .custom(transform, alpha):
                 view.alpha = alpha
@@ -59,11 +58,10 @@ public extension TSButton {
         ///
         func undo(for view: UIView) {
             switch self {
-            case .fade, .fadeAndScaleDown, .custom:
+            case .fade, .slide, .custom:
                 view.alpha = 1
                 view.transform = .identity
             }
         }
     }
-    
 }

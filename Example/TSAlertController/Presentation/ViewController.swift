@@ -26,10 +26,11 @@ class ViewController: UIViewController {
             title: "Delete?",
             message: "To delete this item, enter the verification code. You can find the code in the OTP.",
             options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
-            preferredStyle: .alert
+            preferredStyle: .actionSheet
         )
-//        alert.configuration.buttonLayoutAxis = .vertical
         alert.transitionStyle = .slideUp
+        alert.contentAnimationType = .slide()
+        alert.buttonsAnimationType = .fade()
         
         // Add button actions
         let okAction = TSAlertAction(title: "Continue",

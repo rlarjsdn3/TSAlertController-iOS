@@ -56,6 +56,12 @@ public class TSAlertController: UIViewController {
     public var transitionStyle: TSAlertController.TransitionStyle = .automatic
     
     ///
+    public var contentAnimationType: TSAlertController.AnimationType? = nil
+    
+    ///
+    public var buttonsAnimationType: TSAlertController.AnimationType? = nil
+    
+    ///
     private var customView: UIView?
     
     ///
@@ -130,6 +136,7 @@ public class TSAlertController: UIViewController {
         initialViewTopY = view.frame.origin.y
 #endif
         activateFirstResponderIfNeeded()
+        alertView?.animateView(for: self)
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -174,7 +181,6 @@ public class TSAlertController: UIViewController {
     ///
     private func setupAlertView() {
         let buttons = actions.map { $0.instantiateButton(preferredStyle: preferredStyle) }
-        let textfields = preferredStyle == .alert ? textfields : []
         let contentView = customView ?? DefaultContentsView(title, message, textfields, configuration)
         let buttonsView = DefaultButtonsView(buttons, configuration)
         alertView = DefaultAlertView(contentView, buttonsView, configuration)
@@ -258,10 +264,8 @@ public class TSAlertController: UIViewController {
     // MARK: - Present
     
     ///
-    public func present(after delay: TimeInterval = 0.0,
-                        haptic type: UINotificationFeedbackGenerator.FeedbackType? = nil,
-                        completion: (() -> Void)? = nil) {
-        
+    public func present(haptic type: UINotificationFeedbackGenerator.FeedbackType,
+                        after time: TimeInterval = 0) {
     }
     
     

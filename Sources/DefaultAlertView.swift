@@ -25,23 +25,23 @@ class DefaultAlertView: UIView, TSAlertView {
     
     // MARK: - Properties
     
-    private let buttons: UIView
-    private let content: UIView
+    private let buttonsView: UIView
+    private let contentView: UIView
     
     private var configuration: TSAlertController.Configuration
     
     // MARK: - Intializer
     
-    init(_ content: UIView,
-         _ buttons: UIView,
+    init(_ contentView: UIView,
+         _ buttonsView: UIView,
          _ configuration: TSAlertController.Configuration) {
-        self.content = content
-        self.buttons = buttons
+        self.contentView = contentView
+        self.buttonsView = buttonsView
         self.configuration = configuration
         super.init(frame: .zero)
         
-        addSubview(content)
-        addSubview(buttons)
+        addSubview(contentView)
+        addSubview(buttonsView)
     }
     
     required init(coder: NSCoder) {
@@ -63,16 +63,16 @@ class DefaultAlertView: UIView, TSAlertView {
                     trailingInset: 0,
                     bottomInset: 0)
         
-        content.anchor(top: self.topAnchor,
+        contentView.anchor(top: self.topAnchor,
                        leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
-                       bottom: buttons.topAnchor,
+                       bottom: buttonsView.topAnchor,
                        topInset: configuration.margin.contentTop,
                        leadingInset: configuration.margin.contentLeft,
                        trailingInset: configuration.margin.contentRight,
                        bottomInset: configuration.spacing.textfieldButtonSpacing)
         
-        buttons.anchor(leading: self.leadingAnchor,
+        buttonsView.anchor(leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
                        bottom: self.bottomAnchor,
                        leadingInset: configuration.margin.buttonLeft,
@@ -91,12 +91,28 @@ class DefaultAlertView: UIView, TSAlertView {
         } else {
             height = (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
         }
-        buttons.setHeight(greaterThanOrEqualTo: height)
+        buttonsView.setHeight(greaterThanOrEqualTo: height)
     }
     
     
     // MARK: - Animate View
     
+    ///
     func animateView(for alert: TSAlertController) {
+        //
+        if let type = alert.contentAnimationType {
+            type.apply(to: contentView)
+            UIView.animate(withDuration: 0.5) {
+                type.undo(for: self.contentView)
+            }
+        }
+        
+        //
+        if let type = alert.buttonsAnimationType {
+            type.apply(to: buttonsView)
+            UIView.animate(withDuration: 0.5) {
+                type.undo(for: self.buttonsView)
+            }
+        }
     }
 }
