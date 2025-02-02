@@ -26,7 +26,7 @@ class ViewController: UIViewController {
             title: "Delete?",
             message: "To delete this item, enter the verification code. You can find the code in the OTP.",
             options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
-            preferredStyle: .actionSheet
+            preferredStyle: .alert
         )
         alert.transitionStyle = .slideUp
         alert.contentAnimationType = .slide()
@@ -49,6 +49,6 @@ class ViewController: UIViewController {
         }
         
         // Present alert
-        present(alert, animated: true)
+        alert.present(animated: true)
     }
 }

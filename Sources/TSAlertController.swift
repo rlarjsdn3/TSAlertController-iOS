@@ -264,17 +264,31 @@ public class TSAlertController: UIViewController {
     // MARK: - Present
     
     ///
-    public func present(haptic type: UINotificationFeedbackGenerator.FeedbackType,
-                        after time: TimeInterval = 0) {
+    public func present(animated: Bool,
+                        after time: TimeInterval = 0,
+                        haptic type: UINotificationFeedbackGenerator.FeedbackType,
+                        completion: (() -> Void)? = nil) {
+        
+        UINotificationFeedbackGenerator().notificationOccurred(type)
+        present(animated: animated, after: time, completion: completion)
+    }
+    
+    ///
+    public func present(animated: Bool,
+                        after time: TimeInterval = 0,
+                        completion: (() -> Void)? = nil) {
+        
+        Helper.topController()?.present(self, animated: animated, completion: completion)
     }
     
     
     // MARK: - Dismiss
     
     ///
-    public func dismiss(aniamted: Bool = true, completion: (() -> Void)? = nil) {
-        guard let presenting = self.presentingViewController else { return }
-        presenting.dismiss(animated: aniamted, completion: completion)
+    public func dismiss(aniamted: Bool = true,
+                        completion: (() -> Void)? = nil) {
+        
+        Helper.topController()?.dismiss(animated: aniamted, completion: completion)
     }
     
     
