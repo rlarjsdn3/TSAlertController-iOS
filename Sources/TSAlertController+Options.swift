@@ -24,6 +24,7 @@ import UIKit
 
 public extension TSAlertController {
     
+    ///
     struct Options: OptionSet {
         
         /// Adds an interactive scaling and dragging effect to the alert

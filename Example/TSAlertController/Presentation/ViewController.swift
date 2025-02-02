@@ -29,6 +29,8 @@ class ViewController: UIViewController {
             preferredStyle: .alert
         )
         alert.transitionStyle = .slideUp
+        alert.contentAnimationType = .slide()
+        alert.buttonsAnimationType = .fade()
         
         // Add button actions
         let okAction = TSAlertAction(title: "Continue",
@@ -47,6 +49,6 @@ class ViewController: UIViewController {
         }
         
         // Present alert
-        present(alert, animated: true)
+        alert.present(animated: true)
     }
 }

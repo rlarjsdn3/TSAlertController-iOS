@@ -84,13 +84,13 @@ public class TSAlertAction {
             button.setAttributedTitle(titleString, for: .normal)
         }
 
-        var buttonConfig = UIButton.Configuration.filled()
-        buttonConfig.imagePlacement = configuration.imagePlacement
-        buttonConfig.imageReservation = configuration.imageReservation
-        buttonConfig.contentInsets = configuration.contentEdgeInset
-        buttonConfig.background.backgroundColor = configuration.backgroundColor
-        buttonConfig.background.cornerRadius = configuration.cornerRadius
-        button.configuration = buttonConfig
+        var config = UIButton.Configuration.filled()
+        config.imagePlacement = configuration.imagePlacement
+        config.imageReservation = configuration.imageReservation
+        config.contentInsets = configuration.contentEdgeInset
+        config.background.backgroundColor = configuration.backgroundColor
+        config.background.cornerRadius = configuration.cornerRadius
+        button.configuration = config
 
         button.contentVerticalAlignment = configuration.contentVerticalAlignment
         button.contentHorizontalAlignment = configuration.contentHorizontalAlignment
@@ -103,8 +103,12 @@ public class TSAlertAction {
         return UIAction { [weak self] _ in
             guard let self = self else { return }
             self.handler?(self)
-            Helper.topController()?.dismiss(animated: true)
+            self.dismissAlert()
         }
+    }
+    
+    private func dismissAlert() {
+        Helper.topController()?.dismiss(animated: true)
     }
     
     ///

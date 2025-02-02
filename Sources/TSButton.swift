@@ -32,11 +32,12 @@ public class TSButton: UIButton {
     
     public var highlightType: TSButton.HighlightType = .fadeAndScaleDown()
     
+    
     // MARK: - Intializer
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -44,9 +45,9 @@ public class TSButton: UIButton {
     }
     
     
-    // MARK: - Helper
+    // MARK: - Private
     
-    private func setup() {
+    private func configure() {
     }
     
     

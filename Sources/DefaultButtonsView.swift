@@ -34,7 +34,7 @@ class DefaultButtonsView: UIStackView {
             addArrangedSubview(button)
         }
         
-        configure(buttons, configuration: configuration)
+        configure(buttons, with: configuration)
     }
     
     required init(coder: NSCoder) {
@@ -44,11 +44,23 @@ class DefaultButtonsView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(_ actions: [TSButton], configuration: TSAlertController.Configuration) {
-        self.axis = .horizontal // TODO: - fix axis depending on configuration
+    private func configure(_ buttons: [TSButton], with configuration: TSAlertController.Configuration) {
+        self.axis = resolve(configuration.buttonLayoutAxis)
         self.spacing = configuration.spacing.buttonSpacing
         self.alignment = .fill
         self.distribution = .fillEqually
     }
     
+}
+
+// MARK: - Extnension
+
+private extension DefaultButtonsView {
+    
+    func resolve(_ axis: TSAlertController.Configuration.ButtonLayoutAxis) -> NSLayoutConstraint.Axis {
+        if case .vertical = axis {
+            return .vertical
+        }
+        return .horizontal
+    }
 }
