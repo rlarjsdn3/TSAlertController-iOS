@@ -31,15 +31,15 @@ extension UIView {
         self.layoutIfNeeded()
         let blurEffect = UIBlurEffect(style: style)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = self.bounds
         
         if let configuration = configuration {
             blurEffectView.layer.borderColor = configuration.backgroundBorderColor
             blurEffectView.layer.borderWidth = configuration.backgroundBorderWidth
             blurEffectView.layer.cornerRadius = configuration.cornerRadius
-            blurEffectView.layer.masksToBounds = true            
+            blurEffectView.layer.masksToBounds = true
         }
         self.insertSubview(blurEffectView, at: 0)
+        blurEffectView.fill(to: self)
     }
 }
 
@@ -52,6 +52,9 @@ extension UIView {
                              in view: UIView? = Helper.keyWindow()) {
         guard let view else { return }
         
+        let baseWidth = min(view.frame.width, view.frame.height)  // Width based on Portrait orientation
+        let baseHeight = max(view.frame.width, view.frame.height) // Height based on Portrait orientation
+        
         // Apply width constraint
         switch size.width {
         case let .fixed(constant):
@@ -62,7 +65,6 @@ extension UIView {
             self.setWidth(lessThanOrEqualTo: maximum)
             
         case let .proportional(minimumRatio, maximumRatio):
-            let baseWidth = view.frame.width
             self.setWidth(greaterThanOrEqualTo: baseWidth * minimumRatio)
             self.setWidth(lessThanOrEqualTo: baseWidth * maximumRatio)
         }
@@ -77,7 +79,6 @@ extension UIView {
             self.setHeight(lessThanOrEqualTo: maximum)
             
         case let .proportional(minimumRatio, maximumRatio):
-            let baseHeight = view.frame.height
             self.setHeight(greaterThanOrEqualTo: baseHeight * minimumRatio)
             self.setHeight(lessThanOrEqualTo: baseHeight * maximumRatio)
         }

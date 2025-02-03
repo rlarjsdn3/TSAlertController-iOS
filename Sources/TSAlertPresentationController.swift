@@ -70,7 +70,14 @@ final class TSAlertPresentationController: UIPresentationController {
         animateBackgroundAppearance(presenting: false)
     }
     
-    
+    override func dismissalTransitionDidEnd(_ completed: Bool) {
+        super.dismissalTransitionDidEnd(completed)
+        
+        if completed {
+            background.removeFromSuperview()
+        }
+    }
+
     // MARK: - Setup
     
     ///
@@ -84,23 +91,22 @@ final class TSAlertPresentationController: UIPresentationController {
     ///
     private func setupConstraints() {
         guard let containerView else { return }
-        let presentedView = presentedViewController.view
-        
         background.fill(to: containerView)
-        
+
+        let presentedView = presentedViewController.view!
         switch preferredStyle {
         case .alert:
-            presentedView?.center(in: containerView)
+            presentedView.center(in: containerView)
             
         case .actionSheet:
-            presentedView?.centerX(in: containerView)
-            presentedView?.anchor(bottom: containerView.safeAreaLayoutGuide.bottomAnchor, bottomInset: 10)
+            presentedView.centerX(in: containerView)
+            presentedView.anchor(bottom: containerView.safeAreaLayoutGuide.bottomAnchor, bottomInset: 10)
         }
     }
     
     ///
     private func setupAttributes() {
-        background.alpha = 0
+        background.alpha = 0.0
 
         switch configuration.dimmedBackgroundViewColor {
         case let .color(color, alpha):
