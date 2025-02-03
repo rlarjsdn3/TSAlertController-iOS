@@ -65,5 +65,9 @@ public extension TSButton {
             }
         }
     }
-    
+}
+
+// MARK: - Equatable
+
+extension TSButton.HighlightType: Equatable {
 }

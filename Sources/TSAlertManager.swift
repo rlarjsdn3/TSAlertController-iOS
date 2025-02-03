@@ -54,13 +54,13 @@ final class TSAlertManager {
     struct StyleConfiguration {
         
         ///
-        var cancel: TSAlertAction.Configuration? = nil
+        var cancel: TSAlertAction.Style? = nil
         
         ///
-        var `default`: TSAlertAction.Configuration? = nil
+        var `default`: TSAlertAction.Style? = nil
         
         ///
-        var destructive: TSAlertAction.Configuration? = nil
+        var destructive: TSAlertAction.Style? = nil
     }
     var styleConfiguration: StyleConfiguration = .init()
     

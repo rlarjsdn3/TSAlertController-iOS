@@ -32,7 +32,8 @@ class DefaultAlertView: UIView, TSAlertView {
     
     // MARK: - Intializer
     
-    init(_ contentView: UIView,
+    init(_ alert: TSAlertController,
+         _ contentView: UIView,
          _ buttonsView: UIView,
          _ configuration: TSAlertController.Configuration) {
         self.contentView = contentView
@@ -42,26 +43,6 @@ class DefaultAlertView: UIView, TSAlertView {
         
         addSubview(contentView)
         addSubview(buttonsView)
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // MARK: - Create View
-    
-    func createView(for alert: TSAlertController) {
-        guard let superview = superview else { print("xcxc"); return }
-
-        self.anchor(top: superview.topAnchor,
-                    leading: superview.leadingAnchor,
-                    trailing: superview.trailingAnchor,
-                    bottom: superview.bottomAnchor,
-                    topInset: 0,
-                    leadingInset: 0,
-                    trailingInset: 0,
-                    bottomInset: 0)
         
         contentView.anchor(top: self.topAnchor,
                        leading: self.leadingAnchor,
@@ -92,6 +73,10 @@ class DefaultAlertView: UIView, TSAlertView {
             height = (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
         }
         buttonsView.setHeight(greaterThanOrEqualTo: height)
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     

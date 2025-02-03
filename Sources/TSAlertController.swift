@@ -145,11 +145,12 @@ public class TSAlertController: UIViewController {
         unregisterKeyboardNotifications()
     }
 
-    // MARK: - Helpers
+    // MARK: - Private
     
     /// 
     private func validateConfiguration() {
         adjustButtonLayoutAxis()
+        adjustActionOrderWithAxis()
         adjustActionSheetWidth()
     }
     
@@ -157,6 +158,16 @@ public class TSAlertController: UIViewController {
     private func adjustButtonLayoutAxis() {
         guard configuration.buttonLayoutAxis.isAutomatic else { return }
         configuration.buttonLayoutAxis = actions.count > 2 ? .vertical : .horizontal
+    }
+    
+    ///
+    private func adjustActionOrderWithAxis() {
+        //
+        actions = actions.sorted(by: {
+            configuration.buttonLayoutAxis == .horizontal
+            ? $0.style == .cancel && $1.style != .cancel //
+            : $0.style != .cancel && $1.style == .cancel //
+        })
     }
     
     ///
@@ -180,20 +191,18 @@ public class TSAlertController: UIViewController {
     
     ///
     private func setupAlertView() {
-        let buttons = actions.map { $0.instantiateButton(preferredStyle: preferredStyle) }
+        let buttons = actions.map { $0.instantiateButton(preferredStyle) }
         let contentView = customView ?? DefaultContentsView(title, message, textfields, configuration)
         let buttonsView = DefaultButtonsView(buttons, configuration)
-        alertView = DefaultAlertView(contentView, buttonsView, configuration)
+        alertView = DefaultAlertView(self, contentView, buttonsView, configuration)
 
-        guard let alertView = alertView else { return }
-        
-        view.addSubview(alertView)
-        alertView.createView(for: self)
+        view.addSubview(alertView!)
     }
 
     ///
     private func setupConstraints() {
         view.applySizeConstraint(with: configuration.size)
+        alertView?.fill(to: view)
     }
 
     ///

@@ -24,9 +24,7 @@ import UIKit
 public extension TSAlertAction {
     
     /// 
-    struct Configuration {
-        
-        // MARK: - Properties
+    struct Style {
         
         ///
         public var titleAttributes: [NSAttributedString.Key: Any]?
@@ -61,9 +59,7 @@ public extension TSAlertAction {
         ///
         public var highlightType: TSButton.HighlightType
 
-        
-        // MARK: - Intializer
-        
+        ///
         public init(
                titleAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
                                                                    .foregroundColor: UIColor.systemBackground],
@@ -96,20 +92,50 @@ public extension TSAlertAction {
 
 // MARK: - Extension
 
-public extension TSAlertAction.Configuration {
+public extension TSAlertAction.Style {
     
     ///
-    static func cancel() -> TSAlertAction.Configuration {
+    static var cancel: TSAlertAction.Style {
         .init(backgroundColor: .systemBlue)
     }
     
     ///
-    static func `default`() -> TSAlertAction.Configuration {
+    static var `default`: TSAlertAction.Style {
         .init()
     }
     
     ///
-    static func destructive() -> TSAlertAction.Configuration {
+    static var destructive: TSAlertAction.Style {
         .init(backgroundColor: .systemRed)
+    }
+}
+
+
+// MARK: - Equatable
+
+extension TSAlertAction.Style: Equatable {
+    
+    ///
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        
+        return lhs.titleAttributesEqual(to: rhs.titleAttributes) &&
+        lhs.titleAlignment == rhs.titleAlignment &&
+        lhs.imagePlacement == rhs.imagePlacement &&
+        lhs.imageReservation == rhs.imageReservation &&
+        lhs.contentVerticalAlignment == rhs.contentVerticalAlignment &&
+        lhs.contentHorizontalAlignment == rhs.contentHorizontalAlignment &&
+        lhs.contentEdgeInset == rhs.contentEdgeInset &&
+        lhs.backgroundColor == rhs.backgroundColor &&
+        lhs.cornerRadius == rhs.cornerRadius &&
+        lhs.imageSpacing == rhs.imageSpacing &&
+        lhs.highlightType == rhs.highlightType
+    }
+    
+    ///
+    private func titleAttributesEqual(to other: [NSAttributedString.Key: Any]?) -> Bool {
+        guard let lhs = self.titleAttributes, let rhs = other else {
+            return self.titleAttributes == nil && other == nil
+        }
+        return NSDictionary(dictionary: lhs).isEqual(to: rhs)
     }
 }
