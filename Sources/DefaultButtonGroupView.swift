@@ -21,13 +21,13 @@
 
 import UIKit
 
-class DefaultButtonsView: UIStackView {
+class DefaultButtonGroupView: UIStackView {
    
     
     // MARK: - Intializer
     
     init(_ buttons: [TSButton],
-         _ configuration: TSAlertController.Configuration) {
+         _ configuration: TSAlertController.ViewConfiguration) {
         super.init(frame: .zero)
         
         for button in buttons {
@@ -44,23 +44,11 @@ class DefaultButtonsView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(_ buttons: [TSButton], with configuration: TSAlertController.Configuration) {
-        self.axis = resolve(configuration.buttonLayoutAxis)
+    private func configure(_ buttons: [TSButton], with configuration: TSAlertController.ViewConfiguration) {
+        self.axis = configuration.buttonLayoutAxis.toNSLayoutConstraintAxis()
         self.spacing = configuration.spacing.buttonSpacing
         self.alignment = .fill
         self.distribution = .fillEqually
     }
     
-}
-
-// MARK: - Extnension
-
-private extension DefaultButtonsView {
-    
-    func resolve(_ axis: TSAlertController.Configuration.ButtonLayoutAxis) -> NSLayoutConstraint.Axis {
-        if case .vertical = axis {
-            return .vertical
-        }
-        return .horizontal
-    }
 }

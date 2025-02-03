@@ -83,10 +83,12 @@ public class TSAlertAction {
                                                  attributes: style.titleAttributes)
             button.setAttributedTitle(titleString, for: .normal)
         }
+        button.setImage(image, for: .normal)
 
         var config = UIButton.Configuration.filled()
         config.imagePlacement = style.imagePlacement
         config.imageReservation = style.imageReservation
+        config.imagePadding = style.imageSpacing
         config.contentInsets = style.contentEdgeInset
         config.background.backgroundColor = style.backgroundColor
         config.background.cornerRadius = style.cornerRadius

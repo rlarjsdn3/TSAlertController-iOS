@@ -28,9 +28,10 @@ class ViewController: UIViewController {
             options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
             preferredStyle: .alert
         )
-        alert.transitionStyle = .slideUp
-        alert.contentAnimationType = .slide()
-        alert.buttonsAnimationType = .fade()
+        alert.configuration.enteringTransitionStyle = .slideUp
+        alert.configuration.exitingTransitionStyle = .fadeAndScaleDown
+        alert.configuration.headerAnimationType = .slide()
+        alert.configuration.buttonGroupAnimationType = .fade()
         
         // Add button actions
         let okAction = TSAlertAction(title: "Default",

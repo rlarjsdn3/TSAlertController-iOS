@@ -53,7 +53,7 @@ public extension TSAlertAction {
         ///
         public var cornerRadius: CGFloat
         
-        /// This property is applied only when the `preferredStyle` of `TSAlertController` is set to `.actionSheet`.
+        /// 
         public var imageSpacing: CGFloat
         
         ///

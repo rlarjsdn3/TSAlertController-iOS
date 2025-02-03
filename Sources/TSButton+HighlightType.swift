@@ -41,7 +41,7 @@ public extension TSButton {
         
         
         ///
-        func apply(to view: UIView) {
+        func apply(to view: UIButton) {
             switch self {
             case let .fade(alpha):
                 view.alpha = alpha
@@ -57,7 +57,7 @@ public extension TSButton {
         }
         
         ///
-        func undo(for view: UIView) {
+        func undo(for view: UIButton) {
             switch self {
             case .fade, .fadeAndScaleDown, .custom:
                 view.alpha = 1

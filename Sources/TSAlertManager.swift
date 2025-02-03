@@ -43,7 +43,7 @@ final class TSAlertManager {
     struct Configuration {
         
         ///
-        var `default`: TSAlertController.Configuration? = nil
+        var `default`: TSAlertController.ViewConfiguration? = nil
     }
     var configuration: Configuration = .init()
     

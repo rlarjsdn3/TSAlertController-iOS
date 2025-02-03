@@ -27,7 +27,7 @@ extension UIView {
     
     ///
     func addBlurEffect(_ style: UIBlurEffect.Style,
-                       with configuration: TSAlertController.Configuration? = nil) {
+                       with configuration: TSAlertController.ViewConfiguration? = nil) {
         self.layoutIfNeeded()
         let blurEffect = UIBlurEffect(style: style)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -48,7 +48,7 @@ extension UIView {
     // MARK: - Apply size constraint
     
     ///
-    func applySizeConstraint(with size: TSAlertController.Configuration.LayoutSize,
+    func applySizeConstraint(with size: TSAlertController.ViewConfiguration.LayoutSize,
                              in view: UIView? = Helper.keyWindow()) {
         guard let view else { return }
         
