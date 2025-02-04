@@ -21,7 +21,7 @@
 
 import UIKit
 
-class DefaultContentsView: UIStackView {
+class DefaultContentView: UIStackView {
     
     // MARK: - Properties
     
@@ -36,7 +36,7 @@ class DefaultContentsView: UIStackView {
     init(_ title: String?,
          _ message: String?,
          _ textfields: [UITextField]? = nil,
-         _ configuration: TSAlertController.Configuration) {
+         _ configuration: TSAlertController.ViewConfiguration) {
         super.init(frame: .zero)
         
         labelStack.axis = .vertical
@@ -118,7 +118,7 @@ class DefaultContentsView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(with viewConfig: TSAlertController.Configuration) {
+    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
         self.axis = .vertical
         self.spacing = viewConfig.spacing.messageTextfieldSpacing
         self.alignment = .fill
@@ -129,7 +129,7 @@ class DefaultContentsView: UIStackView {
 
 // MARK: - Extension
 
-private extension DefaultContentsView {
+fileprivate extension DefaultContentView {
     
     func createSeparatorView(_ color: UIColor?, height: CGFloat) -> UIView {
         let separator = UIView()

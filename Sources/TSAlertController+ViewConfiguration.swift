@@ -22,12 +22,12 @@
 import UIKit
 
 
-// MARK: - Configuration
+// MARK: - ViewConfiguration
 
 public extension TSAlertController {
     
     ///
-    struct Configuration {
+    struct ViewConfiguration {
         
         ///
         public var titleMinHeight: CGFloat
@@ -180,7 +180,7 @@ public extension TSAlertController {
 
 // MARK: - Background
 
-public extension TSAlertController.Configuration {
+public extension TSAlertController.ViewConfiguration {
     
     ///
     enum Background {
@@ -197,7 +197,7 @@ public extension TSAlertController.Configuration {
 
 // MARK: - LayoutMargin
 
-public extension TSAlertController.Configuration {
+public extension TSAlertController.ViewConfiguration {
     
     ///
     struct LayoutMargin {
@@ -243,7 +243,7 @@ public extension TSAlertController.Configuration {
 
 // MARK: - LayoutSpacing
 
-public extension TSAlertController.Configuration {
+public extension TSAlertController.ViewConfiguration {
     
     ///
     struct LayoutSpacing {
@@ -300,7 +300,7 @@ public extension TSAlertController.Configuration {
 
 // MARK: - LayoutSize
 
-public extension TSAlertController.Configuration {
+public extension TSAlertController.ViewConfiguration {
     
     ///
     struct LayoutSize {
@@ -314,13 +314,14 @@ public extension TSAlertController.Configuration {
         ///
         public init(width: LayoutSize.Constraint = .proportional(),
                     height: LayoutSize.Constraint = .proportional()) {
+            
             self.width = width
             self.height = height
         }
     }
 }
 
-public extension TSAlertController.Configuration.LayoutSize {
+public extension TSAlertController.ViewConfiguration.LayoutSize {
     
     ///
     enum Constraint {
@@ -336,7 +337,7 @@ public extension TSAlertController.Configuration.LayoutSize {
     }
 }
 
-extension TSAlertController.Configuration.LayoutSize.Constraint: Comparable {
+extension TSAlertController.ViewConfiguration.LayoutSize.Constraint: Comparable {
     
     public static func < (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
@@ -393,7 +394,7 @@ extension TSAlertController.Configuration.LayoutSize.Constraint: Comparable {
 
 // MARK: - Button LayoutAxis
 
-public extension TSAlertController.Configuration {
+public extension TSAlertController.ViewConfiguration {
     
     ///
     enum ButtonLayoutAxis {
@@ -408,11 +409,22 @@ public extension TSAlertController.Configuration {
         case horizontal
     
         ///
-        var isAutomatic: Bool {
-            if case .automatic = self {
-                return true
+        func resolvedAxis(for buttonCount: Int) -> ButtonLayoutAxis {
+            switch self {
+            case .automatic:
+                return buttonCount <= 2 ? .horizontal : .vertical
+            default:
+                return self
             }
-            return false
+        }
+        
+        func toNSLayoutConstraintAxis() -> NSLayoutConstraint.Axis {
+            switch self {
+            case .horizontal, .automatic:
+                return .horizontal
+            case .vertical:
+                return .vertical
+            }
         }
     }
 }

@@ -48,18 +48,12 @@ public class TSAlertController: UIViewController {
     
     ///
     public var textfields: [UITextField]  = []
-    
+
     ///
     public lazy var configuration: TSAlertController.Configuration = .init()
-    
+
     ///
-    public var transitionStyle: TSAlertController.TransitionStyle = .automatic
-    
-    ///
-    public var contentAnimationType: TSAlertController.AnimationType? = nil
-    
-    ///
-    public var buttonsAnimationType: TSAlertController.AnimationType? = nil
+    public lazy var viewConfiguration: TSAlertController.ViewConfiguration = .init()
     
     ///
     private var customView: UIView?
@@ -115,6 +109,9 @@ public class TSAlertController: UIViewController {
     private func commonInit() {
         self.transitioningDelegate = self
         self.modalPresentationStyle = .custom
+        
+        applyDefaultConfiguration(for: preferredStyle)
+        applyDefaultViewConfiguration(for: preferredStyle)
     }
     
     
@@ -123,8 +120,8 @@ public class TSAlertController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        validateConfiguration()
-        setupUI()
+        adjustButtonConfiguration()
+        initializeAlertView()
         registerKeyboardNotifications()
         registerGestureRecognizers()
     }
@@ -145,71 +142,58 @@ public class TSAlertController: UIViewController {
         unregisterKeyboardNotifications()
     }
 
-    // MARK: - Helpers
-    
-    /// 
-    private func validateConfiguration() {
-        adjustButtonLayoutAxis()
-        adjustActionSheetWidth()
-    }
+    // MARK: - Private
     
     ///
-    private func adjustButtonLayoutAxis() {
-        guard configuration.buttonLayoutAxis.isAutomatic else { return }
-        configuration.buttonLayoutAxis = actions.count > 2 ? .vertical : .horizontal
-    }
-    
-    ///
-    private func adjustActionSheetWidth() {
-        guard case .actionSheet = preferredStyle else { return }
+    private func adjustButtonConfiguration() {
+        let axis = viewConfiguration.buttonLayoutAxis.resolvedAxis(for: actions.count)
+        viewConfiguration.buttonLayoutAxis = axis
         
-        let configuredWidth = configuration.size.width
-        let minimumAllowedWidth: Configuration.LayoutSize.Constraint = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
-        
-        if configuredWidth < minimumAllowedWidth { 
-            configuration.size.width = minimumAllowedWidth
+        actions.sort {
+            let isHorizontal = viewConfiguration.buttonLayoutAxis == .horizontal
+            return isHorizontal ? ($0.style == .cancel && $1.style != .cancel)
+                                : ($0.style != .cancel && $1.style == .cancel)
         }
     }
     
     ///
-    private func setupUI() {
-        setupAlertView()
+    private func initializeAlertView() {
+        setupContentView()
         setupConstraints()
         setupAttributes()
     }
     
     ///
-    private func setupAlertView() {
-        let buttons = actions.map { $0.instantiateButton(preferredStyle: preferredStyle) }
-        let contentView = customView ?? DefaultContentsView(title, message, textfields, configuration)
-        let buttonsView = DefaultButtonsView(buttons, configuration)
-        alertView = DefaultAlertView(contentView, buttonsView, configuration)
-
-        guard let alertView = alertView else { return }
+    private func setupContentView() {
+        let buttons = actions.map { $0.instantiateButton(preferredStyle) }
+        let contentView = customView ?? DefaultContentView(title, message, textfields, viewConfiguration)
+        let buttonsView = DefaultButtonGroupView(buttons, viewConfiguration)
         
-        view.addSubview(alertView)
-        alertView.createView(for: self)
+        alertView = DefaultAlertView(self, contentView, buttonsView, viewConfiguration)
+
+        view.addSubview(alertView!)
     }
 
     ///
     private func setupConstraints() {
-        view.applySizeConstraint(with: configuration.size)
+        view.applySizeConstraint(with: viewConfiguration.size)
+        alertView?.fill(to: view)
     }
 
     ///
     private func setupAttributes() {
-        switch configuration.backgroundColor {
+        switch viewConfiguration.backgroundColor {
         case let .color(color, alpha):
             view.backgroundColor = color.withAlphaComponent(alpha)
         case let .blur(style):
-            view.addBlurEffect(style, with: configuration)
+            view.addBlurEffect(style, with: viewConfiguration)
         }
 
-        view.layer.borderColor = configuration.backgroundBorderColor
-        view.layer.borderWidth = configuration.backgroundBorderWidth
-        view.layer.cornerRadius = configuration.cornerRadius
+        view.layer.borderColor = viewConfiguration.backgroundBorderColor
+        view.layer.borderWidth = viewConfiguration.backgroundBorderWidth
+        view.layer.cornerRadius = viewConfiguration.cornerRadius
 
-        guard let shadow = configuration.shadow else { return }
+        guard let shadow = viewConfiguration.shadow else { return }
         view.layer.shadowColor = shadow.color
         view.layer.shadowOffset = shadow.offset
         view.layer.shadowOpacity = shadow.opacity
@@ -479,7 +463,7 @@ private extension TSAlertController {
         let keyboardTopY = keyboardFrame.origin.y
 
         let duration = keyboardAnimationDuration.doubleValue
-        let adjustedViewTopY = keyboardTopY - configuration.spacing.keyboardSpacing - viewHeight
+        let adjustedViewTopY = keyboardTopY - viewConfiguration.spacing.keyboardSpacing - viewHeight
         
         // Move the alert up only if the spacing is smaller than the configured value.
         // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
@@ -522,19 +506,19 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                              presenting: presenting,
                                              background: background,
                                              preferredStyle: preferredStyle,
-                                             configuration: configuration)
+                                             configuration: viewConfiguration)
     }
     
     public func animationController(forPresented presented: UIViewController,
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return resolve(transitionStyle, presenting: true)
+        return configuration.enteringTransitionStyle?.toAnimator(presenting: true)
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return resolve(transitionStyle, presenting: false)
+        return configuration.exitingTransitionStyle?.toAnimator(presenting: false)
     }
 }
 
@@ -551,14 +535,34 @@ extension TSAlertController: UIGestureRecognizerDelegate {
 }
 
 
-// MARK: - Private
+
+// MARK: - Default Configuration
 
 private extension TSAlertController {
     
-    func resolve(_ style: TSAlertController.TransitionStyle, presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
-        guard style.isAutomatic else { return style.toAnimator(presenting: presenting) }
-        return (preferredStyle == .alert
-                ? TSAlertController.TransitionStyle.fadeAndScaleDown
-                : TSAlertController.TransitionStyle.slideUp).toAnimator(presenting: presenting)
+    ///
+    func applyDefaultConfiguration(for style: TSAlertController.Style) {
+        switch style {
+        case .alert:
+            configuration.enteringTransitionStyle = .fadeAndScaleDown
+            configuration.exitingTransitionStyle = .fadeAndScaleDown
+            
+        case .actionSheet:
+            configuration.enteringTransitionStyle = .slideUp
+            configuration.exitingTransitionStyle = .slideUp
+        }
+    }
+    
+    ///
+    func applyDefaultViewConfiguration(for style: TSAlertController.Style) {
+        switch style {
+        case .alert:
+            viewConfiguration.size.width = .proportional(minimumRatio: 0.1, maximumRatio: 0.8)
+            viewConfiguration.spacing.keyboardSpacing = 100
+            
+        case .actionSheet:
+            viewConfiguration.size.width = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
+            viewConfiguration.spacing.keyboardSpacing = 20
+        }
     }
 }

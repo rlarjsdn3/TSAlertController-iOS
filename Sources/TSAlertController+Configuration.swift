@@ -1,3 +1,4 @@
+
 // Copyright (c) 2025 rlarjsdn3 <rlarjsdn3@naver.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,23 +25,30 @@ import UIKit
 public extension TSAlertController {
     
     ///
-    enum TransitionStyle {
+    struct Configuration {
         
         ///
-        case fadeAndScaleDown
+        public var enteringTransitionStyle: TSAlertController.TransitionStyle?
         
         ///
-        case slideUp
-
+        public var exitingTransitionStyle: TSAlertController.TransitionStyle?
+        
         ///
-        func toAnimator(presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
-            switch self {
-            case .fadeAndScaleDown:
-                return FadeAndScaleDownAnimator(duration: 0.5, presenting: presenting)
-                
-            case .slideUp:
-                return SlideUpAnimator(duration: 0.5, presenting: presenting)
-            }
+        public var headerAnimationType: TSAlertController.AnimationType?
+        
+        ///
+        public var buttonGroupAnimationType: TSAlertController.AnimationType?
+        
+        ///
+        public init(enteringTransitionStyle: TSAlertController.TransitionStyle? = nil,
+                    exitingTransitionStyle: TSAlertController.TransitionStyle? = nil,
+                    headerAnimationType: TSAlertController.AnimationType? = nil,
+                    buttonGroupAnimationType: TSAlertController.AnimationType? = nil) {
+            
+            self.enteringTransitionStyle = enteringTransitionStyle
+            self.exitingTransitionStyle = exitingTransitionStyle
+            self.headerAnimationType = headerAnimationType
+            self.buttonGroupAnimationType = buttonGroupAnimationType
         }
     }
 }

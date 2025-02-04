@@ -32,11 +32,11 @@ public class TSAlertAction {
     ///
     public var title: String?
     
-    /// This property is applied only when the `preferredStyle` of `TSAlertController` is set to `.actionSheet`.
+    ///
     public var image: UIImage?
     
     ///
-    public var configuration: TSAlertAction.Configuration
+    public var style: TSAlertAction.Style
     
     ///
     public var handler: TSAlertActionHandler?
@@ -55,19 +55,19 @@ public class TSAlertAction {
     ///
     public init(title: String?,
                 image: UIImage? = nil,
-                style configuration: TSAlertAction.Configuration = .default(),
+                style: TSAlertAction.Style = .default,
                 handler: TSAlertActionHandler?) {
         
         self.title = title
         self.image = image
-        self.configuration = configuration
+        self.style = style
         self.handler = handler
     }
     
     // MARK: - Make
     
     ///
-    func instantiateButton(preferredStyle style: TSAlertController.Style) -> TSButton {
+    func instantiateButton(_ style: TSAlertController.Style) -> TSButton {
         applyConfiguration(to: button)
         button.addAction(createButtonAction(), for: .touchUpInside)
         return button
@@ -80,21 +80,23 @@ public class TSAlertAction {
     private func applyConfiguration(to button: TSButton) {
         if let title = title {
             let titleString = NSAttributedString(string: title,
-                                                 attributes: configuration.titleAttributes)
+                                                 attributes: style.titleAttributes)
             button.setAttributedTitle(titleString, for: .normal)
         }
+        button.setImage(image, for: .normal)
 
         var config = UIButton.Configuration.filled()
-        config.imagePlacement = configuration.imagePlacement
-        config.imageReservation = configuration.imageReservation
-        config.contentInsets = configuration.contentEdgeInset
-        config.background.backgroundColor = configuration.backgroundColor
-        config.background.cornerRadius = configuration.cornerRadius
+        config.imagePlacement = style.imagePlacement
+        config.imageReservation = style.imageReservation
+        config.imagePadding = style.imageSpacing
+        config.contentInsets = style.contentEdgeInset
+        config.background.backgroundColor = style.backgroundColor
+        config.background.cornerRadius = style.cornerRadius
         button.configuration = config
 
-        button.contentVerticalAlignment = configuration.contentVerticalAlignment
-        button.contentHorizontalAlignment = configuration.contentHorizontalAlignment
-        button.highlightType = configuration.highlightType
+        button.contentVerticalAlignment = style.contentVerticalAlignment
+        button.contentHorizontalAlignment = style.contentHorizontalAlignment
+        button.highlightType = style.highlightType
         button.isEnabled = isEnabled
     }
     

@@ -34,7 +34,7 @@ final class TSAlertPresentationController: UIPresentationController {
     private let preferredStyle: TSAlertController.Style
     
     ///
-    private let configuration: TSAlertController.Configuration
+    private let configuration: TSAlertController.ViewConfiguration
     
     
     // MARK: - Initializer
@@ -44,7 +44,7 @@ final class TSAlertPresentationController: UIPresentationController {
          presenting presentingViewController: UIViewController?,
          background view: UIView,
          preferredStyle style: TSAlertController.Style,
-         configuration: TSAlertController.Configuration) {
+         configuration: TSAlertController.ViewConfiguration) {
         self.background = view
         self.preferredStyle = style
         self.configuration = configuration

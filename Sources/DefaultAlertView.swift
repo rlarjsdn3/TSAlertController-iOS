@@ -25,43 +25,30 @@ class DefaultAlertView: UIView, TSAlertView {
     
     // MARK: - Properties
     
-    private let buttonsView: UIView
+    private let buttonGroupView: UIView
     private let contentView: UIView
     
-    private var configuration: TSAlertController.Configuration
+    private var configuration: TSAlertController.ViewConfiguration
+    
     
     // MARK: - Intializer
     
-    init(_ contentView: UIView,
+    init(_ alert: TSAlertController,
+         _ contentView: UIView,
          _ buttonsView: UIView,
-         _ configuration: TSAlertController.Configuration) {
+         _ configuration: TSAlertController.ViewConfiguration) {
         self.contentView = contentView
-        self.buttonsView = buttonsView
+        self.buttonGroupView = buttonsView
         self.configuration = configuration
         super.init(frame: .zero)
         
         addSubview(contentView)
         addSubview(buttonsView)
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // MARK: - Create View
-    
-    func createView(for alert: TSAlertController) {
-        guard let superview = superview else { print("xcxc"); return }
-
-        self.anchor(top: superview.topAnchor,
-                    leading: superview.leadingAnchor,
-                    trailing: superview.trailingAnchor,
-                    bottom: superview.bottomAnchor,
-                    topInset: 0,
-                    leadingInset: 0,
-                    trailingInset: 0,
-                    bottomInset: 0)
+        
+        let isEmpty = alert.actions.isEmpty
+        let textfieldButtonSpacing = isEmpty
+        ? 0
+        : configuration.spacing.textfieldButtonSpacing
         
         contentView.anchor(top: self.topAnchor,
                        leading: self.leadingAnchor,
@@ -70,7 +57,7 @@ class DefaultAlertView: UIView, TSAlertView {
                        topInset: configuration.margin.contentTop,
                        leadingInset: configuration.margin.contentLeft,
                        trailingInset: configuration.margin.contentRight,
-                       bottomInset: configuration.spacing.textfieldButtonSpacing)
+                       bottomInset: textfieldButtonSpacing)
         
         buttonsView.anchor(leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
@@ -79,28 +66,31 @@ class DefaultAlertView: UIView, TSAlertView {
                        trailingInset: configuration.margin.buttonRight,
                        bottomInset: configuration.margin.buttonBottom)
 
-        var height: CGFloat = 0
         let actionsCount = CGFloat(alert.actions.count)
         let actionHeight: CGFloat = configuration.buttonMinHeight
-        let spacing: CGFloat = 7.5
+        let spacing: CGFloat = configuration.spacing.buttonSpacing
         
-        //
-        if configuration.buttonLayoutAxis == .horizontal {
-            height = actionHeight
-        //
+        let height: CGFloat = if !isEmpty {
+            isHorizontal
+            ? actionHeight
+            : (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
         } else {
-            height = (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
+            0
         }
         buttonsView.setHeight(greaterThanOrEqualTo: height)
     }
     
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    // MARK: - Animate View
+    
+    // MARK: - Animate
     
     ///
     func animateView(for alert: TSAlertController) {
         //
-        if let type = alert.contentAnimationType {
+        if let type = alert.configuration.headerAnimationType {
             type.apply(to: contentView)
             UIView.animate(withDuration: 0.5) {
                 type.undo(for: self.contentView)
@@ -108,11 +98,21 @@ class DefaultAlertView: UIView, TSAlertView {
         }
         
         //
-        if let type = alert.buttonsAnimationType {
-            type.apply(to: buttonsView)
+        if let type = alert.configuration.buttonGroupAnimationType {
+            type.apply(to: buttonGroupView)
             UIView.animate(withDuration: 0.5) {
-                type.undo(for: self.buttonsView)
+                type.undo(for: self.buttonGroupView)
             }
         }
+    }
+}
+
+
+// MARK: - Extension
+
+fileprivate extension DefaultAlertView {
+    
+    var isHorizontal: Bool {
+        return configuration.buttonLayoutAxis == .horizontal
     }
 }
