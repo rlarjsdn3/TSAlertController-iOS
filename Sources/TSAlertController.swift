@@ -150,12 +150,12 @@ public class TSAlertController: UIViewController {
     private func applyConfiguration(for style: TSAlertController.Style) {
         switch style {
         case .alert:
-            configuration.enteringTransition = .fadeAndScaleDown
-            configuration.exitingTransition = .fadeAndScaleDown
+            configuration.enteringTransition = .fadeInAndScaleDown
+            configuration.exitingTransition = .fadeOut
             
         case .actionSheet:
             configuration.enteringTransition = .slideUp
-            configuration.exitingTransition = .slideUp
+            configuration.exitingTransition = .slideDown
         }
     }
     
@@ -566,12 +566,12 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                     presenting resenting: UIViewController,
                                     source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return configuration.enteringTransition?.toAnimator(presenting: true)
+        return configuration.enteringTransition?.resolvedAnimator
     }
     
     public func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         
-        return configuration.exitingTransition?.toAnimator(presenting: false)
+        return configuration.exitingTransition?.resolvedAnimator
     }
 }
 

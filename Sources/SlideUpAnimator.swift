@@ -31,7 +31,8 @@ final class SlideUpAnimator: NSObject,  UIViewControllerAnimatedTransitioning {
     private var presenting: Bool
     
     ///
-    init(duration: TimeInterval, presenting: Bool) {
+    init(duration: TimeInterval = 0.5, presenting: Bool) {
+        
         self.duration = duration
         self.presenting = presenting
     }

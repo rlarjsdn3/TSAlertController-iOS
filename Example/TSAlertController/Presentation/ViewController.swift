@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         alert.viewConfiguration.spacing.buttonSpacing = 2
         alert.viewConfiguration.buttonLayoutAxis = .vertical
         alert.configuration.enteringTransition = .slideUp
-        alert.configuration.exitingTransition = .slideUp
+        alert.configuration.exitingTransition = .slideDown
         alert.configuration.headerAnimation = .fade()
         alert.configuration.buttonGroupAnimation = .slide()
         

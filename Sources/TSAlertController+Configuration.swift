@@ -28,10 +28,10 @@ public extension TSAlertController {
     struct Configuration {
         
         ///
-        public var enteringTransition: TSAlertController.TransitionStyle?
+        public var enteringTransition: TSAlertController.EnteringTransitionType?
         
         ///
-        public var exitingTransition: TSAlertController.TransitionStyle?
+        public var exitingTransition: TSAlertController.ExitingTransitionType?
         
         ///
         public var headerAnimation: TSAlertController.AnimationType?
@@ -40,8 +40,8 @@ public extension TSAlertController {
         public var buttonGroupAnimation: TSAlertController.AnimationType?
         
         ///
-        public init(enteringTransitionStyle: TSAlertController.TransitionStyle? = nil,
-                    exitingTransitionStyle: TSAlertController.TransitionStyle? = nil,
+        public init(enteringTransitionStyle: TSAlertController.EnteringTransitionType? = nil,
+                    exitingTransitionStyle: TSAlertController.ExitingTransitionType? = nil,
                     headerAnimationType: TSAlertController.AnimationType? = nil,
                     buttonGroupAnimationType: TSAlertController.AnimationType? = nil) {
             
