@@ -40,13 +40,7 @@ public class TSAlertAction {
     
     
     ///
-    public var leftImage: UIImage?
-    
-    ///
-    public var rightImage: UIImage?
-    
-    ///
-    public var highlightType: TSButton.HighlightType = .fadeAndScaleDown()
+    public var highlightType: TSButton.HighlightType = .fadeInAndScaleDown()
     
     ///
     public var configuration: TSButton.Configuration = .init()
@@ -65,7 +59,7 @@ public class TSAlertAction {
     ///
     public init(title: String?,
                 style: TSAlertAction.Style = .default,
-                handler: TSAlertActionHandler?) {
+                handler: TSAlertActionHandler? = nil) {
         
         self.title = title
         self.style = style
@@ -75,11 +69,10 @@ public class TSAlertAction {
     // MARK: - Instantiate
     
     ///
-    func instantiateButton(for style: TSAlertController.Style) -> TSButton? {
-        adjustConfiguration()
+    func instantiateButton(for preferredStyle: TSAlertController.Style) -> TSButton? {
+        adjustConfiguration(for: preferredStyle)
         
-        let button = (style == .alert) ? TSButton(title: title, config: configuration)
-        : TSButton(leftImage: leftImage, title: title, rightImage: rightImage, config: configuration)
+        let button = TSButton(config: configuration)
         button.highlightType = highlightType
         button.isEnabled = isEnabled
         button.addAction(createButtonAction(), for: .touchUpInside)
@@ -92,9 +85,10 @@ public class TSAlertAction {
     
     // MARK: - Private
     
-    private func adjustConfiguration() {
-        adjustTitleAttributes(&configuration.titleAttributes)
-        adjustSymbolConfiguration(&configuration.preferredSymbolConfigurationForLeftImage)
+    private func adjustConfiguration(for preferredStyle: TSAlertController.Style) {
+        configureTitle()
+        configureImage(for: preferredStyle)
+        adjustConfigurationBasedOnStyle()
     }
     
     private func createButtonAction() -> UIAction {
@@ -116,52 +110,26 @@ public class TSAlertAction {
 }
 
 
-// MARK: - Adjust Configuration
+// MARK: - Extension
 
 private extension TSAlertAction {
     
     ///
-    func adjustTitleAttributes(_ attributes: inout [NSAttributedString.Key: Any]?) {
-        if style == .destructive {
-            attributes?[.foregroundColor] = UIColor.systemRed
+    private func configureTitle() {
+        configuration.title = title
+    }
+    
+    ///
+    func configureImage(for preferredStyle: TSAlertController.Style) {
+        if preferredStyle == .alert {
+            configuration = configuration.configurationWithoutImageAndAccessoryImage()
         }
     }
     
     ///
-    func adjustSymbolConfiguration(_ config: inout UIImage.SymbolConfiguration?) {
+    func adjustConfigurationBasedOnStyle() {
         if style == .destructive {
-            config = config?.applying(UIImage.SymbolConfiguration(paletteColors: [.systemRed])) ??
-                     UIImage.SymbolConfiguration(paletteColors: [.systemRed])
+            configuration.backgroundColor = .systemRed
         }
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-public extension TSAlertAction {
-    
-    ///
-    enum Style {
-        
-        ///
-        case cancel
-        
-        ///
-        case `default`
-        
-        ///
-        case destructive
-    }
-}
-
-extension TSAlertAction.Style: Equatable {
 }

@@ -28,56 +28,53 @@ public extension TSButton {
     enum HighlightType {
         
         ///
-        case fade(alpha: CGFloat = 0.75)
+        case fadeIn(alpha: CGFloat = 0.75)
         
         ///
-        case fadeAndScaleDown(scaleX: CGFloat = 0.95,
+        case fadeInAndScaleDown(scaleX: CGFloat = 0.95,
                               y: CGFloat = 0.95,
                               alpha: CGFloat = 0.75)
-        
-        /// 버튼의 백그라운드 색상이 .clear인 경우에만 제한적으로 사용해라
-        case dimAndScaleDown(scaleX: CGFloat = 0.975,
-                             y: CGFloat = 0.975,
-                             color: UIColor = .lightGray,
-                             alpha: CGFloat = 0.5)
+        ///
+        ///
+        case tintAndScaleDown(scaleX: CGFloat = 0.95,
+                              y: CGFloat = 0.95,
+                              color: UIColor = .lightGray,
+                              alpha: CGFloat = 0.5)
         
         ///
-        case custom(transform: CGAffineTransform,
-                    alpha: CGFloat)
+        case custom(transform: CGAffineTransform)
         
         
         ///
-        func apply(to view: TSButton) {
+        mutating func apply(to view: TSButton) {
             switch self {
-            case let .fade(alpha):
+            case let .fadeIn(alpha):
                 view.alpha = alpha
                 
-            case let .fadeAndScaleDown(scaleX, y, alpha):
+            case let .fadeInAndScaleDown(scaleX, y, alpha):
                 view.alpha = alpha
                 view.transform = CGAffineTransform(scaleX: scaleX, y: y)
                 
-            case let .dimAndScaleDown(scaleX, y, color, alpha):
-                view.transform = CGAffineTransform(scaleX: scaleX, y: y)
-                view.container.transform = CGAffineTransform(scaleX: scaleX, y: y)
+            case let .tintAndScaleDown(scaleX, y, color, alpha):
+                view.previousBackgroundColor = view.config?.backgroundColor
                 view.backgroundColor = color.withAlphaComponent(alpha)
+                view.transform = CGAffineTransform(scaleX: scaleX, y: y)
                 
-            case let .custom(transform, alpha):
-                view.alpha = alpha
+            case let .custom(transform):
                 view.transform = transform
             }
         }
         
         ///
-        func undo(for view: TSButton) {
+        mutating func undo(for view: TSButton) {
             switch self {
-            case .fade, .fadeAndScaleDown, .custom:
+            case .fadeIn, .fadeInAndScaleDown, .custom:
                 view.alpha = 1
                 view.transform = .identity
                 
-            case .dimAndScaleDown:
+            case .tintAndScaleDown:
+                view.backgroundColor = view.previousBackgroundColor
                 view.transform = .identity
-                view.container.transform = .identity
-                view.backgroundColor = .clear
             }
         }
     }
