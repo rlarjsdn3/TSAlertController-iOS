@@ -25,6 +25,8 @@ class DefaultAlertView: UIView, TSAlertView {
     
     // MARK: - Properties
     
+    private let grabber = UIView()
+    
     private let buttonGroupView: UIView
     private let contentView: UIView
     
@@ -36,10 +38,11 @@ class DefaultAlertView: UIView, TSAlertView {
     init(_ alert: TSAlertController,
          _ contentView: UIView,
          _ buttonsView: UIView,
-         _ configuration: TSAlertController.ViewConfiguration) {
+         _ viewConfig: TSAlertController.ViewConfiguration,
+         _ config: TSAlertController.Configuration) {
         self.contentView = contentView
         self.buttonGroupView = buttonsView
-        self.configuration = configuration
+        self.configuration = viewConfig
         super.init(frame: .zero)
         
         addSubview(contentView)
@@ -48,27 +51,39 @@ class DefaultAlertView: UIView, TSAlertView {
         let isEmpty = alert.actions.isEmpty
         let textfieldButtonSpacing = isEmpty
         ? 0
-        : configuration.spacing.textfieldButtonSpacing
+        : viewConfig.spacing.textfieldButtonSpacing
         
-        contentView.anchor(top: self.topAnchor,
+        if config.prefersGrabberVisible {
+            addSubview(grabber)
+            grabber.centerX(in: self)
+            grabber.anchor(top: self.topAnchor, topInset: 12.5)
+            grabber.setWidth(equalTo: 50)
+            grabber.setHeight(equalTo: 4)
+            
+            grabber.layer.cornerRadius = 2
+            grabber.backgroundColor = .systemGray5
+        }
+        
+        contentView.anchor(top: config.prefersGrabberVisible
+                           ? grabber.bottomAnchor : self.topAnchor ,
                        leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
                        bottom: buttonsView.topAnchor,
-                       topInset: configuration.margin.contentTop,
-                       leadingInset: configuration.margin.contentLeft,
-                       trailingInset: configuration.margin.contentRight,
+                       topInset: viewConfig.margin.contentTop,
+                       leadingInset: viewConfig.margin.contentLeft,
+                       trailingInset: viewConfig.margin.contentRight,
                        bottomInset: textfieldButtonSpacing)
         
         buttonsView.anchor(leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
                        bottom: self.bottomAnchor,
-                       leadingInset: configuration.margin.buttonLeft,
-                       trailingInset: configuration.margin.buttonRight,
-                       bottomInset: configuration.margin.buttonBottom)
+                       leadingInset: viewConfig.margin.buttonLeft,
+                       trailingInset: viewConfig.margin.buttonRight,
+                       bottomInset: viewConfig.margin.buttonBottom)
 
         let actionsCount = CGFloat(alert.actions.count)
-        let actionHeight: CGFloat = configuration.buttonHeight
-        let spacing: CGFloat = configuration.spacing.buttonSpacing
+        let actionHeight: CGFloat = viewConfig.buttonHeight
+        let spacing: CGFloat = viewConfig.spacing.buttonSpacing
         
         let height: CGFloat = if !isEmpty {
             isHorizontal
@@ -113,6 +128,6 @@ class DefaultAlertView: UIView, TSAlertView {
 fileprivate extension DefaultAlertView {
     
     var isHorizontal: Bool {
-        return configuration.buttonLayoutAxis == .horizontal
+        return configuration.buttonGroupAxis == .horizontal
     }
 }

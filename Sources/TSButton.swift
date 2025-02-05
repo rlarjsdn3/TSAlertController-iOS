@@ -69,10 +69,6 @@ public class TSButton: UIButton {
         // NOTE: - Using a stack causes issues with correctly setting the button’s overall size,
         //         so constraints for each element were explicitly defined using a UIView.
         
-        self.backgroundColor = config.backgroundColor
-        self.layer.cornerRadius = config.cornerRadius
-        titleLabel?.textAlignment = config.titleAlignment
-        
         addSubview(container)
         container.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -82,52 +78,56 @@ public class TSButton: UIButton {
             container.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -config.contentEdgeInset.trailing),
         ])
         
+        
         if let leftImage = leftImage {
             leftImageView.image = leftImage.applyingSymbolConfiguration(config.preferredSymbolConfigurationForLeftImage
                                                                         ?? UIImage.SymbolConfiguration.unspecified)
-            
-            container.addSubview(leftImageView)
-            leftImageView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                leftImageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
-                leftImageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-                leftImageView.widthAnchor.constraint(equalTo: leftImageView.heightAnchor),
-                leftImageView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: config.leftImageScale)
-            ])
         }
+        
+        container.addSubview(leftImageView)
+        leftImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            leftImageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
+            leftImageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            leftImageView.widthAnchor.constraint(equalTo: leftImageView.heightAnchor),
+            leftImageView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: config.leftImageScale)
+        ])
+        
         
         if let rightImage = rightImage {
             rightImageView.image = rightImage.applyingSymbolConfiguration(config.preferredSymbolConfigurationForRightImage
                                                                           ?? UIImage.SymbolConfiguration.unspecified)
-            
-            container.addSubview(rightImageView)
-            rightImageView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                rightImageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-                rightImageView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -config.contentEdgeInset.trailing),
-                rightImageView.widthAnchor.constraint(equalTo: rightImageView.heightAnchor),
-                rightImageView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: config.rightImageScale)
-            ])
         }
+        
+        container.addSubview(rightImageView)
+        rightImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            rightImageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            rightImageView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),
+            rightImageView.widthAnchor.constraint(equalTo: rightImageView.heightAnchor),
+            rightImageView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: config.rightImageScale)
+        ])
+        
+        
+        container.addSubview(_titleLabel)
+        _titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            _titleLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            _titleLabel.leadingAnchor.constraint(
+                equalTo: leftImageView.trailingAnchor,
+                constant: leftImage != nil ? config.leftImageSpacing : 0
+            ),
+            _titleLabel.trailingAnchor.constraint(
+                equalTo: rightImageView.leadingAnchor,
+                constant: rightImage != nil ? config.rightImageSpacing : 0)
+        ])
         
         if let title = title {
             let attrText = NSAttributedString(string: title,
                                               attributes: config.titleAttributes ?? [:])
-            setAttributedTitle(attrText, for: .normal)
+            _titleLabel.attributedText = attrText
             _titleLabel.textAlignment = config.titleAlignment
             
-            container.addSubview(_titleLabel)
-            _titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                _titleLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-                _titleLabel.leadingAnchor.constraint(
-                    equalTo: leftImage != nil ? leftImageView.trailingAnchor : container.leadingAnchor,
-                    constant: leftImage != nil ? config.leftImageSpacing : 0
-                ),
-                _titleLabel.trailingAnchor.constraint(
-                    equalTo: rightImage != nil ? rightImageView.leadingAnchor : container.trailingAnchor,
-                    constant: rightImage != nil ? config.rightImageSpacing : -config.contentEdgeInset.trailing)
-            ])
         }
         
         configure(with: config)
@@ -142,29 +142,17 @@ public class TSButton: UIButton {
     }
     
     
-    // MARK: - Helper
-    
-    public override func setTitle(_ title: String?, for state: UIControl.State) {
-        _titleLabel.text = title
-    }
-    
-    public override func setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) {
-        _titleLabel.attributedText = title
-    }
-    
-    public override func setImage(_ image: UIImage?, for state: UIControl.State) {
-        leftImageView.image = image
-    }
-    
-    
     // MARK: - Private
     
-    private func configure(with style: TSButton.Configuration) {
+    private func configure(with config: TSButton.Configuration) {
+        self.backgroundColor = config.backgroundColor
+        self.layer.cornerRadius = config.cornerRadius
+        titleLabel?.textAlignment = config.titleAlignment
+        
         container.isUserInteractionEnabled = false
         
         leftImageView.contentMode = .scaleAspectFit
         leftImageView.isUserInteractionEnabled = false
-        
         rightImageView.contentMode = .scaleAspectFit
     }
     

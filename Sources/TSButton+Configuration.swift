@@ -73,7 +73,7 @@ public extension TSButton {
                     preferredSymbolConfigurationForRightImage: UIImage.SymbolConfiguration? = nil,
                     
                     contentEdgeInset: NSDirectionalEdgeInsets = .zero,
-                    backgroundColor: UIColor? = .lightGray,
+                    backgroundColor: UIColor? = .systemGray4,
                     cornerRadius: CGFloat = 12.5) {
             
             self.titleAttributes = titleAttributes

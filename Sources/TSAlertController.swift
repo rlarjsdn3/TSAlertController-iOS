@@ -152,10 +152,12 @@ public class TSAlertController: UIViewController {
         case .alert:
             configuration.enteringTransition = .fadeInAndScaleDown
             configuration.exitingTransition = .fadeOut
+            configuration.prefersGrabberVisible = false
             
         case .actionSheet:
             configuration.enteringTransition = .slideUp
             configuration.exitingTransition = .slideDown
+            configuration.prefersGrabberVisible = true
         }
     }
     
@@ -178,23 +180,28 @@ public class TSAlertController: UIViewController {
     /// Before the alert is displayed on the screen, this method forcibly updates the final `Configuration`
     /// based on `TSAlertController.Style`.
     /// This ensures that the alert is presented correctly and prevents unintended behavior.
-    ///
-    /// NOTE: - No restrictions have been imposed to provide maximum configuration flexibility (as of v0.1.0).
     private func adjustConfiguration() {
+        adjustActionOrder(&actions)
+        adjustPrefersGrabberVisible(&configuration)
     }
     
     /// Before the alert is displayed on the screen, this method forcibly updates the final `ViewConfiguration`
     /// based on `TSAlertController.Style`.
     /// This ensures that the alert is presented correctly and prevents unintended behavior.
     private func adjustViewConfiguration() {
-        adjustActionOrder(&actions)
-        adjustButtonLayoutAxis(&viewConfiguration.buttonLayoutAxis)
+        adjustButtonGroupAxis(&viewConfiguration.buttonGroupAxis)
     }
     
     /// If `buttonLayoutAxis` is set to `.automatic`, the axis is adjusted based on the number of buttons.
     /// - Parameter axis: The current button layout axis.
-    private func adjustButtonLayoutAxis(_ axis: inout TSAlertController.ViewConfiguration.ButtonLayoutAxis) {
+    private func adjustButtonGroupAxis(_ axis: inout TSAlertController.ViewConfiguration.ButtonGroupAxis) {
         axis = axis.resolvedAxis(for: actions.count)
+    }
+    
+    private func adjustPrefersGrabberVisible(_ config: inout TSAlertController.Configuration) {
+        if preferredStyle == .alert {
+            config.prefersGrabberVisible = false
+        }
     }
     
     /// Adjusts the order of actions, ensuring that the cancel action appears either at the beginning or end.
@@ -203,7 +210,7 @@ public class TSAlertController: UIViewController {
     /// - TODO: Modify sorting logic based on `UITraitCollectionLayoutDirection` to handle right-to-left layouts properly.
     private func adjustActionOrder(_ actions: inout [TSAlertAction]) {
         actions.sort {
-            let isHorizontal = viewConfiguration.buttonLayoutAxis == .horizontal
+            let isHorizontal = viewConfiguration.buttonGroupAxis == .horizontal
             return isHorizontal ? ($0.style == .cancel && $1.style != .cancel)
             : ($0.style != .cancel && $1.style == .cancel)
         }
@@ -222,7 +229,7 @@ public class TSAlertController: UIViewController {
         let contentView = customView ?? DefaultContentView(title, message, textfields, viewConfiguration)
         let buttonGroupView = DefaultButtonGroupView(buttons, viewConfiguration)
         
-        alertView = DefaultAlertView(self, contentView, buttonGroupView, viewConfiguration)
+        alertView = DefaultAlertView(self, contentView, buttonGroupView, viewConfiguration, configuration)
 
         view.addSubview(alertView!)
     }

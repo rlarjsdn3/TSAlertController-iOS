@@ -40,16 +40,22 @@ public extension TSAlertController {
         public var buttonGroupAnimation: TSAlertController.AnimationType?
         
         ///
+        public var prefersGrabberVisible: Bool
+        
+        ///
         public init(enteringTransitionStyle: TSAlertController.EnteringTransitionType? = nil,
                     exitingTransitionStyle: TSAlertController.ExitingTransitionType? = nil,
                     headerAnimationType: TSAlertController.AnimationType? = nil,
-                    buttonGroupAnimationType: TSAlertController.AnimationType? = nil) {
+                    buttonGroupAnimationType: TSAlertController.AnimationType? = nil,
+                    prefersGrabberVisible: Bool = true) {
             
             self.enteringTransition = enteringTransitionStyle
             self.exitingTransition = exitingTransitionStyle
             
             self.headerAnimation = headerAnimationType
             self.buttonGroupAnimation = buttonGroupAnimationType
+            
+            self.prefersGrabberVisible = prefersGrabberVisible
         }
     }
 }
