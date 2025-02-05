@@ -35,13 +35,19 @@ public extension TSButton {
                               y: CGFloat = 0.95,
                               alpha: CGFloat = 0.75)
         
+        /// 버튼의 백그라운드 색상이 .clear인 경우에만 제한적으로 사용해라
+        case dimAndScaleDown(scaleX: CGFloat = 0.975,
+                             y: CGFloat = 0.975,
+                             color: UIColor = .lightGray,
+                             alpha: CGFloat = 0.5)
+        
         ///
         case custom(transform: CGAffineTransform,
                     alpha: CGFloat)
         
         
         ///
-        func apply(to view: UIButton) {
+        func apply(to view: TSButton) {
             switch self {
             case let .fade(alpha):
                 view.alpha = alpha
@@ -50,6 +56,11 @@ public extension TSButton {
                 view.alpha = alpha
                 view.transform = CGAffineTransform(scaleX: scaleX, y: y)
                 
+            case let .dimAndScaleDown(scaleX, y, color, alpha):
+                view.transform = CGAffineTransform(scaleX: scaleX, y: y)
+                view.container.transform = CGAffineTransform(scaleX: scaleX, y: y)
+                view.backgroundColor = color.withAlphaComponent(alpha)
+                
             case let .custom(transform, alpha):
                 view.alpha = alpha
                 view.transform = transform
@@ -57,11 +68,16 @@ public extension TSButton {
         }
         
         ///
-        func undo(for view: UIButton) {
+        func undo(for view: TSButton) {
             switch self {
             case .fade, .fadeAndScaleDown, .custom:
                 view.alpha = 1
                 view.transform = .identity
+                
+            case .dimAndScaleDown:
+                view.transform = .identity
+                view.container.transform = .identity
+                view.backgroundColor = .clear
             }
         }
     }

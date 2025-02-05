@@ -39,6 +39,7 @@ public extension TSAlertController {
         case custom(transform: CGAffineTransform,
                     alpha: CGFloat)
         
+        
         ///
         func apply(to view: UIView) {
             switch self {

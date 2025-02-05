@@ -33,77 +33,73 @@ public class TSAlertAction {
     public var title: String?
     
     ///
-    public var image: UIImage?
-    
-    ///
     public var style: TSAlertAction.Style
     
     ///
     public var handler: TSAlertActionHandler?
     
+    
+    ///
+    public var leftImage: UIImage?
+    
+    ///
+    public var rightImage: UIImage?
+    
+    ///
+    public var highlightType: TSButton.HighlightType = .fadeAndScaleDown()
+    
+    ///
+    public var configuration: TSButton.Configuration = .init()
+    
+    ///
+    private var button: TSButton?
+    
     ///
     public var isEnabled: Bool = true {
-        didSet { updateButtonEnabled() }
+        didSet { updateButtonState() }
     }
-    
-    ///
-    private var button = TSButton()
-    
+
     
     // MARK: - Intializer
     
     ///
     public init(title: String?,
-                image: UIImage? = nil,
                 style: TSAlertAction.Style = .default,
                 handler: TSAlertActionHandler?) {
         
         self.title = title
-        self.image = image
         self.style = style
         self.handler = handler
     }
     
-    // MARK: - Make
+    // MARK: - Instantiate
     
     ///
-    func instantiateButton(_ style: TSAlertController.Style) -> TSButton {
-        applyConfiguration(to: button)
+    func instantiateButton(for style: TSAlertController.Style) -> TSButton? {
+        adjustConfiguration()
+        
+        let button = (style == .alert) ? TSButton(title: title, config: configuration)
+        : TSButton(leftImage: leftImage, title: title, rightImage: rightImage, config: configuration)
+        button.highlightType = highlightType
+        button.isEnabled = isEnabled
         button.addAction(createButtonAction(), for: .touchUpInside)
+        
+        self.button = button
+        
         return button
     }
     
     
     // MARK: - Private
     
-    ///
-    private func applyConfiguration(to button: TSButton) {
-        if let title = title {
-            let titleString = NSAttributedString(string: title,
-                                                 attributes: style.titleAttributes)
-            button.setAttributedTitle(titleString, for: .normal)
-        }
-        button.setImage(image, for: .normal)
-
-        var config = UIButton.Configuration.filled()
-        config.imagePlacement = style.imagePlacement
-        config.imageReservation = style.imageReservation
-        config.imagePadding = style.imageSpacing
-        config.contentInsets = style.contentEdgeInset
-        config.background.backgroundColor = style.backgroundColor
-        config.background.cornerRadius = style.cornerRadius
-        button.configuration = config
-
-        button.contentVerticalAlignment = style.contentVerticalAlignment
-        button.contentHorizontalAlignment = style.contentHorizontalAlignment
-        button.highlightType = style.highlightType
-        button.isEnabled = isEnabled
+    private func adjustConfiguration() {
+        adjustTitleAttributes(&configuration.titleAttributes)
+        adjustSymbolConfiguration(&configuration.preferredSymbolConfigurationForLeftImage)
     }
     
-    ///
     private func createButtonAction() -> UIAction {
         return UIAction { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             self.handler?(self)
             self.dismissAlert()
         }
@@ -113,9 +109,59 @@ public class TSAlertAction {
         Helper.topController()?.dismiss(animated: true)
     }
     
-    ///
-    private func updateButtonEnabled() {
-        button.isEnabled = isEnabled
+    private func updateButtonState() {
+        button?.isEnabled = isEnabled
     }
     
+}
+
+
+// MARK: - Adjust Configuration
+
+private extension TSAlertAction {
+    
+    ///
+    func adjustTitleAttributes(_ attributes: inout [NSAttributedString.Key: Any]?) {
+        if style == .destructive {
+            attributes?[.foregroundColor] = UIColor.systemRed
+        }
+    }
+    
+    ///
+    func adjustSymbolConfiguration(_ config: inout UIImage.SymbolConfiguration?) {
+        if style == .destructive {
+            config = config?.applying(UIImage.SymbolConfiguration(paletteColors: [.systemRed])) ??
+                     UIImage.SymbolConfiguration(paletteColors: [.systemRed])
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+public extension TSAlertAction {
+    
+    ///
+    enum Style {
+        
+        ///
+        case cancel
+        
+        ///
+        case `default`
+        
+        ///
+        case destructive
+    }
+}
+
+extension TSAlertAction.Style: Equatable {
 }

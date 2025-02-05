@@ -23,30 +23,68 @@ class ViewController: UIViewController {
     @IBAction func test(_ sender: Any) {
         // TSAlertController Initialization
         let alert = TSAlertController(
-            title: "Delete?",
-            message: "To delete this item, enter the verification code. You can find the code in the OTP.",
+            title: "Menu",
+            message: "Select one of the file processing options below.",
             options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
-            preferredStyle: .alert
+            preferredStyle: .actionSheet
         )
-        alert.configuration.enteringTransitionStyle = .slideUp
-        alert.configuration.exitingTransitionStyle = .fadeAndScaleDown
-        alert.configuration.headerAnimationType = .slide()
-        alert.configuration.buttonGroupAnimationType = .fade()
+        alert.viewConfiguration.margin.buttonLeft = 5
+        alert.viewConfiguration.margin.buttonRight = 5
+        alert.viewConfiguration.spacing.buttonSpacing = 2
+        alert.viewConfiguration.buttonLayoutAxis = .vertical
+        alert.configuration.enteringTransition = .slideUp
+        alert.configuration.exitingTransition = .slideUp
+        alert.configuration.headerAnimation = .fade()
+        alert.configuration.buttonGroupAnimation = .slide()
+        
+        // SFSymbol Image
+        let trash = UIImage(systemName: "trash.fill")
+        let folder = UIImage(systemName: "arrow.up.and.down.and.arrow.left.and.right")
+        
+        // Configuration Intialization
+        let configuration = TSButton.Configuration(titleAttributes: [.font: UIFont.boldSystemFont(ofSize: 17),
+                                                                     .foregroundColor: UIColor.label],
+                                                   titleAlignment: .left,
+                                                   leftImageScale: 0.35,
+                                                   leftImageSpacing: 15,
+                                                   rightImageScale: 0.35,
+                                                   preferredSymbolConfigurationForRightImage: UIImage.SymbolConfiguration(paletteColors: [.lightGray]),
+                                                   contentEdgeInset: .init(top: 0, leading: 4, bottom: 0, trailing: 4),
+                                                   backgroundColor: .clear)
         
         // Add button actions
-        let okAction = TSAlertAction(title: "Default",
-                                     style: .default) { _ in
+        let desctructiveAction = TSAlertAction(title: "Move",
+                                               style: .destructive) { _ in
         }
-        alert.addAction(okAction)
-        let cancelAction = TSAlertAction(title: "Cancel",
-                                         style: .cancel) { _ in
-        }
-        alert.addAction(cancelAction)
+        desctructiveAction.configuration = configuration
+        desctructiveAction.leftImage = trash
+        desctructiveAction.rightImage = folder
+        desctructiveAction.highlightType = .dimAndScaleDown(color: .darkGray)
+        alert.addAction(desctructiveAction)
         
-        // Add textfield
-        alert.addTextField {
-            $0.placeholder = "Verification Code"
+        let trashAction = TSAlertAction(title: "Trash",
+                                        style: .default) { _ in
         }
+        trashAction.leftImage = folder
+        trashAction.configuration = configuration
+        trashAction.highlightType = .dimAndScaleDown()
+        alert.addAction(trashAction)
+        
+        let trashAction2 = TSAlertAction(title: "Cancel",
+                                        style: .cancel) { _ in
+        }
+        trashAction2.leftImage = folder
+        trashAction2.configuration = configuration
+        trashAction2.highlightType = .dimAndScaleDown()
+        alert.addAction(trashAction2)
+        
+        let trashAction1 = TSAlertAction(title: "Destructive",
+                                         style: .destructive) { _ in
+        }
+        trashAction1.leftImage = folder
+        trashAction1.configuration = configuration
+        trashAction1.highlightType = .dimAndScaleDown()
+        alert.addAction(trashAction1)
         
         // Present alert
         alert.present(animated: true)

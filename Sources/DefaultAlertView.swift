@@ -67,7 +67,7 @@ class DefaultAlertView: UIView, TSAlertView {
                        bottomInset: configuration.margin.buttonBottom)
 
         let actionsCount = CGFloat(alert.actions.count)
-        let actionHeight: CGFloat = configuration.buttonMinHeight
+        let actionHeight: CGFloat = configuration.buttonHeight
         let spacing: CGFloat = configuration.spacing.buttonSpacing
         
         let height: CGFloat = if !isEmpty {
@@ -77,7 +77,7 @@ class DefaultAlertView: UIView, TSAlertView {
         } else {
             0
         }
-        buttonsView.setHeight(greaterThanOrEqualTo: height)
+        buttonsView.setHeight(equalTo: height)
     }
     
     required init(coder: NSCoder) {
@@ -90,7 +90,7 @@ class DefaultAlertView: UIView, TSAlertView {
     ///
     func animateView(for alert: TSAlertController) {
         //
-        if let type = alert.configuration.headerAnimationType {
+        if let type = alert.configuration.headerAnimation {
             type.apply(to: contentView)
             UIView.animate(withDuration: 0.5) {
                 type.undo(for: self.contentView)
@@ -98,7 +98,7 @@ class DefaultAlertView: UIView, TSAlertView {
         }
         
         //
-        if let type = alert.configuration.buttonGroupAnimationType {
+        if let type = alert.configuration.buttonGroupAnimation {
             type.apply(to: buttonGroupView)
             UIView.animate(withDuration: 0.5) {
                 type.undo(for: self.buttonGroupView)
