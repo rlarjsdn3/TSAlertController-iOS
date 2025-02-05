@@ -21,7 +21,7 @@
 
 import UIKit
 
-class DefaultContentView: UIStackView {
+class DefaultContentsView: UIStackView {
     
     // MARK: - Properties
     
@@ -36,42 +36,45 @@ class DefaultContentView: UIStackView {
     init(_ title: String?,
          _ message: String?,
          _ textfields: [UITextField]? = nil,
-         _ config: TSAlertController.ViewConfiguration) {
+         _ configuration: TSAlertController.Configuration) {
         super.init(frame: .zero)
         
         labelStack.axis = .vertical
-        labelStack.spacing = config.spacing.titleMessageSpacing
+        labelStack.spacing = configuration.spacing.titleMessageSpacing
         labelStack.alignment = .fill
         labelStack.distribution = .fillProportionally
         
-        if let title = title {
-            let attrText = NSAttributedString(string: title,
-                                              attributes: config.titleTextAttributes ?? [:])
+        let title = title
+        titleLabel.text = title
+        titleLabel.textAlignment = configuration.titleTextAlignment
+        titleLabel.numberOfLines = configuration.titleNumberOfLines
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: configuration.titleMinHeight).isActive = true
+        if let titleTextAttributes = configuration.titleTextAttributes {
+            let attrText = NSAttributedString(string: title ?? "",
+                                              attributes: titleTextAttributes)
             titleLabel.attributedText = attrText
-            titleLabel.text = title
-            titleLabel.textAlignment = config.titleTextAlignment
-            titleLabel.numberOfLines = config.titleNumberOfLines
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: config.titleHeight ?? 0).isActive = true
-            labelStack.addArrangedSubview(titleLabel)
         }
+        labelStack.addArrangedSubview(titleLabel)
         
         if let message = message {
-            let attrText = NSAttributedString(string: message,
-                                              attributes: config.messageTextAttributes ?? [:])
-            messageLabel.attributedText = attrText
             messageLabel.text = message
-            messageLabel.textAlignment = config.messageTextAlignment
-            messageLabel.numberOfLines = config.messageNumberOfLines
+            messageLabel.textAlignment = configuration.messageTextAlignment
+            messageLabel.numberOfLines = configuration.messageNumberOfLines
             messageLabel.translatesAutoresizingMaskIntoConstraints = false
-            messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: config.messageHeight ?? 0).isActive = true
+            messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: configuration.messageMinHeight).isActive = true
+            if let messageTextAttributes = configuration.messageTextAttributes {
+                let attrText = NSAttributedString(string: message,
+                                                  attributes: messageTextAttributes)
+                messageLabel.attributedText = attrText
+            }
             labelStack.addArrangedSubview(messageLabel)
         }
         addArrangedSubview(labelStack)
         
         if textfields?.isEmpty == false, let textfields = textfields {
-            let borderColor = config.textFieldContainerBorderColor
-            let borderWidth = config.textFieldContainerBorderWidth
+            let borderColor = configuration.textFieldContainerBorderColor
+            let borderWidth = configuration.textFieldContainerBorderWidth
             
             textfieldStack.axis = .vertical
             textfieldStack.spacing = 5
@@ -106,7 +109,7 @@ class DefaultContentView: UIStackView {
             addArrangedSubview(textfieldStack)
         }
         
-        configure(with: config)
+        configure(with: configuration)
     }
     
     required init(coder: NSCoder) {
@@ -115,7 +118,7 @@ class DefaultContentView: UIStackView {
     
     // MARK: - Private
     
-    private func configure(with viewConfig: TSAlertController.ViewConfiguration) {
+    private func configure(with viewConfig: TSAlertController.Configuration) {
         self.axis = .vertical
         self.spacing = viewConfig.spacing.messageTextfieldSpacing
         self.alignment = .fill
@@ -126,7 +129,7 @@ class DefaultContentView: UIStackView {
 
 // MARK: - Extension
 
-fileprivate extension DefaultContentView {
+private extension DefaultContentsView {
     
     func createSeparatorView(_ color: UIColor?, height: CGFloat) -> UIView {
         let separator = UIView()

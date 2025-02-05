@@ -30,13 +30,13 @@ public extension TSAlertController {
     struct ViewConfiguration {
         
         ///
-        public var titleMinHeight: CGFloat
+        public var titleHeight: CGFloat?
         
         ///
-        public var messageMinHeight: CGFloat
+        public var messageHeight: CGFloat?
         
         ///
-        public var buttonMinHeight: CGFloat
+        public var buttonHeight: CGFloat
         
         ///
         public var titleTextAttributes: [NSAttributedString.Key: Any]?
@@ -128,9 +128,9 @@ public extension TSAlertController {
         
         
         
-        public init(titleMinHeight: CGFloat = 0,
-                    messageMinHeight: CGFloat = 0,
-                    buttonMinHeight: CGFloat = 42.5,
+        public init(titleHeight: CGFloat? = nil,
+                    messageHeight: CGFloat? = nil,
+                    buttonHeight: CGFloat = 42.5,
                     titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
                                                                             .foregroundColor: UIColor.label],
                     titleTextAlignment: NSTextAlignment = .left,
@@ -152,26 +152,33 @@ public extension TSAlertController {
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
                     buttonLayoutAxis: ButtonLayoutAxis = .automatic) {
             
-            self.titleMinHeight = titleMinHeight
-            self.messageMinHeight = messageMinHeight
-            self.buttonMinHeight = buttonMinHeight
+            self.titleHeight = titleHeight
+            self.messageHeight = messageHeight
+            self.buttonHeight = buttonHeight
+            
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
+            
             self.messageTextAttributes = messageTextAttributes
             self.messageTextAlignment = messageTextAligngn
             self.messageNumberOfLines = messageNumberOfLines
+            
             self.textFieldContainerBorderColor = textFieldContainerBorderColor
             self.textFieldContainerBorderWidth = textFieldContainerBorderWidth
+            
             self.backgroundColor = backgroundColor
             self.backgroundBorderColor = backgroundBorderColor
             self.backgroundBorderWidth = backgroundBorderWidth
+            
             self.shadow = shadow
             self.cornerRadius = cornerRadius
             self.dimmedBackgroundViewColor = dimmedBackgroundViewColor
+            
             self.margin = margin
             self.spacing = spacing
             self.size = size
+            
             self.buttonLayoutAxis = buttonLayoutAxis
         }
     }
