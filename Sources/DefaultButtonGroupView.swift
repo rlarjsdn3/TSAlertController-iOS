@@ -45,7 +45,7 @@ class DefaultButtonGroupView: UIStackView {
     // MARK: - Private
     
     private func configure(_ buttons: [TSButton], with configuration: TSAlertController.ViewConfiguration) {
-        self.axis = configuration.buttonLayoutAxis.toNSLayoutConstraintAxis()
+        self.axis = configuration.buttonGroupAxis.toNSLayoutConstraintAxis()
         self.spacing = configuration.spacing.buttonSpacing
         self.alignment = .fill
         self.distribution = .fillEqually

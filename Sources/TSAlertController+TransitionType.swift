@@ -24,22 +24,45 @@ import UIKit
 public extension TSAlertController {
     
     ///
-    enum TransitionStyle {
-        
+    enum EnteringTransitionType {
+       
         ///
-        case fadeAndScaleDown
+        case fadeInAndScaleDown
         
         ///
         case slideUp
-
+        
+        
         ///
-        func toAnimator(presenting: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
+        var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
             switch self {
-            case .fadeAndScaleDown:
-                return FadeAndScaleDownAnimator(duration: 0.5, presenting: presenting)
+            case .fadeInAndScaleDown:
+                return FadeInAndScaleDownAnimator(presenting: true)
                 
             case .slideUp:
-                return SlideUpAnimator(duration: 0.5, presenting: presenting)
+                return SlideUpAnimator(presenting: true)
+            }
+        }
+    }
+    
+    ///
+    enum ExitingTransitionType {
+        
+        ///
+        case fadeOut
+        
+        ///
+        case slideDown
+        
+        
+        ///
+        var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
+            switch self {
+            case .fadeOut:
+                return FadeInAndScaleDownAnimator(presenting: false)
+                
+            case .slideDown:
+                return SlideUpAnimator(presenting: false)
             }
         }
     }

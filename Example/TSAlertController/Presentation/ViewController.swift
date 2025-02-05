@@ -31,11 +31,12 @@ class ViewController: UIViewController {
         alert.viewConfiguration.margin.buttonLeft = 5
         alert.viewConfiguration.margin.buttonRight = 5
         alert.viewConfiguration.spacing.buttonSpacing = 2
-        alert.viewConfiguration.buttonLayoutAxis = .vertical
+        alert.viewConfiguration.buttonGroupAxis = .vertical
         alert.configuration.enteringTransition = .slideUp
-        alert.configuration.exitingTransition = .slideUp
+        alert.configuration.exitingTransition = .slideDown
         alert.configuration.headerAnimation = .fade()
         alert.configuration.buttonGroupAnimation = .slide()
+        alert.configuration.prefersGrabberVisible = true
         
         // SFSymbol Image
         let trash = UIImage(systemName: "trash.fill")
@@ -45,9 +46,7 @@ class ViewController: UIViewController {
         let configuration = TSButton.Configuration(titleAttributes: [.font: UIFont.boldSystemFont(ofSize: 17),
                                                                      .foregroundColor: UIColor.label],
                                                    titleAlignment: .left,
-                                                   leftImageScale: 0.35,
                                                    leftImageSpacing: 15,
-                                                   rightImageScale: 0.35,
                                                    preferredSymbolConfigurationForRightImage: UIImage.SymbolConfiguration(paletteColors: [.lightGray]),
                                                    contentEdgeInset: .init(top: 0, leading: 4, bottom: 0, trailing: 4),
                                                    backgroundColor: .clear)
@@ -58,8 +57,7 @@ class ViewController: UIViewController {
         }
         desctructiveAction.configuration = configuration
         desctructiveAction.leftImage = trash
-        desctructiveAction.rightImage = folder
-        desctructiveAction.highlightType = .dimAndScaleDown(color: .darkGray)
+        desctructiveAction.highlightType = .dimAndScaleDown(color: .systemGray5)
         alert.addAction(desctructiveAction)
         
         let trashAction = TSAlertAction(title: "Trash",
@@ -67,7 +65,7 @@ class ViewController: UIViewController {
         }
         trashAction.leftImage = folder
         trashAction.configuration = configuration
-        trashAction.highlightType = .dimAndScaleDown()
+        trashAction.highlightType = .dimAndScaleDown(color: .systemGray5)
         alert.addAction(trashAction)
         
         let trashAction2 = TSAlertAction(title: "Cancel",
@@ -75,7 +73,7 @@ class ViewController: UIViewController {
         }
         trashAction2.leftImage = folder
         trashAction2.configuration = configuration
-        trashAction2.highlightType = .dimAndScaleDown()
+        trashAction2.highlightType = .dimAndScaleDown(color: .systemGray5)
         alert.addAction(trashAction2)
         
         let trashAction1 = TSAlertAction(title: "Destructive",
@@ -83,7 +81,7 @@ class ViewController: UIViewController {
         }
         trashAction1.leftImage = folder
         trashAction1.configuration = configuration
-        trashAction1.highlightType = .dimAndScaleDown()
+        trashAction1.highlightType = .dimAndScaleDown(color: .systemGray5)
         alert.addAction(trashAction1)
         
         // Present alert

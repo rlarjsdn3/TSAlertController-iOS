@@ -39,6 +39,9 @@ public extension TSAlertController {
         public var buttonHeight: CGFloat
         
         ///
+        public var grabberColor: UIColor?
+        
+        ///
         public var titleTextAttributes: [NSAttributedString.Key: Any]?
         
         ///
@@ -94,7 +97,7 @@ public extension TSAlertController {
         public var size: LayoutSize
         
         ///
-        public var buttonLayoutAxis: ButtonLayoutAxis
+        public var buttonGroupAxis: ButtonGroupAxis
         
         
         
@@ -131,6 +134,7 @@ public extension TSAlertController {
         public init(titleHeight: CGFloat? = nil,
                     messageHeight: CGFloat? = nil,
                     buttonHeight: CGFloat = 42.5,
+                    grabberColor: UIColor? = .systemGray5,
                     titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
                                                                             .foregroundColor: UIColor.label],
                     titleTextAlignment: NSTextAlignment = .left,
@@ -150,11 +154,13 @@ public extension TSAlertController {
                     margin: LayoutMargin = .init(),
                     spacing: LayoutSpacing = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
-                    buttonLayoutAxis: ButtonLayoutAxis = .automatic) {
+                    buttonGroupAxis: ButtonGroupAxis = .automatic) {
             
             self.titleHeight = titleHeight
             self.messageHeight = messageHeight
             self.buttonHeight = buttonHeight
+            
+            self.grabberColor = grabberColor
             
             self.titleTextAttributes = titleTextAttributes
             self.titleTextAlignment = titleTextAlignment
@@ -179,7 +185,7 @@ public extension TSAlertController {
             self.spacing = spacing
             self.size = size
             
-            self.buttonLayoutAxis = buttonLayoutAxis
+            self.buttonGroupAxis = buttonGroupAxis
         }
     }
 }
@@ -404,7 +410,7 @@ extension TSAlertController.ViewConfiguration.LayoutSize.Constraint: Comparable 
 public extension TSAlertController.ViewConfiguration {
     
     ///
-    enum ButtonLayoutAxis {
+    enum ButtonGroupAxis {
         
         ///
         case automatic
@@ -416,7 +422,7 @@ public extension TSAlertController.ViewConfiguration {
         case horizontal
     
         ///
-        func resolvedAxis(for buttonCount: Int) -> ButtonLayoutAxis {
+        func resolvedAxis(for buttonCount: Int) -> ButtonGroupAxis {
             switch self {
             case .automatic:
                 return buttonCount <= 2 ? .horizontal : .vertical
