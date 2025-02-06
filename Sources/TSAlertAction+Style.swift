@@ -22,47 +22,21 @@
 
 import UIKit
 
-public extension TSAlertController {
+public extension TSAlertAction {
     
     ///
-    enum AnimationType {
+    enum Style {
         
         ///
-        case fadeIn(alpha: CGFloat = 0)
+        case cancel
         
         ///
-        case slide(translationX: CGFloat = 0,
-                   y: CGFloat = 20,
-                   alpha: CGFloat = 0)
+        case `default`
         
         ///
-        case custom(transform: CGAffineTransform,
-                    alpha: CGFloat)
-        
-        
-        ///
-        func apply(to view: UIView) {
-            switch self {
-            case let .fadeIn(alpha):
-                view.alpha = alpha
-                
-            case let .slide(translationX, y, alpha):
-                view.alpha = alpha
-                view.transform = CGAffineTransform(translationX: translationX, y: y)
-                
-            case let .custom(transform, alpha):
-                view.alpha = alpha
-                view.transform = transform
-            }
-        }
-        
-        ///
-        func undo(for view: UIView) {
-            switch self {
-            case .fadeIn, .slide, .custom:
-                view.alpha = 1
-                view.transform = .identity
-            }
-        }
+        case destructive
     }
+}
+
+extension TSAlertAction.Style: Equatable {
 }

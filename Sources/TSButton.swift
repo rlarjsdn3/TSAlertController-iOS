@@ -28,23 +28,35 @@ public class TSButton: UIButton {
     
     ///
     let container = UIView()
+
+    ///
+    private let stackView = UIStackView()
     
     ///
-    private let leftImageView = UIImageView()
+    public override var imageView: UIImageView {
+        get { _imageView }
+        set { }
+    }
+    
+    private let _imageView = UIImageView()
+    
     
     ///
-    private let rightImageView = UIImageView()
-    
-    ///
-    public override var titleLabel: UILabel? {
+    public override var titleLabel: UILabel {
         get { _titleLabel }
         set { }
     }
     
     private let _titleLabel = UILabel()
+
+    ///
+    private let accessoryImageView = UIImageView()
     
     ///
-    var highlightType: TSButton.HighlightType = .dimAndScaleDown()
+    var config: TSButton.Configuration?
+    
+    ///
+    var highlightType: TSButton.HighlightType = .tintAndScaleDown()
     
     ///
     public override var isHighlighted: Bool {
@@ -60,77 +72,60 @@ public class TSButton: UIButton {
     // MARK: - Intializer
     
     ///
-    init(leftImage: UIImage? = nil,
-         title: String?,
-         rightImage: UIImage? = nil,
-         config: TSButton.Configuration) {
+    init(config: TSButton.Configuration) {
+        self.config = config
         super.init(frame: .zero)
         
-        // NOTE: - Using a stack causes issues with correctly setting the button’s overall size,
-        //         so constraints for each element were explicitly defined using a UIView.
+        self.backgroundColor = config.backgroundColor
+        self.layer.cornerRadius = config.cornerRadius
         
         addSubview(container)
-        container.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: self.topAnchor, constant: config.contentEdgeInset.top),
-            container.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: config.contentEdgeInset.leading),
-            container.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -config.contentEdgeInset.bottom),
-            container.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -config.contentEdgeInset.trailing),
-        ])
+        container.anchor(top: self.topAnchor,
+                         leading: self.leadingAnchor,
+                         trailing: self.trailingAnchor,
+                         bottom: self.bottomAnchor,
+                         topInset: config.contentEdgeInset.top,
+                         leadingInset: config.contentEdgeInset.leading,
+                         trailingInset: config.contentEdgeInset.trailing,
+                         bottomInset: config.contentEdgeInset.bottom)
+        container.isUserInteractionEnabled = false
         
-        
-        if let leftImage = leftImage {
-            leftImageView.image = leftImage.applyingSymbolConfiguration(config.preferredSymbolConfigurationForLeftImage
-                                                                        ?? UIImage.SymbolConfiguration.unspecified)
+        if let accessoryImage = config.accessoryImage {
+            accessoryImageView.image = accessoryImage.applyingSymbolConfiguration(config.preferredSymbolConfigurationForAccessoryImage ?? .unspecified)
+            accessoryImageView.contentMode = .scaleAspectFit
+            
+            container.addSubview(accessoryImageView)
+            accessoryImageView.centerY(in: container)
+            accessoryImageView.anchor(trailing: container.trailingAnchor, trailingInset: 0)
         }
         
-        container.addSubview(leftImageView)
-        leftImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            leftImageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0),
-            leftImageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-            leftImageView.widthAnchor.constraint(equalTo: leftImageView.heightAnchor),
-            leftImageView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: config.leftImageScale)
-        ])
-        
-        
-        if let rightImage = rightImage {
-            rightImageView.image = rightImage.applyingSymbolConfiguration(config.preferredSymbolConfigurationForRightImage
-                                                                          ?? UIImage.SymbolConfiguration.unspecified)
+        container.addSubview(stackView)
+        stackView.centerY(in: container)
+        stackView.spacing = config.imageSpacing
+        switch config.contentAlignment {
+        case .left: stackView.anchor(leading: container.leadingAnchor, leadingInset: 0)
+        case .center: stackView.centerX(in: container)
+        case .right: stackView.anchor(trailing: config.accessoryImage != nil
+                                      ? accessoryImageView.leadingAnchor
+                                      : container.trailingAnchor,
+                                      trailingInset: config.accessoryImage != nil
+                                      ? config.accessoryImageSpacing
+                                      : 0)
         }
         
-        container.addSubview(rightImageView)
-        rightImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            rightImageView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-            rightImageView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0),
-            rightImageView.widthAnchor.constraint(equalTo: rightImageView.heightAnchor),
-            rightImageView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: config.rightImageScale)
-        ])
-        
-        
-        container.addSubview(_titleLabel)
-        _titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            _titleLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-            _titleLabel.leadingAnchor.constraint(
-                equalTo: leftImageView.trailingAnchor,
-                constant: leftImage != nil ? config.leftImageSpacing : 0
-            ),
-            _titleLabel.trailingAnchor.constraint(
-                equalTo: rightImageView.leadingAnchor,
-                constant: rightImage != nil ? config.rightImageSpacing : 0)
-        ])
-        
-        if let title = title {
+        if let title = config.title {
             let attrText = NSAttributedString(string: title,
                                               attributes: config.titleAttributes ?? [:])
-            _titleLabel.attributedText = attrText
-            _titleLabel.textAlignment = config.titleAlignment
-            
+            titleLabel.attributedText = attrText
+            titleLabel.textAlignment = config.titleAlignment
+            stackView.addArrangedSubview(titleLabel)
         }
         
-        configure(with: config)
+        if let image = config.image {
+            imageView.image = image.applyingSymbolConfiguration(config.preferredSymbolConfigurationForImage ?? .unspecified)
+            imageView.contentMode = .scaleAspectFit
+            stackView.insertArrangedSubview(imageView, at: 0)
+        }
     }
     
     public override init(frame: CGRect) {
@@ -144,18 +139,6 @@ public class TSButton: UIButton {
     
     // MARK: - Private
     
-    private func configure(with config: TSButton.Configuration) {
-        self.backgroundColor = config.backgroundColor
-        self.layer.cornerRadius = config.cornerRadius
-        titleLabel?.textAlignment = config.titleAlignment
-        
-        container.isUserInteractionEnabled = false
-        
-        leftImageView.contentMode = .scaleAspectFit
-        leftImageView.isUserInteractionEnabled = false
-        rightImageView.contentMode = .scaleAspectFit
-    }
-    
     private func updateHighlightState() {
         UIView.animate(withDuration: 0.15) {
             self.isHighlighted ? self.highlightType.apply(to: self) : self.highlightType.undo(for: self)
@@ -168,5 +151,24 @@ public class TSButton: UIButton {
 }
 
 
+// MARK: - Extension
 
-
+extension TSButton {
+    
+    private struct AssociatedKeys {
+        static var previousBackgroundColor = "previousBackgroundColor"
+    }
+    
+    ///
+    var previousBackgroundColor: UIColor? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.previousBackgroundColor) as? UIColor
+        }
+        set {
+            objc_setAssociatedObject(self,
+                                     &AssociatedKeys.previousBackgroundColor,
+                                     newValue,
+                                     .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
+    }
+}

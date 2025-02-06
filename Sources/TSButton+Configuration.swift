@@ -27,28 +27,34 @@ public extension TSButton {
     struct Configuration {
         
         ///
+        public var title: String?
+        
+        ///
         public var titleAttributes: [NSAttributedString.Key: Any]?
         
         ///
         public var titleAlignment: NSTextAlignment
         
         ///
-        public var leftImageScale: CGFloat
+        public var image: UIImage?
         
         ///
-        public var leftImageSpacing: CGFloat
+        public var imageSpacing: CGFloat
         
         ///
-        public var preferredSymbolConfigurationForLeftImage: UIImage.SymbolConfiguration?
+        public var preferredSymbolConfigurationForImage: UIImage.SymbolConfiguration?
         
         ///
-        public var rightImageScale: CGFloat
+        public var accessoryImage: UIImage?
         
         ///
-        public var rightImageSpacing: CGFloat
+        public var accessoryImageSpacing: CGFloat
         
         ///
-        public var preferredSymbolConfigurationForRightImage: UIImage.SymbolConfiguration?
+        public var preferredSymbolConfigurationForAccessoryImage: UIImage.SymbolConfiguration?
+        
+        ///
+        public var contentAlignment: ContentAlignment
         
         ///
         public var contentEdgeInset: NSDirectionalEdgeInsets
@@ -60,36 +66,71 @@ public extension TSButton {
         public var cornerRadius: CGFloat
         
         ///
-        public init(titleAttributes: [NSAttributedString.Key: Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                       .foregroundColor: UIColor.systemBackground],
+        public init(title: String? = nil,
+                    titleAttributes: [NSAttributedString.Key: Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                                       .foregroundColor: UIColor.white],
                     titleAlignment: NSTextAlignment = .center,
                     
-                    leftImageScale: CGFloat = 0.5,
-                    leftImageSpacing: CGFloat = 0,
-                    preferredSymbolConfigurationForLeftImage: UIImage.SymbolConfiguration? = nil,
+                    image: UIImage? = nil,
+                    imageSpacing: CGFloat = 10,
+                    preferredSymbolConfigurationForImage: UIImage.SymbolConfiguration? = nil,
                     
-                    rightImageScale: CGFloat = 0.5,
-                    rightImageSpacing: CGFloat = 0,
-                    preferredSymbolConfigurationForRightImage: UIImage.SymbolConfiguration? = nil,
+                    accessoryImage: UIImage? = nil,
+                    accessoryImageSpacing: CGFloat = 10,
+                    preferredSymbolConfigurationForAccessoryImage: UIImage.SymbolConfiguration? = nil,
                     
-                    contentEdgeInset: NSDirectionalEdgeInsets = .zero,
+                    contentAlignment: ContentAlignment = .center,
+                    contentEdgeInset: NSDirectionalEdgeInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 10),
                     backgroundColor: UIColor? = .systemGray4,
                     cornerRadius: CGFloat = 12.5) {
             
+            self.title = title
             self.titleAttributes = titleAttributes
             self.titleAlignment = titleAlignment
             
-            self.leftImageScale = leftImageScale
-            self.leftImageSpacing = leftImageSpacing
-            self.preferredSymbolConfigurationForLeftImage = preferredSymbolConfigurationForLeftImage
+            self.image = image
+            self.imageSpacing = imageSpacing
+            self.preferredSymbolConfigurationForImage = preferredSymbolConfigurationForImage
             
-            self.rightImageScale = rightImageScale
-            self.rightImageSpacing = rightImageSpacing
-            self.preferredSymbolConfigurationForRightImage = preferredSymbolConfigurationForRightImage
+            self.accessoryImage = accessoryImage
+            self.accessoryImageSpacing = accessoryImageSpacing
+            self.preferredSymbolConfigurationForAccessoryImage = preferredSymbolConfigurationForAccessoryImage
             
+            self.contentAlignment = contentAlignment
             self.contentEdgeInset = contentEdgeInset
             self.backgroundColor = backgroundColor
             self.cornerRadius = cornerRadius
         }
+    }
+}
+
+extension TSButton.Configuration {
+    
+    ///
+    func configurationWithoutImageAndAccessoryImage() -> Self {
+        var newConfig = self
+        newConfig.image = nil
+        newConfig.accessoryImage = nil
+        return newConfig
+    }
+}
+
+
+
+// MARK: - Content Alignment
+
+public extension TSButton {
+    
+    ///
+    enum ContentAlignment {
+        
+        ///
+        case left
+        
+        ///
+        case center
+        
+        ///
+        case right
     }
 }
