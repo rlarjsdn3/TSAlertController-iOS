@@ -7,84 +7,187 @@
 //
 
 import UIKit
-
 import TSAlertController
 
 class ViewController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    // MARK: - Show Basic Alert
+    
+    @IBAction func showBasicAlert(_ sender: Any) {
+        
+        //
+        let alert = TSAlertController(title: "Current Location Not Available",
+                                      message: "Your current location can't be determined at this time.",
+                                      preferredStyle: .alert)
+        
+        //
+        let okAction = TSAlertAction(title: "OK", style: .default)
+        okAction.configuration.backgroundColor = .systemBlue
+        alert.addAction(okAction)
+        
+        //
+        present(alert, animated: true)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
-    @IBAction func test(_ sender: Any) {
-        // TSAlertController Initialization
-        let alert = TSAlertController(
-            title: "Menu",
-            message: "Select one of the file processing options below.",
-            options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
+    // MARK: - Show Basic ActionSheet
+    
+    @IBAction func showBasicActionSheet(_ sender: Any) {
+        
+        //
+        let actionSheet = TSAlertController(
+            title: "Share File",
+            message: "Choose how you want to share this file.",
+            options: [.interactiveScaleAndDrag],
             preferredStyle: .actionSheet
         )
-        alert.viewConfiguration.margin.buttonLeft = 5
-        alert.viewConfiguration.margin.buttonRight = 5
-        alert.viewConfiguration.spacing.buttonSpacing = 2
-        alert.viewConfiguration.buttonGroupAxis = .vertical
-        alert.configuration.enteringTransition = .slideUp
-        alert.configuration.exitingTransition = .slideDown
-        alert.configuration.headerAnimation = .fade()
-        alert.configuration.buttonGroupAnimation = .slide()
-        alert.configuration.prefersGrabberVisible = true
-        
-        // SFSymbol Image
-        let trash = UIImage(systemName: "trash.fill")
-        let folder = UIImage(systemName: "arrow.up.and.down.and.arrow.left.and.right")
-        
-        // Configuration Intialization
-        let configuration = TSButton.Configuration(titleAttributes: [.font: UIFont.boldSystemFont(ofSize: 17),
-                                                                     .foregroundColor: UIColor.label],
-                                                   titleAlignment: .left,
-                                                   leftImageSpacing: 15,
-                                                   preferredSymbolConfigurationForRightImage: UIImage.SymbolConfiguration(paletteColors: [.lightGray]),
-                                                   contentEdgeInset: .init(top: 0, leading: 4, bottom: 0, trailing: 4),
-                                                   backgroundColor: .clear)
-        
-        // Add button actions
-        let desctructiveAction = TSAlertAction(title: "Move",
-                                               style: .destructive) { _ in
+
+        //
+        let shareViaEmailAction = TSAlertAction(title: "Share via Email", style: .default) { _ in
+            print("Email selected")
         }
-        desctructiveAction.configuration = configuration
-        desctructiveAction.leftImage = trash
-        desctructiveAction.highlightType = .dimAndScaleDown(color: .systemGray5)
-        alert.addAction(desctructiveAction)
+        actionSheet.addAction(shareViaEmailAction)
         
-        let trashAction = TSAlertAction(title: "Trash",
-                                        style: .default) { _ in
+        let shareViaMessagesAction = TSAlertAction(title: "Share via Messages", style: .default) { _ in
+            print("Messages selected")
         }
-        trashAction.leftImage = folder
-        trashAction.configuration = configuration
-        trashAction.highlightType = .dimAndScaleDown(color: .systemGray5)
-        alert.addAction(trashAction)
+        actionSheet.addAction(shareViaMessagesAction)
         
-        let trashAction2 = TSAlertAction(title: "Cancel",
-                                        style: .cancel) { _ in
+        let copyLinkAction = TSAlertAction(title: "Copy Link", style: .default) { _ in
+            print("Link copied")
         }
-        trashAction2.leftImage = folder
-        trashAction2.configuration = configuration
-        trashAction2.highlightType = .dimAndScaleDown(color: .systemGray5)
-        alert.addAction(trashAction2)
+        actionSheet.addAction(copyLinkAction)
+
+        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel)
+        cancelAction.configuration.backgroundColor = .systemBlue
+        actionSheet.addAction(cancelAction)
+
+        //
+        present(actionSheet, animated: true)
+    }
+    
+    // MARK: - Show Alert With Textifleds
+    
+    @IBAction func showAlertWithTextfields(_ sender: Any) {
         
-        let trashAction1 = TSAlertAction(title: "Destructive",
-                                         style: .destructive) { _ in
+        //
+        let alert = TSAlertController(title: "Sign In",
+                                      message: "Please enter your username and password to access your account.",
+                                      options: [.dismissOnTapOutside],
+                                      preferredStyle: .alert)
+        //
+        alert.viewConfiguration.backgroundBorderColor = UIColor.systemGray2.cgColor
+        alert.viewConfiguration.backgroundBorderWidth = 1.5
+        alert.viewConfiguration.backgroundColor = .blur(.systemChromeMaterial)
+        
+        //
+        let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
+            print("Sign In")
         }
-        trashAction1.leftImage = folder
-        trashAction1.configuration = configuration
-        trashAction1.highlightType = .dimAndScaleDown(color: .systemGray5)
-        alert.addAction(trashAction1)
+        alert.addAction(okAction)
         
-        // Present alert
-        alert.present(animated: true)
+        //
+        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { _ in
+            print("Cancel")
+        }
+        cancelAction.configuration.backgroundColor = .systemBlue
+        alert.addAction(cancelAction)
+        
+        //
+        alert.addTextField { textfield in
+            textfield.placeholder = "Username"
+        }
+        alert.addTextField { textfield in
+            textfield.placeholder = "Password"
+        }
+        
+        present(alert, animated: true)
+    }
+    
+    
+    // MARK: - Show ActionSheet with Slide Animation
+    
+    @IBAction func showActionSheetWithSlideAnimation(_ sender: Any) {
+        
+        //
+        let actionSheet = TSAlertController(
+            title: "Change Profile Picture",
+            message: "Select how you want to update your profile picture.",
+            options: [.interactiveScaleAndDrag, .dismissOnSwipeDown],
+            preferredStyle: .actionSheet
+        )
+        //
+        actionSheet.configuration.headerAnimation = .fadeIn()
+        actionSheet.configuration.buttonGroupAnimation = .slide()
+
+        actionSheet.viewConfiguration.dimmedBackgroundViewColor = .blur(.systemChromeMaterialDark)
+        
+        //
+        let cameraAction = TSAlertAction(title: "Take a Photo", style: .default) { _ in
+            print("Open Camera")
+        }
+        cameraAction.configuration.image = UIImage(systemName: "camera.fill")
+        cameraAction.configuration.accessoryImage = UIImage(systemName: "chevron.right")
+        cameraAction.configuration.backgroundColor = .systemBlue
+        cameraAction.configuration.preferredSymbolConfigurationForImage = .init(paletteColors: [.white])
+        cameraAction.configuration.preferredSymbolConfigurationForAccessoryImage = .init(paletteColors: [.white])
+        
+        actionSheet.addAction(cameraAction)
+
+        //
+        let galleryAction = TSAlertAction(title: "Choose from Gallery", style: .default) { _ in
+            print("Open Photo Library")
+        }
+        galleryAction.configuration.image = UIImage(systemName: "photo.on.rectangle.angled")
+        galleryAction.configuration.accessoryImage = UIImage(systemName: "chevron.right")
+        galleryAction.configuration.backgroundColor = .systemBlue
+        galleryAction.configuration.preferredSymbolConfigurationForImage = .init(paletteColors: [.white])
+        galleryAction.configuration.preferredSymbolConfigurationForAccessoryImage = .init(paletteColors: [.white])
+        
+        actionSheet.addAction(galleryAction)
+
+        //
+        let defaultImageAction = TSAlertAction(title: "Remove", style: .destructive) { _ in
+            print("Reset to Default Image")
+        }
+        defaultImageAction.configuration.preferredSymbolConfigurationForImage = .init(paletteColors: [.white])
+        actionSheet.addAction(defaultImageAction)
+        
+        //
+        present(actionSheet, animated: true)
+    }
+    
+    
+    // MARK: - Show Alert with Other Transition
+    
+    @IBAction func showAlertWithMultipleActionsAndSlideTransition(_ sender: Any) {
+    }
+    
+    
+    // MARK: - Show Alert With Custom View
+    
+    @IBAction func showAlertWithCustomView(_ sender: Any) {
+    }
+    
+    
+    // MARK: - Show ActionSheet With Custom View
+    
+    @IBAction func showActionSheetWithCustomView(_ sender: Any) {
+    }
+}
+
+
+
+
+
+
+// MARK: - Lifecycle
+
+extension ViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .systemBackground
     }
 }

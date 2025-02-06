@@ -42,7 +42,8 @@ public extension TSButton {
                               alpha: CGFloat = 0.5)
         
         ///
-        case custom(transform: CGAffineTransform)
+        case custom(transform: CGAffineTransform,
+                    alpha: CGFloat)
         
         
         ///
@@ -60,7 +61,8 @@ public extension TSButton {
                 view.backgroundColor = color.withAlphaComponent(alpha)
                 view.transform = CGAffineTransform(scaleX: scaleX, y: y)
                 
-            case let .custom(transform):
+            case let .custom(transform, alpha):
+                view.alpha = alpha
                 view.transform = transform
             }
         }

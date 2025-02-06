@@ -28,7 +28,7 @@ public extension TSAlertController {
     enum AnimationType {
         
         ///
-        case fade(alpha: CGFloat = 0)
+        case fadeIn(alpha: CGFloat = 0)
         
         ///
         case slide(translationX: CGFloat = 0,
@@ -43,7 +43,7 @@ public extension TSAlertController {
         ///
         func apply(to view: UIView) {
             switch self {
-            case let .fade(alpha):
+            case let .fadeIn(alpha):
                 view.alpha = alpha
                 
             case let .slide(translationX, y, alpha):
@@ -59,7 +59,7 @@ public extension TSAlertController {
         ///
         func undo(for view: UIView) {
             switch self {
-            case .fade, .slide, .custom:
+            case .fadeIn, .slide, .custom:
                 view.alpha = 1
                 view.transform = .identity
             }

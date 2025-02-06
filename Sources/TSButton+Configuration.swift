@@ -68,7 +68,7 @@ public extension TSButton {
         ///
         public init(title: String? = nil,
                     titleAttributes: [NSAttributedString.Key: Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                       .foregroundColor: UIColor.systemBackground],
+                                                                       .foregroundColor: UIColor.white],
                     titleAlignment: NSTextAlignment = .center,
                     
                     image: UIImage? = nil,
@@ -81,7 +81,7 @@ public extension TSButton {
                     
                     contentAlignment: ContentAlignment = .center,
                     contentEdgeInset: NSDirectionalEdgeInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 10),
-                    backgroundColor: UIColor? = .systemGray2,
+                    backgroundColor: UIColor? = .systemGray4,
                     cornerRadius: CGFloat = 12.5) {
             
             self.title = title
