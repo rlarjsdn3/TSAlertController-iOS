@@ -24,23 +24,35 @@ import UIKit
 
 public extension TSAlertController {
     
-    ///
+    /// Defines different types of animations that can be applied to the alert's internal view.
     enum AnimationType {
         
+        /// A fade-in animation with an optional initial alpha value.
         ///
+        /// - Parameter alpha: The initial alpha value before the animation starts. Default is `0` (completely transparent).
         case fadeIn(alpha: CGFloat = 0)
         
+        /// A slide animation with a optional initial translation and alpha values.
         ///
+        /// - Parameters:
+        ///   - translationX: The initial horizontal translation distance. Default is `0` (no horizontal movement).
+        ///   - y: The initial vertical translation distance. Default is `20` (moves down by 20 points).
+        ///   - alpha: The initial alpha value before the animation starts. Default is `0` (completely transparent).
         case slide(translationX: CGFloat = 0,
                    y: CGFloat = 20,
                    alpha: CGFloat = 0)
         
+        /// A custom animation using a specified transform and alpha value.
         ///
+        /// - Parameters:
+        ///   - transform: A `CGAffineTransform` defining the transformation to be applied.
+        ///   - alpha: The initial alpha value before the animation starts.
         case custom(transform: CGAffineTransform,
                     alpha: CGFloat)
         
-        
+        /// Applies the selected animation type to a given view.
         ///
+        /// - Parameter view: The `UIView` to which the animation will be applied.
         func apply(to view: UIView) {
             switch self {
             case let .fadeIn(alpha):
@@ -56,7 +68,9 @@ public extension TSAlertController {
             }
         }
         
+        /// Resets the animation effects and restores the view to its original state.
         ///
+        /// - Parameter view: The `UIView` whose animation should be undone.
         func undo(for view: UIView) {
             switch self {
             case .fadeIn, .slide, .custom:

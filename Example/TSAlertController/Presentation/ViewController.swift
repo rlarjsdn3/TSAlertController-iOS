@@ -12,7 +12,7 @@ import TSAlertController
 class ViewController: UIViewController {
     
     
-    // MARK: - Show Basic Alert
+    // MARK: - Alert ① - Basic Usage
     
     @IBAction func showBasicAlert(_ sender: Any) {
         
@@ -29,6 +29,46 @@ class ViewController: UIViewController {
         //
         present(alert, animated: true)
     }
+    
+    // MARK: - Alert ① - Basic Usage
+    
+    @IBAction func showAlertWithTextfields(_ sender: Any) {
+        
+        //
+        let alert = TSAlertController(title: "Sign In",
+                                      message: "Please enter your username and password to access your account.",
+                                      options: [.dismissOnTapOutside],
+                                      preferredStyle: .alert)
+        //
+        alert.viewConfiguration.backgroundBorderColor = UIColor.systemGray2.cgColor
+        alert.viewConfiguration.backgroundBorderWidth = 1.5
+        alert.viewConfiguration.backgroundColor = .blur(.systemChromeMaterial)
+        
+        //
+        let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
+            print("Sign In")
+        }
+        alert.addAction(okAction)
+        alert.preferredAction = okAction
+        
+        //
+        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { _ in
+            print("Cancel")
+        }
+        cancelAction.configuration.backgroundColor = .systemBlue
+        alert.addAction(cancelAction)
+        
+        //
+        alert.addTextField { textfield in
+            textfield.placeholder = "Username"
+        }
+        alert.addTextField { textfield in
+            textfield.placeholder = "Password"
+        }
+        
+        present(alert, animated: true)
+    }
+    
     
     
     // MARK: - Show Basic ActionSheet
@@ -67,44 +107,7 @@ class ViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
-    // MARK: - Show Alert With Textifleds
     
-    @IBAction func showAlertWithTextfields(_ sender: Any) {
-        
-        //
-        let alert = TSAlertController(title: "Sign In",
-                                      message: "Please enter your username and password to access your account.",
-                                      options: [.dismissOnTapOutside],
-                                      preferredStyle: .alert)
-        //
-        alert.viewConfiguration.backgroundBorderColor = UIColor.systemGray2.cgColor
-        alert.viewConfiguration.backgroundBorderWidth = 1.5
-        alert.viewConfiguration.backgroundColor = .blur(.systemChromeMaterial)
-        
-        //
-        let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
-            print("Sign In")
-        }
-        alert.addAction(okAction)
-        alert.preferredAction = okAction
-        
-        //
-        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { _ in
-            print("Cancel")
-        }
-        cancelAction.configuration.backgroundColor = .systemBlue
-        alert.addAction(cancelAction)
-        
-        //
-        alert.addTextField { textfield in
-            textfield.placeholder = "Username"
-        }
-        alert.addTextField { textfield in
-            textfield.placeholder = "Password"
-        }
-        
-        present(alert, animated: true)
-    }
     
     
     // MARK: - Show ActionSheet with Slide Animation
@@ -157,24 +160,6 @@ class ViewController: UIViewController {
         
         //
         present(actionSheet, animated: true)
-    }
-    
-    
-    // MARK: - Show Alert with Other Transition
-    
-    @IBAction func showAlertWithMultipleActionsAndSlideTransition(_ sender: Any) {
-    }
-    
-    
-    // MARK: - Show Alert With Custom View
-    
-    @IBAction func showAlertWithCustomView(_ sender: Any) {
-    }
-    
-    
-    // MARK: - Show ActionSheet With Custom View
-    
-    @IBAction func showActionSheetWithCustomView(_ sender: Any) {
     }
 }
 

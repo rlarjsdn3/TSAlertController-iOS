@@ -37,18 +37,18 @@ class DefaultAlertView: UIView, TSAlertView {
     // MARK: - Intializer
     
     init(_ alert: TSAlertController,
-         _ contentView: UIView,
-         _ buttonsView: UIView,
-         _ viewConfiguration: TSAlertController.ViewConfiguration,
-         _ configuration: TSAlertController.Configuration) {
+         contentView: UIView,
+         buttonGroupView: UIView,
+         viewConfiguration: TSAlertController.ViewConfiguration,
+         configuration: TSAlertController.Configuration) {
         self.contentView = contentView
-        self.buttonGroupView = buttonsView
+        self.buttonGroupView = buttonGroupView
         self.viewConfiguration = viewConfiguration
         self.configuration = configuration
         super.init(frame: .zero)
         
         addSubview(contentView)
-        addSubview(buttonsView)
+        addSubview(buttonGroupView)
         
         let isEmpty = alert.actions.isEmpty
         let textfieldButtonSpacing = isEmpty
@@ -68,15 +68,15 @@ class DefaultAlertView: UIView, TSAlertView {
         
         contentView.anchor(top: configuration.prefersGrabberVisible
                            ? grabber.bottomAnchor : self.topAnchor ,
-                       leading: self.leadingAnchor,
-                       trailing: self.trailingAnchor,
-                       bottom: buttonsView.topAnchor,
-                       topInset: viewConfiguration.margin.contentTop,
-                       leadingInset: viewConfiguration.margin.contentLeft,
-                       trailingInset: viewConfiguration.margin.contentRight,
-                       bottomInset: textfieldButtonSpacing)
+                           leading: self.leadingAnchor,
+                           trailing: self.trailingAnchor,
+                           bottom: buttonGroupView.topAnchor,
+                           topInset: viewConfiguration.margin.contentTop,
+                           leadingInset: viewConfiguration.margin.contentLeft,
+                           trailingInset: viewConfiguration.margin.contentRight,
+                           bottomInset: textfieldButtonSpacing)
         
-        buttonsView.anchor(leading: self.leadingAnchor,
+        buttonGroupView.anchor(leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
                        bottom: self.bottomAnchor,
                        leadingInset: viewConfiguration.margin.buttonLeft,
@@ -94,7 +94,7 @@ class DefaultAlertView: UIView, TSAlertView {
         } else {
             0
         }
-        buttonsView.setHeight(equalTo: height)
+        buttonGroupView.setHeight(equalTo: height)
     }
     
     required init(coder: NSCoder) {

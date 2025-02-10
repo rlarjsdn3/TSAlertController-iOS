@@ -23,27 +23,26 @@ import UIKit
 
 public extension TSAlertController {
     
-    ///
+    /// Defines the types of entering transitions for the alert.
     enum EnteringTransitionType {
-       
-        ///
-        case fadeInAndScaleDown(duration: TimeInterval = 0.5)
         
-        ///
-        case slideUp(duration: TimeInterval = 0.5)
+        /// A fade-in effect combined with a scale-down animation.
+        case fadeInAndScaleDown
         
-        ///
+        /// A slide-up animation effect.
+        case slideUp
+        
+        /// A custom transition using a `UIViewControllerAnimatedTransitioning` instance.
         case custom(any UIViewControllerAnimatedTransitioning)
         
-        
-        ///
+        /// Resolves the appropriate animator for the selected entering transition type.
         var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
             switch self {
-            case let .fadeInAndScaleDown(duration):
-                return FadeInAndScaleDownAnimator(duration: duration, presenting: true)
+            case .fadeInAndScaleDown:
+                return FadeInAndScaleDownAnimator(presenting: true)
                 
-            case let .slideUp(duration):
-                return SlideUpAnimator(duration: duration, presenting: true)
+            case .slideUp:
+                return SlideUpAnimator(presenting: true)
                 
             case let .custom(transitioning):
                 return transitioning
@@ -51,27 +50,26 @@ public extension TSAlertController {
         }
     }
     
-    ///
+    /// Defines the types of exiting transitions for the alert.
     enum ExitingTransitionType {
         
-        ///
-        case fadeOut(duration: TimeInterval = 0.5)
+        /// A fade-out animation effect.
+        case fadeOut
         
-        ///
-        case slideDown(duration: TimeInterval = 0.5)
+        /// A slide-down animation effect.
+        case slideDown
         
-        ///
+        /// A custom transition using a `UIViewControllerAnimatedTransitioning` instance.
         case custom(any UIViewControllerAnimatedTransitioning)
         
-        
-        ///
+        /// Resolves the appropriate animator for the selected exiting transition type.
         var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
             switch self {
-            case let .fadeOut(duration):
-                return FadeInAndScaleDownAnimator(duration: duration, presenting: false)
+            case .fadeOut:
+                return FadeInAndScaleDownAnimator(presenting: false)
                 
-            case let .slideDown(duration):
-                return SlideUpAnimator(duration: duration, presenting: false)
+            case .slideDown:
+                return SlideUpAnimator(presenting: false)
                 
             case let .custom(transitioning):
                 return transitioning

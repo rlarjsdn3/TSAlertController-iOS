@@ -24,25 +24,32 @@ import UIKit
 
 public extension TSAlertController {
     
-    ///
+    /// A configuration struct that defines various behaviors of the alert.
     struct Configuration {
         
-        ///
+        /// The transition animation type when the alert appears.
         public var enteringTransition: TSAlertController.EnteringTransitionType?
         
-        ///
+        /// The transition animation type when the alert disappears.
         public var exitingTransition: TSAlertController.ExitingTransitionType?
         
-        ///
+        /// The animation type for the alert's header when presented.
         public var headerAnimation: TSAlertController.AnimationType?
         
-        ///
+        /// The animation type for the button group when presented.
         public var buttonGroupAnimation: TSAlertController.AnimationType?
         
-        ///
+        /// A Boolean value indicating whether a grabber (handle) should be visible.
         public var prefersGrabberVisible: Bool
         
+        /// Initializes a `Configuration` with optional transition and animation settings.
         ///
+        /// - Parameters:
+        ///   - enteringTransition: The transition animation for presenting the alert. Defaults to `nil`.
+        ///   - exitingTransition: The transition animation for dismissing the alert. Defaults to `nil`.
+        ///   - headerAnimation: The animation type for the alert’s header. Defaults to `nil`.
+        ///   - buttonGroupAnimation: The animation type for the button group. Defaults to `nil`.
+        ///   - prefersGrabberVisible: A Boolean flag indicating whether the grabber is visible. Defaults to `true`.
         public init(enteringTransition: TSAlertController.EnteringTransitionType? = nil,
                     exitingTransition: TSAlertController.ExitingTransitionType? = nil,
                     headerAnimation: TSAlertController.AnimationType? = nil,
@@ -51,10 +58,8 @@ public extension TSAlertController {
             
             self.enteringTransition = enteringTransition
             self.exitingTransition = exitingTransition
-            
             self.headerAnimation = headerAnimation
             self.buttonGroupAnimation = buttonGroupAnimation
-            
             self.prefersGrabberVisible = prefersGrabberVisible
         }
     }
