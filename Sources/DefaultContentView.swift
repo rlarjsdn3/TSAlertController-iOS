@@ -52,8 +52,11 @@ class DefaultContentView: UIStackView {
             titleLabel.text = title
             titleLabel.textAlignment = viewConfiguration.titleTextAlignment
             titleLabel.numberOfLines = viewConfiguration.titleNumberOfLines
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: viewConfiguration.titleHeight ?? 0).isActive = true
+            // Prevents the label from growing too large unnecessarily, but allows it to expand if needed.
+            titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+            // Ensures the label does not shrink too much, preventing text from being cut off.
+            titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            titleLabel.setHeight(greaterThanOrEqualTo: viewConfiguration.titleHeight ?? 0)
             labelStack.addArrangedSubview(titleLabel)
         }
         
@@ -65,7 +68,11 @@ class DefaultContentView: UIStackView {
             messageLabel.textAlignment = viewConfiguration.messageTextAlignment
             messageLabel.numberOfLines = viewConfiguration.messageNumberOfLines
             messageLabel.translatesAutoresizingMaskIntoConstraints = false
-            messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: viewConfiguration.messageHeight ?? 0).isActive = true
+            // Prevents the label from growing too large unnecessarily, but allows it to expand if needed.
+            messageLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+            // Ensures the label does not shrink too much, preventing text from being cut off.
+            messageLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            messageLabel.setHeight(greaterThanOrEqualTo: viewConfiguration.messageHeight ?? 0)
             labelStack.addArrangedSubview(messageLabel)
         }
         addArrangedSubview(labelStack)
@@ -120,7 +127,7 @@ class DefaultContentView: UIStackView {
         self.axis = .vertical
         self.spacing = viewConfiguration.spacing.messageTextfieldSpacing
         self.alignment = .fill
-        self.distribution = .fillProportionally
+        self.distribution = .fill
     }
 }
 
