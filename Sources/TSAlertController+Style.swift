@@ -23,13 +23,13 @@ import UIKit
 
 public extension TSAlertController {
     
-    ///
+    /// Constants indicating the type of alert to display.
     enum Style {
         
-        ///
+        /// An alert displayed modally for the app.
         case alert
         
-        ///
+        /// An action sheet displayed by the view controller that presented it.
         case actionSheet
     }
 }

@@ -26,68 +26,117 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Properties
     
+    /// The title of the alert.
     ///
+    /// The title string is displayed prominently in the alert or action sheet.
+    /// You should use this string to get the user’s attention and communicate the reason for displaying the alert.
+    /// If you want to change the font attributes such as size or color, use the `titleAttributes` property
+    /// in `TSAlertController.ViewConfiguration`.
     public override var title: String? {
         get { return _title }
         set { _title = newValue }
     }
-    
-    private var _title: String?
-    
-    ///
-    public var message: String?
-    
-    ///
-    public var options: TSAlertController.Options = []
-    
-    ///
-    public var preferredStyle: TSAlertController.Style = .alert
-    
-    ///
-    public var actions: [TSAlertAction] = []
-    
-    ///
-    public var textfields: [UITextField]  = []
 
+    private var _title: String?
+
+    /// Descriptive text that provides more details about the reason for the alert.
     ///
+    /// The message string is displayed below the title string and is less prominent.
+    /// Use this string to provide additional context about the reason for the alert or
+    /// about the actions that the user might take.
+    /// If you want to change the font attributes such as size or color, use the `messageAttributes` property
+    /// in `TSAlertController.ViewConfiguration`.
+    public var message: String?
+
+    /// Options that determine how the alert responds to user interactions.
+    public var options: TSAlertController.Options = []
+
+    /// The style of the alert controller.
+    ///
+    /// The value of this property is set to the value you specified in the `init(title:message:preferredStyle:)` method.
+    /// This value determines how the alert is displayed on the screen.
+    public var preferredStyle: TSAlertController.Style = .alert
+
+    /// The actions that the user can take in response to the alert or action sheet.
+    ///
+    /// The actions are in the order in which you added them to the alert controller.
+    /// This order also corresponds to the order in which they are displayed in the alert or action sheet.
+    public var actions: [TSAlertAction] = []
+
+    /// The preferred action for the user to take from an alert.
+    ///
+    /// The preferred action is relevant for the `TSAlertController.Style.alert` style only;
+    /// it is not used by action sheets. When you specify a preferred action,
+    /// pressing the Return key in the last text field of an alert with a text field
+    /// triggers the preferred action and dismisses the alert.
+    public var preferredAction: TSAlertAction?
+
+    /// The array of text fields displayed by the alert.
+    ///
+    /// Use this property to access the text fields displayed in the alert.
+    /// The text fields are in the order in which you added them to the alert controller.
+    /// This order also corresponds to the order in which they are displayed in the alert.
+    public var textFields: [UITextField]? = []
+
+    /// The configuration that defines the behavior of the alert controller.
     public lazy var configuration: TSAlertController.Configuration = .init()
 
+    /// A configuration that specifies the behavior of the alert and action sheet.
     ///
+    /// You can configure the behavior of the alert with a `TSAlertController.ViewConfiguration`.
+    /// It allows you to define transition styles when the alert appears and disappears,
+    /// as well as animations for the alert header and button group views.
     public lazy var viewConfiguration: TSAlertController.ViewConfiguration = .init()
-    
+
+    /// The header view of the alert.
+    private var headerView: UIView?
+
+    /// The main view of the alert.
     ///
-    private var customView: UIView?
-    
-    ///
+    /// The main view consists of a header view and a button group view.
     private var alertView: (any TSAlertView)?
-    
+
+    /// The background view that appears behind the alert.
     ///
+    /// The background view is controlled by `TSAlertPresentationController`.
     private var background = UIView()
-    
-    
-    ///
+
+    /// The initial Y position of the top-left corner of the alert.
     private var initialViewTopY: CGFloat = 0
-    
-    ///
+
+    /// The Y position of the top-left corner of the alert when the keyboard appears.
     private var keyboardShiftTopY: CGFloat = 0
     
     
     // MARK: - Initializer
     
+    /// Initializes a new alert controller with a custom header view.
     ///
-    public init(_ customView: UIView,
+    /// Use this initializer to create an alert with a custom header view.
+    /// - Parameters:
+    ///   - headerView: A `UIView` that serves as the custom header of the alert.
+    ///   - options: Options that define the behavior of the alert. Defaults to an empty set.
+    ///   - style: The preferred style of the alert, determining whether it is an alert or an action sheet.
+    public init(_ headerView: UIView,
                 options: TSAlertController.Options = [],
                 preferredStyle style: TSAlertController.Style) {
         
-        self.customView = customView
+        self.headerView = headerView
         self.options = options
         self.preferredStyle = style
         super.init(nibName: nil, bundle: nil)
         
         commonInit()
     }
-    
+
+    /// Initializes a new alert controller with a title and message.
     ///
+    /// Use this initializer to create an alert with a title and an optional message.
+    /// - Parameters:
+    ///   - title: The title of the alert, displayed prominently at the top.
+    ///   - message: The message providing additional context for the alert. Defaults to `nil`.
+    ///   - options: Options that define the behavior of the alert. Defaults to an empty set.
+    ///   - style: The preferred style of the alert, determining whether it is an alert or an action sheet.
     public init(title: String?,
                 message: String? = nil,
                 options: TSAlertController.Options = [],
@@ -131,8 +180,10 @@ public class TSAlertController: UIViewController {
     public override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
-        activateFirstResponderIfNeeded()
+        initialViewTopY = view.frame.origin.y
         alertView?.animateView(for: self)
+
+        activateFirstResponderIfNeeded()
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -192,7 +243,7 @@ public class TSAlertController: UIViewController {
         adjustActionOrder()
     }
     
-    //
+    ///
     private func adjustPrefersGrabberVisible() {
         if preferredStyle == .alert {
             configuration.prefersGrabberVisible = false
@@ -218,37 +269,53 @@ public class TSAlertController: UIViewController {
         }
     }
     
-    ///
     private func initializeAlertView() {
         setupAlertView()
         setupConstraints()
         setupAttributes()
     }
     
-    ///
+    // Configures and adds the alert view to the main view.
     private func setupAlertView() {
-        let buttons = actions.compactMap { $0.instantiateButton(for: preferredStyle) }
-        let contentView = customView ?? DefaultContentView(title, message, textfields, viewConfiguration)
-        let buttonGroupView = DefaultButtonGroupView(buttons, viewConfiguration)
+        let buttonGroup = actions.compactMap {
+            $0.instantiateButton(for: preferredStyle)
+        }
+        let contentView = headerView ?? DefaultContentView(title: title,
+                                                           message: message,
+                                                           textFields: textFields,
+                                                           viewConfiguration: viewConfiguration,
+                                                           configuration: configuration)
+        let buttonGroupView = DefaultButtonGroupView(buttonGroup: buttonGroup,
+                                                     viewConfiguration: viewConfiguration,
+                                                     configuration: configuration)
         
-        alertView = DefaultAlertView(self, contentView, buttonGroupView, viewConfiguration, configuration)
-
+        alertView = DefaultAlertView(self,
+                                     contentView: contentView,
+                                     buttonGroupView: buttonGroupView,
+                                     viewConfiguration: viewConfiguration,
+                                     configuration: configuration)
         view.addSubview(alertView!)
     }
 
-    ///
+    // Applies size constraints and positions the alert view within its parent view.
     private func setupConstraints() {
         view.applySizeConstraint(with: viewConfiguration.size)
         alertView?.fill(to: view)
     }
 
-    ///
+    // Sets up visual attributes such as background color, blur effect, border, and shadow.
     private func setupAttributes() {
         switch viewConfiguration.backgroundColor {
         case let .color(color, alpha):
             view.backgroundColor = color.withAlphaComponent(alpha)
         case let .blur(style):
-            view.addBlurEffect(style, with: viewConfiguration)
+            view.addBlurEffectView(style, with: viewConfiguration)
+        case let .grdient(colors, startPoint, endPoint, locations):
+            view.addGradientView(colors,
+                                 startPoint,
+                                 endPoint,
+                                 locations,
+                                 with: viewConfiguration)
         }
 
         view.layer.borderColor = viewConfiguration.backgroundBorderColor
@@ -262,7 +329,7 @@ public class TSAlertController: UIViewController {
         view.layer.shadowRadius = shadow.radius
     }
 
-    ///
+    // Registers notifications to handle keyboard appearance and disappearance.
     private func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),
@@ -274,7 +341,7 @@ public class TSAlertController: UIViewController {
                                                object: nil)
     }
 
-    ///
+    // Registers notifications to handle keyboard appearance and disappearance.
     private func unregisterKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillShowNotification,
@@ -284,7 +351,7 @@ public class TSAlertController: UIViewController {
                                                   object: nil)
     }
     
-    ///
+    // Adds gesture recognizers to handle user interactions for dismissing or moving the alert.
     private func registerGestureRecognizers() {
         addGestureRecognizerIfNeeded(for: .interactiveScaleAndDrag,
                                      gesture: UIPanGestureRecognizer(target: self,
@@ -309,7 +376,17 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Present
     
+    /// Presents the alert with optional haptic feedback.
     ///
+    /// This method presents the alert after a specified delay and provides haptic feedback
+    /// before displaying the alert. The haptic feedback is generated using `UINotificationFeedbackGenerator`.
+    /// If a delay is specified, the alert is presented after the given time interval.
+    ///
+    /// - Parameters:
+    ///   - animated: A Boolean value indicating whether the presentation should be animated.
+    ///   - time: The delay, in seconds, before presenting the alert. Defaults to `0`.
+    ///   - type: The type of haptic feedback to trigger before presenting the alert.
+    ///   - completion: A closure executed after the alert is presented.
     public func present(animated: Bool,
                         after time: TimeInterval = 0,
                         haptic type: UINotificationFeedbackGenerator.FeedbackType,
@@ -319,7 +396,15 @@ public class TSAlertController: UIViewController {
         present(animated: animated, after: time, completion: completion)
     }
     
+    /// Presents the alert after an optional delay.
     ///
+    /// This method presents the alert after a specified delay.
+    /// If a delay is specified, the alert is presented after the given time interval.
+    ///
+    /// - Parameters:
+    ///   - animated: A Boolean value indicating whether the presentation should be animated.
+    ///   - time: The delay, in seconds, before presenting the alert. Defaults to `0`.
+    ///   - completion: A closure executed after the alert is presented.
     public func present(animated: Bool,
                         after time: TimeInterval = 0,
                         completion: (() -> Void)? = nil) {
@@ -330,22 +415,19 @@ public class TSAlertController: UIViewController {
     
     // MARK: - Dismiss
     
+    /// Dismisses the alert with an optional completion handler.
     ///
+    /// This method dismisses the alert from topmost view controller.
+    /// If animation is enabled, the alert is dismissed with an animated transition.
+    ///
+    /// - Parameters:
+    ///   - animated: A Boolean value indicating whether the dismissal should be animated. Defaults to `true`.
+    ///   - completion: A closure executed after the alert is dismissed.
     public func dismiss(aniamted: Bool = true,
                         completion: (() -> Void)? = nil) {
         
         Helper.topController()?.dismiss(animated: aniamted, completion: completion)
     }
-    
-    
-    // MARK: - Deinitializer
-    
-#if targetEnvironment(simulator)
-    deinit {
-        print("Deinit \(Self.self)")
-    }
-#endif
-    
 }
 
 
@@ -353,30 +435,42 @@ public class TSAlertController: UIViewController {
 
 public extension TSAlertController {
 
+    /// Adds an action to the alert controller.
     ///
+    /// The action is appended to the `actions` array and displayed in the order it was added.
+    ///
+    /// - Parameter action: The `TSAlertAction` to be added to the alert.
     func addAction(_ action: TSAlertAction) {
         actions.append(action)
     }
     
+    /// Adds a text field to the alert.
     ///
-    func addTextField(configurationHandler: (UITextField) -> Void) {
-        let textfield = UITextField()
-        configurationHandler(textfield)
-        textfield.borderStyle = .none
-        textfields.append(textfield)
+    /// This method creates a new `UITextField` to the alert, applies the provided configuration handler.
+    ///
+    /// - Important: The text field’s `borderStyle` is always set to `.none` to maintain a consistent alert design.
+    /// Do **not** manually set a delegate for the text field, as the alert controller manages it internally.
+    ///
+    /// - Parameter configurationHandler: A closure that allows further customization of the text field.
+    func addTextField(configurationHandler: ((UITextField) -> Void)? = nil) {
+        let textField = UITextField()
+        configurationHandler?(textField)
+        textField.borderStyle = .none  // Ensuring no border style
+        textField.delegate = self      // Delegate must not be manually modified
+        textFields?.append(textField)
     }
 }
 
 private extension TSAlertController {
 
-    ///
+    // Activates the first text field as the first responder if available.
     private func activateFirstResponderIfNeeded() {
-        if let textField = textfields.first, textField.canBecomeFirstResponder {
+        if let textField = textFields?.first, textField.canBecomeFirstResponder {
             textField.becomeFirstResponder()
         }
     }
     
-    ///
+    // Adds a gesture recognizer to the target view if the specified option is enabled.
     private func addGestureRecognizerIfNeeded(for option: Options,
                                               gesture: UIGestureRecognizer,
                                               to targetView: UIView) {
@@ -394,14 +488,17 @@ private extension TSAlertController {
 
 private extension TSAlertController {
     
+    // Dismisses the alert when tapped inside.
     @objc private func handleTapInsideToDismissGesture(_ gesture: UITapGestureRecognizer) {
         dismiss()
     }
     
+    // Dismisses the alert when tapped outside.
     @objc private func handleTapOutsideToDismissGesture(_ gesture: UITapGestureRecognizer) {
         dismiss()
     }
     
+    // Handles swipe-down gesture to dismiss the alert with animation.
     @objc private func handleSwipeToDismissGesture(_ gesture: UIPanGestureRecognizer) {
         
         guard let presentingView = self.presentingViewController?.view else { return }
@@ -411,17 +508,14 @@ private extension TSAlertController {
         let dismissThreshold: CGFloat = 100
         let velocityThreshold: CGFloat = 800
         
-        //
         let velocity = gesture.velocity(in: self.view)
         let translation = gesture.translation(in: self.view)
 
         switch gesture.state {
         case .changed:
-            //
             if translation.y > 0 {
                 self.view.transform = CGAffineTransform(translationX: translation.x * 0.1, y: translation.y)
                 
-                //
                 if options.contains(.interactiveScaleAndDrag) {
                     self.view.transform = CGAffineTransform(translationX: translation.x * 0.1, y: translation.y)
                         .scaledBy(x: scaleDownFactor, y: scaleDownFactor)
@@ -430,12 +524,12 @@ private extension TSAlertController {
             
         case .ended, .cancelled, .failed:
             let shouldDismiss = (translation.y > dismissThreshold) || (velocity.y > velocityThreshold)
-            //
+
             if shouldDismiss {
                 UIView.animate(withDuration: 0.5,
                                delay: 0,
                                usingSpringWithDamping: 0.6,
-                               initialSpringVelocity: 1.0,
+                               initialSpringVelocity: 0.6,
                                options: .curveEaseIn,
                                animations: {
                     
@@ -446,12 +540,11 @@ private extension TSAlertController {
                 }, completion: { finished in
                     if finished { self.dismiss(aniamted: false) }
                 })
-            //
             } else {
                 UIView.animate(withDuration: 0.5,
                                delay: 0,
                                usingSpringWithDamping: 0.6,
-                               initialSpringVelocity: 1.0,
+                               initialSpringVelocity: 0.6,
                                options: .curveEaseIn,
                                animations: {
                     
@@ -464,20 +557,19 @@ private extension TSAlertController {
         }
     }
     
+    // Handles interactive scaling and dragging with a spring effect.
     @objc private func handleTapDragSpringGesture(_ gesture: UIPanGestureRecognizer) {
         
-        //
         let scaleDownFactor: CGFloat = 0.95
         let interpolationFactor: CGFloat = 0.1
         let translation = gesture.translation(in: self.view)
         
         switch gesture.state {
         case .began:
-            //
             UIView.animate(withDuration: 0.5,
                            delay: 0,
                            usingSpringWithDamping: 0.6,
-                           initialSpringVelocity: 1.0,
+                           initialSpringVelocity: 0.6,
                            options: .curveEaseIn,
                            animations: {
                 
@@ -489,11 +581,10 @@ private extension TSAlertController {
                                                         y: translation.y * interpolationFactor).scaledBy(x: scaleDownFactor, y: scaleDownFactor)
             
         case .ended, .cancelled, .failed:
-            //
             UIView.animate(withDuration: 0.5,
                            delay: 0,
                            usingSpringWithDamping: 0.6,
-                           initialSpringVelocity: 1.0,
+                           initialSpringVelocity: 0.6,
                            options: .curveEaseIn,
                            animations: {
                 
@@ -511,6 +602,7 @@ private extension TSAlertController {
 
 private extension TSAlertController {
     
+    // Adjusts the alert’s position when the keyboard appears.
     @objc func keyboardWillShow(_ notification: Notification) {
         
         guard let userInfo = notification.userInfo,
@@ -518,8 +610,6 @@ private extension TSAlertController {
               let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
             return
         }
-
-        self.initialViewTopY = view.frame.origin.y
 
         let viewHeight = view.frame.height
         let keyboardTopY = keyboardFrame.origin.y
@@ -530,10 +620,15 @@ private extension TSAlertController {
         // Move the alert up only if the spacing is smaller than the configured value.
         // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
         if adjustedViewTopY < initialViewTopY {
-            animate(to: adjustedViewTopY, duration: duration)
+            UIView.animate(withDuration: duration,
+                           delay: 0,
+                           options: .curveEaseIn) {
+                self.view.frame.origin.y = adjustedViewTopY
+            }
         }
     }
     
+    // Resets the alert’s position when the keyboard disappears.
     @objc func keyboardWillHide(_ notification: Notification) {
         
         guard let userInfo = notification.userInfo,
@@ -542,15 +637,11 @@ private extension TSAlertController {
         }
         let duration = keyboardAnimationDuration.doubleValue
         
-        // To test it properly, switch to software keyboard mode (Command + K) before displaying the alert.
-        animate(to: initialViewTopY, duration: duration)
-    }
-    
-    func animate(to yConstant: CGFloat, duration: TimeInterval) {
-        UIView.animate(withDuration: 0.5,
+        // Ensure the software keyboard is enabled for proper testing (Command + K).
+        UIView.animate(withDuration: duration,
                        delay: 0,
                        options: .curveEaseIn) {
-            self.view.frame.origin.y = yConstant
+            self.view.frame.origin.y = self.initialViewTopY
         }
     }
 }
@@ -568,7 +659,8 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                              presenting: presenting,
                                              background: background,
                                              preferredStyle: preferredStyle,
-                                             configuration: viewConfiguration)
+                                             viewConfiguration: viewConfiguration,
+                                             configuration: configuration)
     }
     
     public func animationController(forPresented presented: UIViewController,
@@ -592,6 +684,29 @@ extension TSAlertController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                                   shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         
+        return true
+    }
+}
+
+
+// MARK: - UITextFieldDelegate
+
+extension TSAlertController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let index = textFields?.firstIndex(where: { $0 === textField }) else {
+            return false
+        }
+
+        let nextIndex = index + 1
+        if nextIndex < textFields!.count {
+            textFields?[nextIndex].becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+            if let preferredAction = preferredAction {
+                preferredAction.sendActions()
+            }
+        }
         return true
     }
 }

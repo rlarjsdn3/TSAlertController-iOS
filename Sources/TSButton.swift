@@ -26,13 +26,10 @@ public class TSButton: UIButton {
     
     // MARK: - Properties
     
-    ///
-    let container = UIView()
+    private let container = UIView()
 
-    ///
     private let stackView = UIStackView()
     
-    ///
     public override var imageView: UIImageView {
         get { _imageView }
         set { }
@@ -41,7 +38,6 @@ public class TSButton: UIButton {
     private let _imageView = UIImageView()
     
     
-    ///
     public override var titleLabel: UILabel {
         get { _titleLabel }
         set { }
@@ -49,21 +45,16 @@ public class TSButton: UIButton {
     
     private let _titleLabel = UILabel()
 
-    ///
     private let accessoryImageView = UIImageView()
     
-    ///
-    var config: TSButton.Configuration?
+    var tsConfiguration: TSButton.Configuration?
     
-    ///
     var highlightType: TSButton.HighlightType = .tintAndScaleDown()
     
-    ///
     public override var isHighlighted: Bool {
         didSet { updateHighlightState() }
     }
     
-    ///
     public override var isEnabled: Bool {
         didSet { updateButtonEnabledState() }
     }
@@ -72,26 +63,26 @@ public class TSButton: UIButton {
     // MARK: - Intializer
     
     ///
-    init(config: TSButton.Configuration) {
-        self.config = config
+    init(configuration: TSButton.Configuration) {
+        self.tsConfiguration = configuration
         super.init(frame: .zero)
         
-        self.backgroundColor = config.backgroundColor
-        self.layer.cornerRadius = config.cornerRadius
+        self.backgroundColor = configuration.backgroundColor
+        self.layer.cornerRadius = configuration.cornerRadius
         
         addSubview(container)
         container.anchor(top: self.topAnchor,
                          leading: self.leadingAnchor,
                          trailing: self.trailingAnchor,
                          bottom: self.bottomAnchor,
-                         topInset: config.contentEdgeInset.top,
-                         leadingInset: config.contentEdgeInset.leading,
-                         trailingInset: config.contentEdgeInset.trailing,
-                         bottomInset: config.contentEdgeInset.bottom)
+                         topInset: configuration.contentEdgeInset.top,
+                         leadingInset: configuration.contentEdgeInset.leading,
+                         trailingInset: configuration.contentEdgeInset.trailing,
+                         bottomInset: configuration.contentEdgeInset.bottom)
         container.isUserInteractionEnabled = false
         
-        if let accessoryImage = config.accessoryImage {
-            accessoryImageView.image = accessoryImage.applyingSymbolConfiguration(config.preferredSymbolConfigurationForAccessoryImage ?? .unspecified)
+        if let accessoryImage = configuration.accessoryImage {
+            accessoryImageView.image = accessoryImage.applyingSymbolConfiguration(configuration.preferredSymbolConfigurationForAccessoryImage ?? .unspecified)
             accessoryImageView.contentMode = .scaleAspectFit
             
             container.addSubview(accessoryImageView)
@@ -101,28 +92,28 @@ public class TSButton: UIButton {
         
         container.addSubview(stackView)
         stackView.centerY(in: container)
-        stackView.spacing = config.imageSpacing
-        switch config.contentAlignment {
+        stackView.spacing = configuration.imageSpacing
+        switch configuration.contentAlignment {
         case .left: stackView.anchor(leading: container.leadingAnchor, leadingInset: 0)
         case .center: stackView.centerX(in: container)
-        case .right: stackView.anchor(trailing: config.accessoryImage != nil
+        case .right: stackView.anchor(trailing: configuration.accessoryImage != nil
                                       ? accessoryImageView.leadingAnchor
                                       : container.trailingAnchor,
-                                      trailingInset: config.accessoryImage != nil
-                                      ? config.accessoryImageSpacing
+                                      trailingInset: configuration.accessoryImage != nil
+                                      ? configuration.accessoryImageSpacing
                                       : 0)
         }
         
-        if let title = config.title {
+        if let title = configuration.title {
             let attrText = NSAttributedString(string: title,
-                                              attributes: config.titleAttributes ?? [:])
+                                              attributes: configuration.titleAttributes ?? [:])
             titleLabel.attributedText = attrText
-            titleLabel.textAlignment = config.titleAlignment
+            titleLabel.textAlignment = configuration.titleAlignment
             stackView.addArrangedSubview(titleLabel)
         }
         
-        if let image = config.image {
-            imageView.image = image.applyingSymbolConfiguration(config.preferredSymbolConfigurationForImage ?? .unspecified)
+        if let image = configuration.image {
+            imageView.image = image.applyingSymbolConfiguration(configuration.preferredSymbolConfigurationForImage ?? .unspecified)
             imageView.contentMode = .scaleAspectFit
             stackView.insertArrangedSubview(imageView, at: 0)
         }
@@ -162,11 +153,11 @@ extension TSButton {
     ///
     var previousBackgroundColor: UIColor? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.previousBackgroundColor) as? UIColor
+            return objc_getAssociatedObject(self, AssociatedKeys.previousBackgroundColor) as? UIColor
         }
         set {
             objc_setAssociatedObject(self,
-                                     &AssociatedKeys.previousBackgroundColor,
+                                     AssociatedKeys.previousBackgroundColor,
                                      newValue,
                                      .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }

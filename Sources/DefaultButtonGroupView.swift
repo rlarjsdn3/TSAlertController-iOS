@@ -26,29 +26,22 @@ class DefaultButtonGroupView: UIStackView {
     
     // MARK: - Intializer
     
-    init(_ buttons: [TSButton],
-         _ configuration: TSAlertController.ViewConfiguration) {
+    init(buttonGroup: [TSButton],
+         viewConfiguration: TSAlertController.ViewConfiguration,
+         configuration: TSAlertController.Configuration) {
         super.init(frame: .zero)
         
-        for button in buttons {
+        for button in buttonGroup {
             addArrangedSubview(button)
         }
         
-        configure(buttons, with: configuration)
+        self.axis = viewConfiguration.buttonGroupAxis.toNSLayoutConstraintAxis()
+        self.spacing = viewConfiguration.spacing.buttonSpacing
+        self.alignment = .fill
+        self.distribution = .fillEqually
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    // MARK: - Private
-    
-    private func configure(_ buttons: [TSButton], with configuration: TSAlertController.ViewConfiguration) {
-        self.axis = configuration.buttonGroupAxis.toNSLayoutConstraintAxis()
-        self.spacing = configuration.spacing.buttonSpacing
-        self.alignment = .fill
-        self.distribution = .fillEqually
-    }
-    
 }

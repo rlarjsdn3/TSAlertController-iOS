@@ -12,13 +12,13 @@ import TSAlertController
 class ViewController: UIViewController {
     
     
-    // MARK: - Show Basic Alert
+    // MARK: - Alert ① - Basic Usage
     
     @IBAction func showBasicAlert(_ sender: Any) {
         
         //
         let alert = TSAlertController(title: "Current Location Not Available",
-                                      message: "Your current location can't be determined at this time.",
+                                      message: "Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.",
                                       preferredStyle: .alert)
         
         //
@@ -30,44 +30,8 @@ class ViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    
-    // MARK: - Show Basic ActionSheet
-    
-    @IBAction func showBasicActionSheet(_ sender: Any) {
-        
-        //
-        let actionSheet = TSAlertController(
-            title: "Share File",
-            message: "Choose how you want to share this file.",
-            options: [.interactiveScaleAndDrag],
-            preferredStyle: .actionSheet
-        )
 
-        //
-        let shareViaEmailAction = TSAlertAction(title: "Share via Email", style: .default) { _ in
-            print("Email selected")
-        }
-        actionSheet.addAction(shareViaEmailAction)
-        
-        let shareViaMessagesAction = TSAlertAction(title: "Share via Messages", style: .default) { _ in
-            print("Messages selected")
-        }
-        actionSheet.addAction(shareViaMessagesAction)
-        
-        let copyLinkAction = TSAlertAction(title: "Copy Link", style: .default) { _ in
-            print("Link copied")
-        }
-        actionSheet.addAction(copyLinkAction)
-
-        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel)
-        cancelAction.configuration.backgroundColor = .systemBlue
-        actionSheet.addAction(cancelAction)
-
-        //
-        present(actionSheet, animated: true)
-    }
-    
-    // MARK: - Show Alert With Textifleds
+    // MARK: - Alert ② - with TextFields
     
     @IBAction func showAlertWithTextfields(_ sender: Any) {
         
@@ -77,15 +41,18 @@ class ViewController: UIViewController {
                                       options: [.dismissOnTapOutside],
                                       preferredStyle: .alert)
         //
-        alert.viewConfiguration.backgroundBorderColor = UIColor.systemGray2.cgColor
-        alert.viewConfiguration.backgroundBorderWidth = 1.5
-        alert.viewConfiguration.backgroundColor = .blur(.systemChromeMaterial)
+        var viewConfig = TSAlertController.ViewConfiguration()
+        viewConfig.backgroundColor = .blur(.systemChromeMaterial)
+        viewConfig.dimmedBackgroundViewColor = .color(.black, alpha: 0.9)
+        
+        alert.viewConfiguration = viewConfig
         
         //
         let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
             print("Sign In")
         }
         alert.addAction(okAction)
+        alert.preferredAction = okAction
         
         //
         let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { _ in
@@ -100,15 +67,75 @@ class ViewController: UIViewController {
         }
         alert.addTextField { textfield in
             textfield.placeholder = "Password"
+            textfield.isSecureTextEntry = true
         }
         
         present(alert, animated: true)
     }
     
     
-    // MARK: - Show ActionSheet with Slide Animation
+    // MARK: - Alert ③ - Various Animations (Transitions, Interactions)
+
+    @IBAction func showAlertWithVariousAnimations(_ sender: Any) {
+        
+        // 트랜지션 애니메이션 slide
+        // 버튼 3개 Vertical
+        // 뷰 애니메이션 fadeIn
+    }
     
-    @IBAction func showActionSheetWithSlideAnimation(_ sender: Any) {
+    
+    
+    
+    // MARK: - Alert ④ - with Custom Header View
+    
+    @IBAction func showAlertWithCustomHeaderView(_ sender: Any) {
+        // 친구 요청 수락 예시 알림창
+    }
+    
+    
+    // MARK: - ActionSheet ① - Basic Usage
+    
+    @IBAction func showBasicActionSheet(_ sender: Any) {
+        
+        //
+        let actionSheet = TSAlertController(
+            title: "Share File",
+            message: "Choose how you want to share this file.",
+            options: [.interactiveScaleAndDrag],
+            preferredStyle: .actionSheet
+        )
+
+        //
+        let shareViaEmailAction = TSAlertAction(title: "Share via Email", style: .default) { _ in
+            print("Share via Email")
+        }
+        actionSheet.addAction(shareViaEmailAction)
+        
+        let shareViaMessagesAction = TSAlertAction(title: "Share via Messages", style: .default) { _ in
+            print("Share via Messages")
+        }
+        actionSheet.addAction(shareViaMessagesAction)
+        
+        let copyLinkAction = TSAlertAction(title: "Copy Link", style: .default) { _ in
+            print("Copy Link")
+        }
+        actionSheet.addAction(copyLinkAction)
+
+        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel)
+        cancelAction.configuration.backgroundColor = .systemBlue
+        actionSheet.addAction(cancelAction)
+
+        //
+        present(actionSheet, animated: true)
+    }
+    
+    
+    // MARK: - ActionSheet ② - with Various Appearances
+    
+    @IBAction func showActionSheetWithVariousAppearance(_ sender: Any) {
+        
+        // 토스 고객센터 이동 액션시트 UI 구현
+        
         
         //
         let actionSheet = TSAlertController(
@@ -159,22 +186,20 @@ class ViewController: UIViewController {
     }
     
     
-    // MARK: - Show Alert with Other Transition
-    
-    @IBAction func showAlertWithMultipleActionsAndSlideTransition(_ sender: Any) {
+    // MARK: - ActionSheet ③ - Various Animations (Transitions, Interactions)
+
+    @IBAction func showActionSheetWithVariousAnimations(_ sender: Any) {
+        
+        // 보노보노 
     }
     
     
-    // MARK: - Show Alert With Custom View
+    // MARK: - ActionSheet ④ - with Custom Header View
     
-    @IBAction func showAlertWithCustomView(_ sender: Any) {
+    @IBAction func showActionSheetWithCustomHeaderView(_ sender: Any) {
     }
     
     
-    // MARK: - Show ActionSheet With Custom View
-    
-    @IBAction func showActionSheetWithCustomView(_ sender: Any) {
-    }
 }
 
 

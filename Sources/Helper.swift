@@ -23,7 +23,12 @@ import UIKit
 
 class Helper {
     
+    /// Returns the top-most view controller in the current window hierarchy.
     ///
+    /// This method starts from the root view controller and traverses through presented view controllers
+    /// until it finds the top-most visible view controller.
+    ///
+    /// - Returns: The top-most `UIViewController` in the application, or `nil` if no view controller is found.
     static func topController() -> UIViewController? {
         var topController = keyWindow()?.rootViewController
         
@@ -33,9 +38,12 @@ class Helper {
         return topController
     }
     
+    /// Retrieves the current key window of the application.
     ///
+    /// This method iterates through all connected scenes and returns the first available key window.
+    ///
+    /// - Returns: The `UIWindow` instance that is currently active, or `nil` if no key window is found.
     static func keyWindow() -> UIWindow? {
-        
         for scene in UIApplication.shared.connectedScenes {
             guard let windowScene = scene as? UIWindowScene else {
                 continue
@@ -53,5 +61,3 @@ class Helper {
         return nil
     }
 }
-
-

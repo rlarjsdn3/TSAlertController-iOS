@@ -22,31 +22,30 @@
 
 import UIKit
 
-///
 final class TSAlertPresentationController: UIPresentationController {
     
     // MARK: - Properties
     
-    ///
     private let background: UIView
     
-    ///
     private let preferredStyle: TSAlertController.Style
     
-    ///
-    private let configuration: TSAlertController.ViewConfiguration
+    private let viewConfiguration: TSAlertController.ViewConfiguration
+    
+    private let configuration: TSAlertController.Configuration
     
     
     // MARK: - Initializer
     
-    ///
     init(presented presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
          background view: UIView,
          preferredStyle style: TSAlertController.Style,
-         configuration: TSAlertController.ViewConfiguration) {
+         viewConfiguration: TSAlertController.ViewConfiguration,
+         configuration: TSAlertController.Configuration) {
         self.background = view
         self.preferredStyle = style
+        self.viewConfiguration = viewConfiguration
         self.configuration = configuration
         super.init(presentedViewController: presentedViewController,
                    presenting: presentingViewController)
@@ -78,9 +77,9 @@ final class TSAlertPresentationController: UIPresentationController {
         }
     }
 
+    
     // MARK: - Setup
     
-    ///
     private func setupHierarchy() {
         guard let containerView else { return }
         
@@ -88,7 +87,6 @@ final class TSAlertPresentationController: UIPresentationController {
         containerView.addSubview(presentedViewController.view)
     }
     
-    ///
     private func setupConstraints() {
         guard let containerView else { return }
         background.fill(to: containerView)
@@ -104,15 +102,20 @@ final class TSAlertPresentationController: UIPresentationController {
         }
     }
     
-    ///
     private func setupAttributes() {
         background.alpha = 0.0
 
-        switch configuration.dimmedBackgroundViewColor {
+        switch viewConfiguration.dimmedBackgroundViewColor {
         case let .color(color, alpha):
             background.backgroundColor = color.withAlphaComponent(alpha)
         case let .blur(style):
-            background.addBlurEffect(style)
+            background.addBlurEffectView(style)
+        case let .grdient(colors, startPoint, endPoint, locations):
+            background.addGradientView(colors,
+                                       startPoint,
+                                       endPoint,
+                                       locations,
+                                       with: viewConfiguration)
         case .none:
             break
         }
@@ -120,8 +123,7 @@ final class TSAlertPresentationController: UIPresentationController {
     
     
     // MARK: - Private
-    
-    ///
+
     private func animateBackgroundAppearance(presenting: Bool) {
         let alpha: CGFloat = presenting ? 1.0 : 0.0
         let coordinator = presentedViewController.transitionCoordinator

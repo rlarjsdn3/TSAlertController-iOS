@@ -20,127 +20,112 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK3-cm-iab">
-                                <rect key="frame" x="46" y="50" width="283" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="MlA-Jp-fnF"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Show Basic Alert">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleFootnote"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="showBasicAlert:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="9MA-P3-gE7"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGB-Qq-E5a">
-                                <rect key="frame" x="46" y="105" width="283" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="lz8-uO-aKJ"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Show Basic ActionSheet">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleFootnote"/>
-                                    <color key="baseBackgroundColor" systemColor="systemGreenColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="showBasicActionSheet:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mEP-Hh-evl"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iwm-5F-uAr">
-                                <rect key="frame" x="46" y="160" width="283" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="r8X-jz-fMp"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Show Alert with Textfields">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleFootnote"/>
-                                    <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="showAlertWithTextfields:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="B5S-Zh-173"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdd-Lg-uGs">
-                                <rect key="frame" x="46" y="267" width="283" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="hlk-Tb-OKf"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="show Alert with Multiple Actions">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleFootnote"/>
-                                    <color key="baseBackgroundColor" systemColor="systemMintColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="showAlertWithMultipleActionsAndSlideTransition:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BQ3-9c-IQR"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbD-P6-0Sq">
-                                <rect key="frame" x="46" y="322" width="283" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="Ada-cM-mMX"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Show Alert with Custom View">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleFootnote"/>
-                                    <color key="baseBackgroundColor" systemColor="systemPinkColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="showAlertWithCustomView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BGB-am-i6q"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojA-rb-o8v">
-                                <rect key="frame" x="46" y="212" width="283" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="hDv-jW-fDg"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Show ActionSheet with Slide Animation">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleFootnote"/>
-                                    <color key="baseBackgroundColor" systemColor="systemIndigoColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="showActionSheetWithSlideAnimation:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PRU-W8-zNx"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOU-ab-wDy">
-                                <rect key="frame" x="46" y="377" width="283" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="PwD-CW-6xx"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Show ActionSheet with Custom View">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleFootnote"/>
-                                    <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="showActionSheetWithCustomView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ORe-UN-nWF"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DFp-kh-e8w">
+                                <rect key="frame" x="46" y="50" width="283" height="168"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK3-cm-iab">
+                                        <rect key="frame" x="0.0" y="0.0" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Alert ①">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showBasicAlert:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="9MA-P3-gE7"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iwm-5F-uAr">
+                                        <rect key="frame" x="0.0" y="44.5" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Alert ②">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showAlertWithTextfields:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="B5S-Zh-173"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdd-Lg-uGs">
+                                        <rect key="frame" x="0.0" y="89" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Alert ③">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showAlertWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oi5-x4-tEM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbD-P6-0Sq">
+                                        <rect key="frame" x="0.0" y="133.5" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Alert ④">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showAlertWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DVg-lx-1pt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="G66-Fl-RZE">
+                                <rect key="frame" x="46" y="268" width="283" height="162"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGB-Qq-E5a">
+                                        <rect key="frame" x="0.0" y="0.0" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ①">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showBasicActionSheet:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mEP-Hh-evl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojA-rb-o8v">
+                                        <rect key="frame" x="0.0" y="42.5" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ②">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showActionSheetWithVariousAppearance:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PRU-W8-zNx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOU-ab-wDy">
+                                        <rect key="frame" x="0.0" y="85" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ③">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showActionSheetWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Y39-CQ-had"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYw-Sw-y7Y">
+                                        <rect key="frame" x="0.0" y="127.5" width="283" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ④">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showActionSheetWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="2Mo-3H-lVU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vK3-cm-iab" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="5aI-1a-AeQ"/>
-                            <constraint firstItem="Iwm-5F-uAr" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="6fH-dk-7IM"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vK3-cm-iab" secondAttribute="trailing" constant="30" id="DQD-z4-UOO"/>
-                            <constraint firstItem="mOU-ab-wDy" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="Fx4-iy-Jzh"/>
-                            <constraint firstItem="mOU-ab-wDy" firstAttribute="top" secondItem="EbD-P6-0Sq" secondAttribute="bottom" constant="20" id="G4G-j5-H6W"/>
-                            <constraint firstItem="vK3-cm-iab" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="JPI-HC-gam"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Iwm-5F-uAr" secondAttribute="trailing" constant="30" id="L3M-J2-OqM"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ojA-rb-o8v" secondAttribute="trailing" constant="30" id="MHP-M4-Lf3"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="qGB-Qq-E5a" secondAttribute="trailing" constant="30" id="O2R-4f-k9z"/>
-                            <constraint firstItem="ojA-rb-o8v" firstAttribute="top" secondItem="Iwm-5F-uAr" secondAttribute="bottom" constant="17" id="OEj-nQ-4q7"/>
-                            <constraint firstItem="EbD-P6-0Sq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="R2f-Q8-72P"/>
-                            <constraint firstItem="qGB-Qq-E5a" firstAttribute="top" secondItem="vK3-cm-iab" secondAttribute="bottom" constant="20" id="Rg1-WF-lFp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Vdd-Lg-uGs" secondAttribute="trailing" constant="30" id="UTF-D3-HCk"/>
-                            <constraint firstItem="Vdd-Lg-uGs" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="WMW-vQ-VR1"/>
-                            <constraint firstItem="Vdd-Lg-uGs" firstAttribute="top" secondItem="ojA-rb-o8v" secondAttribute="bottom" constant="20" id="WzF-NQ-LFa"/>
-                            <constraint firstItem="EbD-P6-0Sq" firstAttribute="top" secondItem="Vdd-Lg-uGs" secondAttribute="bottom" constant="20" id="agp-oP-QLb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="EbD-P6-0Sq" secondAttribute="trailing" constant="30" id="ioy-D4-BRa"/>
-                            <constraint firstItem="Iwm-5F-uAr" firstAttribute="top" secondItem="qGB-Qq-E5a" secondAttribute="bottom" constant="20" id="kC9-DN-a1Q"/>
-                            <constraint firstItem="ojA-rb-o8v" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="ohT-yW-8Jl"/>
-                            <constraint firstItem="qGB-Qq-E5a" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="r3K-eO-ZY3"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="mOU-ab-wDy" secondAttribute="trailing" constant="30" id="zmL-BB-QVG"/>
+                            <constraint firstItem="DFp-kh-e8w" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="3Tl-yQ-mpW"/>
+                            <constraint firstItem="G66-Fl-RZE" firstAttribute="top" secondItem="DFp-kh-e8w" secondAttribute="bottom" constant="50" id="6In-xE-7b3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="DFp-kh-e8w" secondAttribute="trailing" constant="30" id="SdQ-Ko-cFR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="G66-Fl-RZE" secondAttribute="trailing" constant="30" id="Zo0-3O-YhR"/>
+                            <constraint firstItem="G66-Fl-RZE" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="gEd-Vb-8ZV"/>
+                            <constraint firstItem="DFp-kh-e8w" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="uRe-Bv-aQS"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -150,20 +135,8 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemMintColor">
-            <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

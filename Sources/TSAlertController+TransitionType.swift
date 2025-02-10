@@ -23,17 +23,19 @@ import UIKit
 
 public extension TSAlertController {
     
-    ///
+    /// Defines the types of entering transitions for the alert.
     enum EnteringTransitionType {
-       
-        ///
+        
+        /// A fade-in effect combined with a scale-down animation.
         case fadeInAndScaleDown
         
-        ///
+        /// A slide-up animation effect.
         case slideUp
         
+        /// A custom transition using a `UIViewControllerAnimatedTransitioning` instance.
+        case custom(any UIViewControllerAnimatedTransitioning)
         
-        ///
+        /// Resolves the appropriate animator for the selected entering transition type.
         var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
             switch self {
             case .fadeInAndScaleDown:
@@ -41,21 +43,26 @@ public extension TSAlertController {
                 
             case .slideUp:
                 return SlideUpAnimator(presenting: true)
+                
+            case let .custom(transitioning):
+                return transitioning
             }
         }
     }
     
-    ///
+    /// Defines the types of exiting transitions for the alert.
     enum ExitingTransitionType {
         
-        ///
+        /// A fade-out animation effect.
         case fadeOut
         
-        ///
+        /// A slide-down animation effect.
         case slideDown
         
+        /// A custom transition using a `UIViewControllerAnimatedTransitioning` instance.
+        case custom(any UIViewControllerAnimatedTransitioning)
         
-        ///
+        /// Resolves the appropriate animator for the selected exiting transition type.
         var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
             switch self {
             case .fadeOut:
@@ -63,6 +70,9 @@ public extension TSAlertController {
                 
             case .slideDown:
                 return SlideUpAnimator(presenting: false)
+                
+            case let .custom(transitioning):
+                return transitioning
             }
         }
     }
