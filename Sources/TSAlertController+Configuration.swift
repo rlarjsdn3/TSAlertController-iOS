@@ -43,17 +43,17 @@ public extension TSAlertController {
         public var prefersGrabberVisible: Bool
         
         ///
-        public init(enteringTransitionStyle: TSAlertController.EnteringTransitionType? = nil,
-                    exitingTransitionStyle: TSAlertController.ExitingTransitionType? = nil,
-                    headerAnimationType: TSAlertController.AnimationType? = nil,
-                    buttonGroupAnimationType: TSAlertController.AnimationType? = nil,
+        public init(enteringTransition: TSAlertController.EnteringTransitionType? = nil,
+                    exitingTransition: TSAlertController.ExitingTransitionType? = nil,
+                    headerAnimation: TSAlertController.AnimationType? = nil,
+                    buttonGroupAnimation: TSAlertController.AnimationType? = nil,
                     prefersGrabberVisible: Bool = true) {
             
-            self.enteringTransition = enteringTransitionStyle
-            self.exitingTransition = exitingTransitionStyle
+            self.enteringTransition = enteringTransition
+            self.exitingTransition = exitingTransition
             
-            self.headerAnimation = headerAnimationType
-            self.buttonGroupAnimation = buttonGroupAnimationType
+            self.headerAnimation = headerAnimation
+            self.buttonGroupAnimation = buttonGroupAnimation
             
             self.prefersGrabberVisible = prefersGrabberVisible
         }

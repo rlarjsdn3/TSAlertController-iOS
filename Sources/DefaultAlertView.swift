@@ -30,7 +30,8 @@ class DefaultAlertView: UIView, TSAlertView {
     private let buttonGroupView: UIView
     private let contentView: UIView
     
-    private var configuration: TSAlertController.ViewConfiguration
+    private let viewConfiguration: TSAlertController.ViewConfiguration
+    private let configuration: TSAlertController.Configuration
     
     
     // MARK: - Intializer
@@ -38,11 +39,12 @@ class DefaultAlertView: UIView, TSAlertView {
     init(_ alert: TSAlertController,
          _ contentView: UIView,
          _ buttonsView: UIView,
-         _ viewConfig: TSAlertController.ViewConfiguration,
-         _ config: TSAlertController.Configuration) {
+         _ viewConfiguration: TSAlertController.ViewConfiguration,
+         _ configuration: TSAlertController.Configuration) {
         self.contentView = contentView
         self.buttonGroupView = buttonsView
-        self.configuration = viewConfig
+        self.viewConfiguration = viewConfiguration
+        self.configuration = configuration
         super.init(frame: .zero)
         
         addSubview(contentView)
@@ -51,9 +53,9 @@ class DefaultAlertView: UIView, TSAlertView {
         let isEmpty = alert.actions.isEmpty
         let textfieldButtonSpacing = isEmpty
         ? 0
-        : viewConfig.spacing.textfieldButtonSpacing
+        : viewConfiguration.spacing.textfieldButtonSpacing
         
-        if config.prefersGrabberVisible {
+        if configuration.prefersGrabberVisible {
             addSubview(grabber)
             grabber.centerX(in: self)
             grabber.anchor(top: self.topAnchor, topInset: 12.5)
@@ -64,26 +66,26 @@ class DefaultAlertView: UIView, TSAlertView {
             grabber.backgroundColor = .systemGray5
         }
         
-        contentView.anchor(top: config.prefersGrabberVisible
+        contentView.anchor(top: configuration.prefersGrabberVisible
                            ? grabber.bottomAnchor : self.topAnchor ,
                        leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
                        bottom: buttonsView.topAnchor,
-                       topInset: viewConfig.margin.contentTop,
-                       leadingInset: viewConfig.margin.contentLeft,
-                       trailingInset: viewConfig.margin.contentRight,
+                       topInset: viewConfiguration.margin.contentTop,
+                       leadingInset: viewConfiguration.margin.contentLeft,
+                       trailingInset: viewConfiguration.margin.contentRight,
                        bottomInset: textfieldButtonSpacing)
         
         buttonsView.anchor(leading: self.leadingAnchor,
                        trailing: self.trailingAnchor,
                        bottom: self.bottomAnchor,
-                       leadingInset: viewConfig.margin.buttonLeft,
-                       trailingInset: viewConfig.margin.buttonRight,
-                       bottomInset: viewConfig.margin.buttonBottom)
+                       leadingInset: viewConfiguration.margin.buttonLeft,
+                       trailingInset: viewConfiguration.margin.buttonRight,
+                       bottomInset: viewConfiguration.margin.buttonBottom)
 
         let actionsCount = CGFloat(alert.actions.count)
-        let actionHeight: CGFloat = viewConfig.buttonHeight
-        let spacing: CGFloat = viewConfig.spacing.buttonSpacing
+        let actionHeight: CGFloat = viewConfiguration.buttonHeight
+        let spacing: CGFloat = viewConfiguration.spacing.buttonSpacing
         
         let height: CGFloat = if !isEmpty {
             isHorizontal
@@ -99,24 +101,22 @@ class DefaultAlertView: UIView, TSAlertView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Animate View
     
-    // MARK: - Animate
-    
-    ///
     func animateView(for alert: TSAlertController) {
         //
-        if let type = alert.configuration.headerAnimation {
-            type.apply(to: contentView)
+        if let header = alert.configuration.headerAnimation {
+            header.apply(to: contentView)
             UIView.animate(withDuration: 0.5) {
-                type.undo(for: self.contentView)
+                header.undo(for: self.contentView)
             }
         }
         
         //
-        if let type = alert.configuration.buttonGroupAnimation {
-            type.apply(to: buttonGroupView)
+        if let buttonGroup = alert.configuration.buttonGroupAnimation {
+            buttonGroup.apply(to: buttonGroupView)
             UIView.animate(withDuration: 0.5) {
-                type.undo(for: self.buttonGroupView)
+                buttonGroup.undo(for: self.buttonGroupView)
             }
         }
     }
@@ -128,6 +128,6 @@ class DefaultAlertView: UIView, TSAlertView {
 fileprivate extension DefaultAlertView {
     
     var isHorizontal: Bool {
-        return configuration.buttonGroupAxis == .horizontal
+        return viewConfiguration.buttonGroupAxis == .horizontal
     }
 }

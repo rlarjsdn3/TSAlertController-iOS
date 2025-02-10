@@ -66,7 +66,8 @@ public extension TSAlertController {
         ///
         /// The border width helps distinguish the text field from surrounding UI components by providing
         /// a clear visual boundary. This property affects both the outer container and the internal divider.
-        /// Adjusting this value allows for customization of the text field’s appearance based on design preferences. Default value is 0.75.
+        /// Adjusting this value allows for customization of the text field’s appearance based on design preferences.
+        /// Default value is 0.75.
         public var textFieldContainerBorderWidth: CGFloat
         
         ///

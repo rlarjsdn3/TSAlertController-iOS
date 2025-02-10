@@ -108,10 +108,10 @@ extension TSButton.Configuration {
     
     ///
     func configurationWithoutImageAndAccessoryImage() -> Self {
-        var newConfig = self
-        newConfig.image = nil
-        newConfig.accessoryImage = nil
-        return newConfig
+        var newConfiguration = self
+        newConfiguration.image = nil
+        newConfiguration.accessoryImage = nil
+        return newConfiguration
     }
 }
 

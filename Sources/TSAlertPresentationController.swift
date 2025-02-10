@@ -34,7 +34,10 @@ final class TSAlertPresentationController: UIPresentationController {
     private let preferredStyle: TSAlertController.Style
     
     ///
-    private let configuration: TSAlertController.ViewConfiguration
+    private let viewConfiguration: TSAlertController.ViewConfiguration
+    
+    ///
+    private let configuration: TSAlertController.Configuration
     
     
     // MARK: - Initializer
@@ -44,9 +47,11 @@ final class TSAlertPresentationController: UIPresentationController {
          presenting presentingViewController: UIViewController?,
          background view: UIView,
          preferredStyle style: TSAlertController.Style,
-         configuration: TSAlertController.ViewConfiguration) {
+         viewConfiguration: TSAlertController.ViewConfiguration,
+         configuration: TSAlertController.Configuration) {
         self.background = view
         self.preferredStyle = style
+        self.viewConfiguration = viewConfiguration
         self.configuration = configuration
         super.init(presentedViewController: presentedViewController,
                    presenting: presentingViewController)
@@ -108,7 +113,7 @@ final class TSAlertPresentationController: UIPresentationController {
     private func setupAttributes() {
         background.alpha = 0.0
 
-        switch configuration.dimmedBackgroundViewColor {
+        switch viewConfiguration.dimmedBackgroundViewColor {
         case let .color(color, alpha):
             background.backgroundColor = color.withAlphaComponent(alpha)
         case let .blur(style):

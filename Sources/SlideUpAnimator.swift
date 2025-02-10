@@ -64,8 +64,8 @@ final class SlideUpAnimator: NSObject,  UIViewControllerAnimatedTransitioning {
         UIView.animate(
             withDuration: transitionDuration(using: transitionContext),
             delay: 0,
-            usingSpringWithDamping: 0.9,
-            initialSpringVelocity: 0.9,
+            usingSpringWithDamping: 0.875,
+            initialSpringVelocity: 0.875,
             options: .curveEaseIn,
             animations: {
                 if self.presenting {

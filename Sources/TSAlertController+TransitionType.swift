@@ -27,20 +27,26 @@ public extension TSAlertController {
     enum EnteringTransitionType {
        
         ///
-        case fadeInAndScaleDown
+        case fadeInAndScaleDown(duration: TimeInterval = 0.5)
         
         ///
-        case slideUp
+        case slideUp(duration: TimeInterval = 0.5)
+        
+        ///
+        case custom(any UIViewControllerAnimatedTransitioning)
         
         
         ///
         var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
             switch self {
-            case .fadeInAndScaleDown:
-                return FadeInAndScaleDownAnimator(presenting: true)
+            case let .fadeInAndScaleDown(duration):
+                return FadeInAndScaleDownAnimator(duration: duration, presenting: true)
                 
-            case .slideUp:
-                return SlideUpAnimator(presenting: true)
+            case let .slideUp(duration):
+                return SlideUpAnimator(duration: duration, presenting: true)
+                
+            case let .custom(transitioning):
+                return transitioning
             }
         }
     }
@@ -49,20 +55,26 @@ public extension TSAlertController {
     enum ExitingTransitionType {
         
         ///
-        case fadeOut
+        case fadeOut(duration: TimeInterval = 0.5)
         
         ///
-        case slideDown
+        case slideDown(duration: TimeInterval = 0.5)
+        
+        ///
+        case custom(any UIViewControllerAnimatedTransitioning)
         
         
         ///
         var resolvedAnimator: (any UIViewControllerAnimatedTransitioning)? {
             switch self {
-            case .fadeOut:
-                return FadeInAndScaleDownAnimator(presenting: false)
+            case let .fadeOut(duration):
+                return FadeInAndScaleDownAnimator(duration: duration, presenting: false)
                 
-            case .slideDown:
-                return SlideUpAnimator(presenting: false)
+            case let .slideDown(duration):
+                return SlideUpAnimator(duration: duration, presenting: false)
+                
+            case let .custom(transitioning):
+                return transitioning
             }
         }
     }

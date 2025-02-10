@@ -59,7 +59,7 @@ public class TSAlertController: UIViewController {
     public lazy var viewConfiguration: TSAlertController.ViewConfiguration = .init()
     
     ///
-    private var customView: UIView?
+    private var headerView: UIView?
     
     ///
     private var alertView: (any TSAlertView)?
@@ -78,11 +78,11 @@ public class TSAlertController: UIViewController {
     // MARK: - Initializer
     
     ///
-    public init(_ customView: UIView,
+    public init(_ headerView: UIView,
                 options: TSAlertController.Options = [],
                 preferredStyle style: TSAlertController.Style) {
         
-        self.customView = customView
+        self.headerView = headerView
         self.options = options
         self.preferredStyle = style
         super.init(nibName: nil, bundle: nil)
@@ -155,13 +155,13 @@ public class TSAlertController: UIViewController {
     private func applyConfiguration(for style: TSAlertController.Style) {
         switch style {
         case .alert:
-            configuration.enteringTransition = .fadeInAndScaleDown
-            configuration.exitingTransition = .fadeOut
+            configuration.enteringTransition = .fadeInAndScaleDown()
+            configuration.exitingTransition = .fadeOut()
             configuration.prefersGrabberVisible = false
             
         case .actionSheet:
-            configuration.enteringTransition = .slideUp
-            configuration.exitingTransition = .slideDown
+            configuration.enteringTransition = .slideUp()
+            configuration.exitingTransition = .slideDown()
             configuration.prefersGrabberVisible = true
         }
     }
@@ -232,9 +232,17 @@ public class TSAlertController: UIViewController {
     
     ///
     private func setupAlertView() {
-        let buttons = actions.compactMap { $0.instantiateButton(for: preferredStyle) }
-        let contentView = customView ?? DefaultContentView(title, message, textFields, viewConfiguration)
-        let buttonGroupView = DefaultButtonGroupView(buttons, viewConfiguration)
+        let buttonGroup = actions.compactMap {
+            $0.instantiateButton(for: preferredStyle)
+        }
+        let contentView = headerView ?? DefaultContentView(title: title,
+                                                           message: message,
+                                                           textFields: textFields,
+                                                           viewConfiguration: viewConfiguration,
+                                                           configuration: configuration)
+        let buttonGroupView = DefaultButtonGroupView(buttonGroup: buttonGroup,
+                                                     viewConfiguration: viewConfiguration,
+                                                     configuration: configuration)
         
         alertView = DefaultAlertView(self, contentView, buttonGroupView, viewConfiguration, configuration)
 
@@ -534,7 +542,11 @@ private extension TSAlertController {
         // Move the alert up only if the spacing is smaller than the configured value.
         // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
         if adjustedViewTopY < initialViewTopY {
-            animate(to: adjustedViewTopY, duration: duration)
+            UIView.animate(withDuration: duration,
+                           delay: 0,
+                           options: .curveEaseIn) {
+                self.view.frame.origin.y = adjustedViewTopY
+            }
         }
     }
     
@@ -547,14 +559,10 @@ private extension TSAlertController {
         let duration = keyboardAnimationDuration.doubleValue
         
         // To test it properly, switch to software keyboard mode (Command + K) before displaying the alert.
-        animate(to: initialViewTopY, duration: duration)
-    }
-    
-    func animate(to yConstant: CGFloat, duration: TimeInterval) {
         UIView.animate(withDuration: duration,
                        delay: 0,
                        options: .curveEaseIn) {
-            self.view.frame.origin.y = yConstant
+            self.view.frame.origin.y = self.initialViewTopY
         }
     }
 }
@@ -572,7 +580,8 @@ extension TSAlertController: UIViewControllerTransitioningDelegate {
                                              presenting: presenting,
                                              background: background,
                                              preferredStyle: preferredStyle,
-                                             configuration: viewConfiguration)
+                                             viewConfiguration: viewConfiguration,
+                                             configuration: configuration)
     }
     
     public func animationController(forPresented presented: UIViewController,

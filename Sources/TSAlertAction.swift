@@ -72,7 +72,7 @@ public class TSAlertAction {
     func instantiateButton(for preferredStyle: TSAlertController.Style) -> TSButton? {
         adjustConfiguration(for: preferredStyle)
         
-        let button = TSButton(config: configuration)
+        let button = TSButton(configuration: configuration)
         button.highlightType = highlightType
         button.isEnabled = isEnabled
         button.addAction(createButtonAction(), for: .touchUpInside)

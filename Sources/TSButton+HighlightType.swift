@@ -57,9 +57,9 @@ public extension TSButton {
                 view.transform = CGAffineTransform(scaleX: scaleX, y: y)
                 
             case let .tintAndScaleDown(scaleX, y, color, alpha):
-                view.previousBackgroundColor = view.config?.backgroundColor
                 view.backgroundColor = color.withAlphaComponent(alpha)
                 view.transform = CGAffineTransform(scaleX: scaleX, y: y)
+                view.previousBackgroundColor = view.tsConfiguration?.backgroundColor
                 
             case let .custom(transform, alpha):
                 view.alpha = alpha

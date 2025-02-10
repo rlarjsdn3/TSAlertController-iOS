@@ -26,15 +26,6 @@ import UIKit
 final class FadeInAndScaleDownAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     ///
-    private let scaleX: CGFloat
-    
-    ///
-    private let y: CGFloat
-    
-    ///
-    private let alpha: CGFloat
-    
-    ///
     private let duration: TimeInterval
 
     ///
@@ -42,15 +33,9 @@ final class FadeInAndScaleDownAnimator: NSObject, UIViewControllerAnimatedTransi
     
     
     ///
-    init(scaleX: CGFloat = 1.1,
-         y: CGFloat = 1.1,
-         alpha: CGFloat = 0,
-         duration: TimeInterval = 0.5,
+    init(duration: TimeInterval = 0.5,
          presenting: Bool) {
-        
-        self.scaleX = scaleX
-        self.y = y
-        self.alpha = alpha
+
         self.duration = duration
         self.presenting = presenting
     }
@@ -72,15 +57,15 @@ final class FadeInAndScaleDownAnimator: NSObject, UIViewControllerAnimatedTransi
                 
         //
         if presenting {
-            toVC.view.alpha = alpha
-            toVC.view.transform = CGAffineTransform(scaleX: scaleX, y: y)
+            toVC.view.alpha = 0
+            toVC.view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
             containerView.addSubview(toVC.view)
         }
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext),
                        delay: 0,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0.7,
+                       usingSpringWithDamping: 0.875,
+                       initialSpringVelocity: 0.875,
                        options: .curveEaseIn,
                        animations: {
             //

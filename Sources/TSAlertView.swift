@@ -21,18 +21,14 @@
 
 import UIKit
 
-///
-public protocol TSAlertView: Animatable { }
-
-
-///
-public protocol Animatable: UIView {
+//
+public protocol TSAlertView: UIView {
     
     ///
     func animateView(for alert: TSAlertController)
 }
 
-public extension Animatable {
+public extension TSAlertView {
     
     func animateView(for alert: TSAlertController) { }
 }
