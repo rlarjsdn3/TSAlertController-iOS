@@ -22,17 +22,17 @@
 
 import UIKit
 
-///
 final class FadeInAndScaleDownAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
-    ///
+    // MARK: - Properties
+    
     private let duration: TimeInterval
 
-    ///
     private let presenting: Bool
     
     
-    ///
+    // MARK: - Intializer
+    
     init(duration: TimeInterval = 0.5,
          presenting: Bool) {
 
@@ -40,13 +40,14 @@ final class FadeInAndScaleDownAnimator: NSObject, UIViewControllerAnimatedTransi
         self.presenting = presenting
     }
     
-    ///
+    
+    // MARK: - Transition
+    
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         
         return duration
     }
     
-    ///
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         guard let containerView = transitionContext.containerView as UIView?,

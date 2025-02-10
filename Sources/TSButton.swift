@@ -26,13 +26,10 @@ public class TSButton: UIButton {
     
     // MARK: - Properties
     
-    ///
-    let container = UIView()
+    private let container = UIView()
 
-    ///
     private let stackView = UIStackView()
     
-    ///
     public override var imageView: UIImageView {
         get { _imageView }
         set { }
@@ -41,7 +38,6 @@ public class TSButton: UIButton {
     private let _imageView = UIImageView()
     
     
-    ///
     public override var titleLabel: UILabel {
         get { _titleLabel }
         set { }
@@ -49,21 +45,16 @@ public class TSButton: UIButton {
     
     private let _titleLabel = UILabel()
 
-    ///
     private let accessoryImageView = UIImageView()
     
-    ///
     var tsConfiguration: TSButton.Configuration?
     
-    ///
     var highlightType: TSButton.HighlightType = .tintAndScaleDown()
     
-    ///
     public override var isHighlighted: Bool {
         didSet { updateHighlightState() }
     }
     
-    ///
     public override var isEnabled: Bool {
         didSet { updateButtonEnabledState() }
     }

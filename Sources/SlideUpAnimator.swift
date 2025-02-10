@@ -21,29 +21,31 @@
 
 import UIKit
 
-///
 final class SlideUpAnimator: NSObject,  UIViewControllerAnimatedTransitioning {
     
-    ///
+    // MARK: - Properties
+    
     private let duration: TimeInterval
     
-    ///
     private var presenting: Bool
     
-    ///
+    
+    // MARK: - Intializer
+    
     init(duration: TimeInterval = 0.5, presenting: Bool) {
         
         self.duration = duration
         self.presenting = presenting
     }
     
-    ///
+    
+    // MARK: - Transition
+    
     func transitionDuration(using transitionContext: (any UIViewControllerContextTransitioning)?) -> TimeInterval {
         
         return duration
     }
     
-    ///
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
         
         guard let containerView = transitionContext.containerView as UIView?,

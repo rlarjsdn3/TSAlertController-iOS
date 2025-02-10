@@ -21,10 +21,8 @@
 
 import UIKit
 
-//
 public protocol TSAlertView: UIView {
     
-    ///
     func animateView(for alert: TSAlertController)
 }
 

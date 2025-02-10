@@ -104,7 +104,7 @@ class DefaultAlertView: UIView, TSAlertView {
     // MARK: - Animate View
     
     func animateView(for alert: TSAlertController) {
-        //
+        
         if let header = alert.configuration.headerAnimation {
             header.apply(to: contentView)
             UIView.animate(withDuration: 0.5) {
@@ -112,7 +112,6 @@ class DefaultAlertView: UIView, TSAlertView {
             }
         }
         
-        //
         if let buttonGroup = alert.configuration.buttonGroupAnimation {
             buttonGroup.apply(to: buttonGroupView)
             UIView.animate(withDuration: 0.5) {

@@ -24,16 +24,16 @@ import UIKit
 
 public extension TSAlertAction {
     
-    ///
+    /// Styles to apply to action buttons in an alert.
     enum Style {
         
-        ///
+        /// Apply a style that indicates the action cancels the operation and leaves things unchanged.
         case cancel
         
-        ///
+        /// Apply the default style to the action’s button.
         case `default`
         
-        ///
+        /// Apply a style that indicates the action might change or delete data.
         case destructive
     }
 }

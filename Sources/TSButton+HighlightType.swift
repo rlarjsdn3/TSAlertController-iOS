@@ -32,8 +32,8 @@ public extension TSButton {
         
         ///
         case fadeInAndScaleDown(scaleX: CGFloat = 0.95,
-                              y: CGFloat = 0.95,
-                              alpha: CGFloat = 0.75)
+                                y: CGFloat = 0.95,
+                                alpha: CGFloat = 0.75)
         ///
         ///
         case tintAndScaleDown(scaleX: CGFloat = 0.95,
@@ -47,7 +47,7 @@ public extension TSButton {
         
         
         ///
-        mutating func apply(to view: TSButton) {
+        func apply(to view: TSButton) {
             switch self {
             case let .fadeIn(alpha):
                 view.alpha = alpha

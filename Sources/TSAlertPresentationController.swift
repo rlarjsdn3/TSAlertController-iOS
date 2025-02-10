@@ -22,27 +22,21 @@
 
 import UIKit
 
-///
 final class TSAlertPresentationController: UIPresentationController {
     
     // MARK: - Properties
     
-    ///
     private let background: UIView
     
-    ///
     private let preferredStyle: TSAlertController.Style
     
-    ///
     private let viewConfiguration: TSAlertController.ViewConfiguration
     
-    ///
     private let configuration: TSAlertController.Configuration
     
     
     // MARK: - Initializer
     
-    ///
     init(presented presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
          background view: UIView,
@@ -83,9 +77,9 @@ final class TSAlertPresentationController: UIPresentationController {
         }
     }
 
+    
     // MARK: - Setup
     
-    ///
     private func setupHierarchy() {
         guard let containerView else { return }
         
@@ -93,7 +87,6 @@ final class TSAlertPresentationController: UIPresentationController {
         containerView.addSubview(presentedViewController.view)
     }
     
-    ///
     private func setupConstraints() {
         guard let containerView else { return }
         background.fill(to: containerView)
@@ -109,7 +102,6 @@ final class TSAlertPresentationController: UIPresentationController {
         }
     }
     
-    ///
     private func setupAttributes() {
         background.alpha = 0.0
 
@@ -125,8 +117,7 @@ final class TSAlertPresentationController: UIPresentationController {
     
     
     // MARK: - Private
-    
-    ///
+
     private func animateBackgroundAppearance(presenting: Bool) {
         let alpha: CGFloat = presenting ? 1.0 : 0.0
         let coordinator = presentedViewController.transitionCoordinator
