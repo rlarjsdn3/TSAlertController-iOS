@@ -79,7 +79,7 @@ public extension TSButton {
         ///   - preferredSymbolConfigurationForAccessoryImage: The preferred symbol configuration for the accessory image. Default is `nil`.
         ///   - contentAlignment: The alignment of the button content (title, image, accessory image). Default is `.center`.
         ///   - contentEdgeInset: The insets for the button’s content. Default is `(top: 0, leading: 10, bottom: 0, trailing: 10)`.
-        ///   - backgroundColor: The background color of the button. Default is `.systemGray4`.
+        ///   - backgroundColor: The background color of the button. Default is `.systemGray`.
         ///   - cornerRadius: The corner radius of the button. Default is `12.5`.
         public init(title: String? = nil,
                     titleAttributes: [NSAttributedString.Key: Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
@@ -96,7 +96,7 @@ public extension TSButton {
                     
                     contentAlignment: ContentAlignment = .center,
                     contentEdgeInset: NSDirectionalEdgeInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 10),
-                    backgroundColor: UIColor? = .systemGray4,
+                    backgroundColor: UIColor? = .systemGray,
                     cornerRadius: CGFloat = 12.5) {
             
             self.title = title

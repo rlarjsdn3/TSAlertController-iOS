@@ -243,7 +243,7 @@ public class TSAlertController: UIViewController {
         adjustActionOrder()
     }
     
-    //
+    ///
     private func adjustPrefersGrabberVisible() {
         if preferredStyle == .alert {
             configuration.prefersGrabberVisible = false
@@ -309,7 +309,13 @@ public class TSAlertController: UIViewController {
         case let .color(color, alpha):
             view.backgroundColor = color.withAlphaComponent(alpha)
         case let .blur(style):
-            view.addBlurEffect(style, with: viewConfiguration)
+            view.addBlurEffectView(style, with: viewConfiguration)
+        case let .grdient(colors, startPoint, endPoint, locations):
+            view.addGradientView(colors,
+                                 startPoint,
+                                 endPoint,
+                                 locations,
+                                 with: viewConfiguration)
         }
 
         view.layer.borderColor = viewConfiguration.backgroundBorderColor

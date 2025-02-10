@@ -23,32 +23,6 @@ import UIKit
 
 extension UIView {
     
-    // MARK: - Add Blur Effect
-    
-    /// Adds a blur effect to the view.
-    ///
-    /// - Parameters:
-    ///   - style: The `UIBlurEffect.Style` to apply.
-    ///   - configuration: An optional `TSAlertController.ViewConfiguration` for additional styling.
-    func addBlurEffect(_ style: UIBlurEffect.Style,
-                       with configuration: TSAlertController.ViewConfiguration? = nil) {
-        self.layoutIfNeeded()
-        let blurEffect = UIBlurEffect(style: style)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        
-        if let configuration = configuration {
-            blurEffectView.layer.borderColor = configuration.backgroundBorderColor
-            blurEffectView.layer.borderWidth = configuration.backgroundBorderWidth
-            blurEffectView.layer.cornerRadius = configuration.cornerRadius
-            blurEffectView.layer.masksToBounds = true
-        }
-        self.insertSubview(blurEffectView, at: 0)
-        blurEffectView.fill(to: self)
-    }
-}
-
-extension UIView {
-    
     // MARK: - Apply Size Constraint
     
     /// Applies width and height constraints to the view based on the provided size configuration.
@@ -225,5 +199,85 @@ extension UIView {
                leadingInset: 0,
                trailingInset: 0,
                bottomInset: 0)
+    }
+}
+
+extension UIView {
+    
+    // MARK: - Add Blur Effect
+    
+    /// Adds a blur effect to the view.
+    ///
+    /// - Parameters:
+    ///   - style: The `UIBlurEffect.Style` to apply.
+    ///   - configuration: An optional `TSAlertController.ViewConfiguration` for additional styling.
+    func addBlurEffectView(_ style: UIBlurEffect.Style,
+                           with configuration: TSAlertController.ViewConfiguration? = nil) {
+        let blurEffect = UIBlurEffect(style: style)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        
+        if let configuration = configuration {
+            blurEffectView.layer.borderColor = configuration.backgroundBorderColor
+            blurEffectView.layer.borderWidth = configuration.backgroundBorderWidth
+            blurEffectView.layer.cornerRadius = configuration.cornerRadius
+            blurEffectView.layer.masksToBounds = true
+        }
+        insertSubview(blurEffectView, at: 0)
+        blurEffectView.fill(to: self)
+    }
+}
+
+extension UIView {
+    
+    // MARK: - Add Gradient Layer
+    
+    func addGradientView(_ colors: [CGColor],
+                         _ startPoint: CGPoint,
+                         _ endPoint: CGPoint,
+                         _ locations: [NSNumber]? = nil,
+                         with viewConfiguration: TSAlertController.ViewConfiguration? = nil) {
+        let gradientView = GradientView(colors,
+                                        startPoint,
+                                        endPoint,
+                                        locations)
+        
+        if let viewConfiguration = viewConfiguration {
+            gradientView.gradientLayer?.cornerRadius = viewConfiguration.cornerRadius
+            gradientView.gradientLayer?.masksToBounds = true
+        }
+        insertSubview(gradientView, at: 0)
+        gradientView.fill(to: self)
+    }
+    
+    class GradientView: UIView {
+        
+        let gradientLayer: CAGradientLayer?
+        
+        ///
+        init(_ colors: [CGColor],
+             _ startPoint: CGPoint,
+             _ endPoint: CGPoint,
+             _ locations: [NSNumber]? = nil) {
+            
+            gradientLayer = CAGradientLayer()
+            gradientLayer?.colors = colors
+            gradientLayer?.startPoint = startPoint
+            gradientLayer?.endPoint = endPoint
+            gradientLayer?.locations = locations
+            
+            super.init(frame: .zero)
+            gradientLayer?.frame = self.bounds
+            layer.insertSublayer(gradientLayer!, at: 0)
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        /// Ensures the gradient layer updates its size when the view’s bounds change.
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            gradientLayer?.frame = self.bounds
+        }
     }
 }

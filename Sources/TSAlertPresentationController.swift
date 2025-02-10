@@ -109,7 +109,13 @@ final class TSAlertPresentationController: UIPresentationController {
         case let .color(color, alpha):
             background.backgroundColor = color.withAlphaComponent(alpha)
         case let .blur(style):
-            background.addBlurEffect(style)
+            background.addBlurEffectView(style)
+        case let .grdient(colors, startPoint, endPoint, locations):
+            background.addGradientView(colors,
+                                       startPoint,
+                                       endPoint,
+                                       locations,
+                                       with: viewConfiguration)
         case .none:
             break
         }
