@@ -86,6 +86,7 @@ class ViewController: UIViewController {
             print("Sign In")
         }
         alert.addAction(okAction)
+        alert.preferredAction = okAction
         
         //
         let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { _ in

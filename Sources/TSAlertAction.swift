@@ -66,7 +66,7 @@ public class TSAlertAction {
         self.handler = handler
     }
     
-    // MARK: - Instantiate
+    // MARK: - Helper
     
     ///
     func instantiateButton(for preferredStyle: TSAlertController.Style) -> TSButton? {
@@ -80,6 +80,10 @@ public class TSAlertAction {
         self.button = button
         
         return button
+    }
+    
+    func sendActions() {
+        button?.sendActions(for: .touchUpInside)
     }
     
     

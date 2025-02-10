@@ -47,7 +47,10 @@ public class TSAlertController: UIViewController {
     public var actions: [TSAlertAction] = []
     
     ///
-    public var textfields: [UITextField]  = []
+    public var preferredAction: TSAlertAction?
+    
+    ///
+    public var textFields: [UITextField]  = []
 
     ///
     public lazy var configuration: TSAlertController.Configuration = .init()
@@ -131,8 +134,10 @@ public class TSAlertController: UIViewController {
     public override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
-        activateFirstResponderIfNeeded()
+        initialViewTopY = view.frame.origin.y
         alertView?.animateView(for: self)
+
+        activateFirstResponderIfNeeded()
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -228,7 +233,7 @@ public class TSAlertController: UIViewController {
     ///
     private func setupAlertView() {
         let buttons = actions.compactMap { $0.instantiateButton(for: preferredStyle) }
-        let contentView = customView ?? DefaultContentView(title, message, textfields, viewConfiguration)
+        let contentView = customView ?? DefaultContentView(title, message, textFields, viewConfiguration)
         let buttonGroupView = DefaultButtonGroupView(buttons, viewConfiguration)
         
         alertView = DefaultAlertView(self, contentView, buttonGroupView, viewConfiguration, configuration)
@@ -363,7 +368,8 @@ public extension TSAlertController {
         let textfield = UITextField()
         configurationHandler(textfield)
         textfield.borderStyle = .none
-        textfields.append(textfield)
+        textfield.delegate = self
+        textFields.append(textfield)
     }
 }
 
@@ -371,7 +377,7 @@ private extension TSAlertController {
 
     ///
     private func activateFirstResponderIfNeeded() {
-        if let textField = textfields.first, textField.canBecomeFirstResponder {
+        if let textField = textFields.first, textField.canBecomeFirstResponder {
             textField.becomeFirstResponder()
         }
     }
@@ -519,8 +525,6 @@ private extension TSAlertController {
             return
         }
 
-        self.initialViewTopY = view.frame.origin.y
-
         let viewHeight = view.frame.height
         let keyboardTopY = keyboardFrame.origin.y
 
@@ -547,7 +551,7 @@ private extension TSAlertController {
     }
     
     func animate(to yConstant: CGFloat, duration: TimeInterval) {
-        UIView.animate(withDuration: 0.5,
+        UIView.animate(withDuration: duration,
                        delay: 0,
                        options: .curveEaseIn) {
             self.view.frame.origin.y = yConstant
@@ -592,6 +596,29 @@ extension TSAlertController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                                   shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         
+        return true
+    }
+}
+
+
+// MARK: - UITextFieldDelegate
+
+extension TSAlertController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let index = textFields.firstIndex(where: { $0 === textField }) else {
+            return false
+        }
+
+        let nextIndex = index + 1
+        if nextIndex < textFields.count {
+            textFields[nextIndex].becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+            if let preferredAction = preferredAction {
+                preferredAction.sendActions()
+            }
+        }
         return true
     }
 }
