@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DFp-kh-e8w">
-                                <rect key="frame" x="46" y="50" width="283" height="168"/>
+                                <rect key="frame" x="46" y="50" width="283" height="79"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK3-cm-iab">
                                         <rect key="frame" x="0.0" y="0.0" width="283" height="34.5"/>
@@ -44,32 +44,10 @@
                                             <action selector="showAlertWithTextfields:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="B5S-Zh-173"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdd-Lg-uGs">
-                                        <rect key="frame" x="0.0" y="89" width="283" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Alert ③">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showAlertWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oi5-x4-tEM"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbD-P6-0Sq">
-                                        <rect key="frame" x="0.0" y="133.5" width="283" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Alert ④">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showAlertWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DVg-lx-1pt"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="G66-Fl-RZE">
-                                <rect key="frame" x="46" y="268" width="283" height="162"/>
+                                <rect key="frame" x="46" y="179" width="283" height="77"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGB-Qq-E5a">
                                         <rect key="frame" x="0.0" y="0.0" width="283" height="34.5"/>
@@ -91,28 +69,6 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="showActionSheetWithVariousAppearance:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PRU-W8-zNx"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOU-ab-wDy">
-                                        <rect key="frame" x="0.0" y="85" width="283" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ③">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showActionSheetWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Y39-CQ-had"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYw-Sw-y7Y">
-                                        <rect key="frame" x="0.0" y="127.5" width="283" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ④">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showActionSheetWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="2Mo-3H-lVU"/>
                                         </connections>
                                     </button>
                                 </subviews>

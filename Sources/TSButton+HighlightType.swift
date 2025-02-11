@@ -24,29 +24,47 @@ import UIKit
 
 public extension TSButton {
     
-    ///
+    /// Defines different highlight effects for the button.
     enum HighlightType {
         
+        /// Fades the button in by adjusting its alpha value.
         ///
+        /// - Parameter alpha: The target alpha value when highlighted. Default is `0.75`.
         case fadeIn(alpha: CGFloat = 0.75)
         
+        /// Fades the button in and scales it down slightly.
         ///
+        /// - Parameters:
+        ///   - scaleX: The scale factor in the X direction. Default is `0.95`.
+        ///   - y: The scale factor in the Y direction. Default is `0.95`.
+        ///   - alpha: The target alpha value when highlighted. Default is `0.75`.
         case fadeInAndScaleDown(scaleX: CGFloat = 0.95,
                                 y: CGFloat = 0.95,
                                 alpha: CGFloat = 0.75)
+        
+        /// Tints the button with a specified color and scales it down slightly.
         ///
-        ///
+        /// - Parameters:
+        ///   - scaleX: The scale factor in the X direction. Default is `0.95`.
+        ///   - y: The scale factor in the Y direction. Default is `0.95`.
+        ///   - color: The tint color applied to the button. Default is `.lightGray`.
+        ///   - alpha: The target alpha value when highlighted. Default is `0.5`.
         case tintAndScaleDown(scaleX: CGFloat = 0.95,
                               y: CGFloat = 0.95,
                               color: UIColor = .lightGray,
                               alpha: CGFloat = 0.5)
         
+        /// Applies a custom transformation and alpha adjustment.
         ///
+        /// - Parameters:
+        ///   - transform: The custom transform applied to the button.
+        ///   - alpha: The target alpha value when highlighted.
         case custom(transform: CGAffineTransform,
                     alpha: CGFloat)
         
-        
+        /// Applies the highlight effect to the specified button.
         ///
+        /// - Parameter view: The `TSButton` to which the highlight effect is applied.
         func apply(to view: TSButton) {
             switch self {
             case let .fadeIn(alpha):
@@ -67,7 +85,9 @@ public extension TSButton {
             }
         }
         
+        /// Reverts the highlight effect, restoring the button's original appearance.
         ///
+        /// - Parameter view: The `TSButton` to which the effect should be undone.
         mutating func undo(for view: TSButton) {
             switch self {
             case .fadeIn, .fadeInAndScaleDown, .custom:
