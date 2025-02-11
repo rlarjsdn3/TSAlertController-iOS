@@ -156,7 +156,7 @@ public extension TSAlertController {
         ///   - buttonGroupAxis: The layout axis of the button group (horizontal or vertical). Default is `.automatic`.
         public init(titleHeight: CGFloat? = nil,
                     messageHeight: CGFloat? = nil,
-                    buttonHeight: CGFloat = 42.5,
+                    buttonHeight: CGFloat = 45,
                     grabberColor: UIColor? = .systemGray5,
                     titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
                                                                             .foregroundColor: UIColor.label],

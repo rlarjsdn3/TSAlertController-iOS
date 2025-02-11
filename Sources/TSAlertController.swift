@@ -107,6 +107,9 @@ public class TSAlertController: UIViewController {
     /// The Y position of the top-left corner of the alert when the keyboard appears.
     private var keyboardShiftTopY: CGFloat = 0
     
+    /// A property that prevents unnecessary repeated execution of the keyboard notification method.
+    private var isKeyboardShown: Bool = false
+    
     
     // MARK: - Initializer
     
@@ -604,6 +607,9 @@ private extension TSAlertController {
     
     // Adjusts the alert’s position when the keyboard appears.
     @objc func keyboardWillShow(_ notification: Notification) {
+        // If this method is not blocked, the alert view's position may animate incorrectly
+        // when the keyboard suggestion bar appears or disappears.
+        guard !isKeyboardShown else { return }
         
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
@@ -626,10 +632,15 @@ private extension TSAlertController {
                 self.view.frame.origin.y = adjustedViewTopY
             }
         }
+        
+        isKeyboardShown = true
     }
     
     // Resets the alert’s position when the keyboard disappears.
     @objc func keyboardWillHide(_ notification: Notification) {
+        // If this method is not blocked, the alert view's position may animate incorrectly
+        // when the keyboard suggestion bar appears or disappears.
+        guard isKeyboardShown else { return }
         
         guard let userInfo = notification.userInfo,
               let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
@@ -643,6 +654,8 @@ private extension TSAlertController {
                        options: .curveEaseIn) {
             self.view.frame.origin.y = self.initialViewTopY
         }
+        
+        isKeyboardShown = false
     }
 }
 
