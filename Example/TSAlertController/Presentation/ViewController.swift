@@ -17,8 +17,10 @@ class ViewController: UIViewController {
     @IBAction func showBasicAlert(_ sender: Any) {
         
         let alert = TSAlertController(title: "Current Location Not Available",
-                                      message: "Your current location can't be determined at this time.",
+                                      message: "Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.",
                                       preferredStyle: .alert)
+        alert.viewConfiguration.backgroundColor = .grdient([UIColor.systemBlue.cgColor, UIColor.systemTeal.cgColor])
+        alert.viewConfiguration.dimmedBackgroundViewColor = .grdient([UIColor.systemGray6.cgColor, UIColor.systemRed.cgColor])
         
         let okAction = TSAlertAction(title: "OK", style: .default)
         okAction.configuration.backgroundColor = .systemBlue
@@ -36,6 +38,7 @@ class ViewController: UIViewController {
                                       message: "Please enter your username and password to access your account.",
                                       options: [.dismissOnTapOutside],
                                       preferredStyle: .alert)
+
         var viewConfig = TSAlertController.ViewConfiguration()
         viewConfig.backgroundColor = .blur(.systemChromeMaterial)
         viewConfig.dimmedBackgroundViewColor = .color(.black, alpha: 0.9)
@@ -68,9 +71,6 @@ class ViewController: UIViewController {
     }
     
     
-    
-    
-    
     // MARK: - ActionSheet ① - Basic Usage
     
     @IBAction func showBasicActionSheet(_ sender: Any) {
@@ -87,7 +87,7 @@ class ViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
-    
+
     // MARK: - ActionSheet ② - with Various Appearances
     
     @IBAction func showActionSheetWithVariousAppearance(_ sender: Any) {
