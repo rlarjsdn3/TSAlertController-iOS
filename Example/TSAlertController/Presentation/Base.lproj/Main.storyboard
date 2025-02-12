@@ -44,35 +44,13 @@
                                             <action selector="showAlertWithTextfields:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="B5S-Zh-173"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdd-Lg-uGs">
-                                        <rect key="frame" x="0.0" y="89" width="283" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Alert ③">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showAlertWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oi5-x4-tEM"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbD-P6-0Sq">
-                                        <rect key="frame" x="0.0" y="133.5" width="283" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Alert ④">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showAlertWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DVg-lx-1pt"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="G66-Fl-RZE">
-                                <rect key="frame" x="46" y="268" width="293" height="162"/>
+                                <rect key="frame" x="46" y="179" width="283" height="77"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGB-Qq-E5a">
-                                        <rect key="frame" x="0.0" y="0.0" width="293" height="34.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="283" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Action Sheet ①">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
@@ -83,7 +61,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojA-rb-o8v">
-                                        <rect key="frame" x="0.0" y="42.5" width="293" height="34.5"/>
+                                        <rect key="frame" x="0.0" y="42.5" width="283" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Action Sheet ②">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
@@ -91,28 +69,6 @@
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="showActionSheetWithVariousAppearance:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PRU-W8-zNx"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOU-ab-wDy">
-                                        <rect key="frame" x="0.0" y="85" width="293" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ③">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showActionSheetWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Y39-CQ-had"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYw-Sw-y7Y">
-                                        <rect key="frame" x="0.0" y="127.5" width="293" height="34.5"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Action Sheet ④">
-                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                            <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="showActionSheetWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="2Mo-3H-lVU"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -123,7 +79,7 @@
                             <constraint firstItem="DFp-kh-e8w" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="3Tl-yQ-mpW"/>
                             <constraint firstItem="G66-Fl-RZE" firstAttribute="top" secondItem="DFp-kh-e8w" secondAttribute="bottom" constant="50" id="6In-xE-7b3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="DFp-kh-e8w" secondAttribute="trailing" constant="30" id="SdQ-Ko-cFR"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="G66-Fl-RZE" secondAttribute="trailing" constant="20" id="Zo0-3O-YhR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="G66-Fl-RZE" secondAttribute="trailing" constant="30" id="Zo0-3O-YhR"/>
                             <constraint firstItem="G66-Fl-RZE" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="gEd-Vb-8ZV"/>
                             <constraint firstItem="DFp-kh-e8w" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="uRe-Bv-aQS"/>
                         </constraints>
@@ -136,7 +92,7 @@
     </scenes>
     <resources>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
