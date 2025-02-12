@@ -17,10 +17,8 @@ class ViewController: UIViewController {
     @IBAction func showBasicAlert(_ sender: Any) {
         
         let alert = TSAlertController(title: "Current Location Not Available",
-                                      message: "Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.",
+                                      message: "Your current location can't be determined at this time.",
                                       preferredStyle: .alert)
-        alert.viewConfiguration.backgroundColor = .grdient([UIColor.systemBlue.cgColor, UIColor.systemTeal.cgColor])
-        alert.viewConfiguration.dimmedBackgroundViewColor = .grdient([UIColor.systemGray6.cgColor, UIColor.systemRed.cgColor])
         
         let okAction = TSAlertAction(title: "OK", style: .default)
         okAction.configuration.backgroundColor = .systemBlue
