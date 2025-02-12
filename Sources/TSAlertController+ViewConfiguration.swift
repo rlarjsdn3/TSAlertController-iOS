@@ -222,6 +222,18 @@ public extension TSAlertController.ViewConfiguration {
         ///   - color: The background color.
         ///   - alpha: The opacity of the background color, ranging from `0.0` (fully transparent) to `1.0` (fully opaque). Defaults to `1.0`.
         case color(UIColor, alpha: CGFloat = 1.0)
+        
+        /// A gradient background with customizable colors, direction, and location stops.
+        ///
+        /// - Parameters:
+        ///   - colors: An array of `CGColor` defining the gradient colors.
+        ///   - startPoint: The starting point of the gradient, where `(0,0)` represents the top-left and `(1,1)` represents the bottom-right. Default is `.zero`.
+        ///   - endPoint: The ending point of the gradient. Default is `(1.0, 1.0)`, creating a diagonal gradient.
+        ///   - locations: An optional array of `NSNumber` values defining the color stop positions in the gradient.
+        case grdient([CGColor],
+                     startPoint: CGPoint = .zero,
+                     endPoint: CGPoint = .init(x: 1.0, y: 1.0),
+                     locations: [NSNumber]? = nil)
     }
 }
 

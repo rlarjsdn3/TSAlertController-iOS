@@ -310,6 +310,11 @@ public class TSAlertController: UIViewController {
             view.backgroundColor = color.withAlphaComponent(alpha)
         case let .blur(style):
             view.addBlurEffect(style, with: viewConfiguration)
+        case let .grdient(colors, startPoint, endPoint, locations):
+            view.addGradientView(colors: colors,
+                                  startPoint: startPoint,
+                                  endPoint: endPoint,
+                                 locations: locations, with: viewConfiguration)
         }
 
         view.layer.borderColor = viewConfiguration.backgroundBorderColor

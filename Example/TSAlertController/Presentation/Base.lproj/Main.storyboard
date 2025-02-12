@@ -52,7 +52,7 @@
                                             <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="showAlertWithMultipleActionsAndSlideTransition:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BQ3-9c-IQR"/>
+                                            <action selector="showAlertWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oi5-x4-tEM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbD-P6-0Sq">
@@ -63,7 +63,7 @@
                                             <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="showAlertWithCustomView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BGB-am-i6q"/>
+                                            <action selector="showAlertWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DVg-lx-1pt"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -90,7 +90,7 @@
                                             <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="showActionSheetWithSlideAnimation:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PRU-W8-zNx"/>
+                                            <action selector="showActionSheetWithVariousAppearance:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PRU-W8-zNx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOU-ab-wDy">
@@ -101,7 +101,7 @@
                                             <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="showActionSheetWithCustomView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ORe-UN-nWF"/>
+                                            <action selector="showActionSheetWithVariousAnimations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Y39-CQ-had"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYw-Sw-y7Y">
@@ -112,7 +112,7 @@
                                             <color key="baseBackgroundColor" systemColor="systemPurpleColor"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="showActionSheetWithCustomView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="jLD-Wk-ean"/>
+                                            <action selector="showActionSheetWithCustomHeaderView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="2Mo-3H-lVU"/>
                                         </connections>
                                     </button>
                                 </subviews>

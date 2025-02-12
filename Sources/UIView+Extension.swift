@@ -42,8 +42,73 @@ extension UIView {
             blurEffectView.layer.cornerRadius = configuration.cornerRadius
             blurEffectView.layer.masksToBounds = true
         }
-        self.insertSubview(blurEffectView, at: 0)
+        insertSubview(blurEffectView, at: 0)
         blurEffectView.fill(to: self)
+    }
+    
+    // MARK: - Add Gradient Layer
+    
+    func addGradientView(colors: [CGColor],
+                         startPoint: CGPoint,
+                         endPoint: CGPoint,
+                         locations: [NSNumber]? = nil,
+                         with viewConfiguration: TSAlertController.ViewConfiguration? = nil) {
+        self.layoutIfNeeded()
+        let gradientView = GradientView()
+        gradientView.addGradientLayer(colors: colors,
+                                      startPoint: startPoint,
+                                      endPoint: endPoint,
+                                      locations: locations)
+        
+        if let configuration = viewConfiguration {
+            gradientView.setGradientLayer(viewConfiguration: configuration)
+        }
+        insertSubview(gradientView, at: 0)
+        gradientView.fill(to: self)
+    }
+    
+    class GradientView: UIView {
+        
+        private var gradientLayer: CAGradientLayer?
+        
+        /// Adds a gradient layer to the view.
+        ///
+        /// - Parameters:
+        ///   - colors: The gradient colors.
+        ///   - startPoint: The starting point of the gradient.
+        ///   - endPoint: The ending point of the gradient.
+        ///   - locations: The optional locations for gradient stops.
+        func addGradientLayer(colors: [CGColor],
+                              startPoint: CGPoint,
+                              endPoint: CGPoint,
+                              locations: [NSNumber]? = nil) {
+            
+            self.layoutIfNeeded() // Ensures the view has the correct layout before setting the layer
+            
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = self.bounds
+            gradientLayer.colors = colors
+            gradientLayer.startPoint = startPoint
+            gradientLayer.endPoint = endPoint
+            gradientLayer.locations = locations
+            gradientLayer.masksToBounds = true
+            
+            self.layer.insertSublayer(gradientLayer, at: 0)
+            self.gradientLayer = gradientLayer
+        }
+        
+        func setGradientLayer(viewConfiguration: TSAlertController.ViewConfiguration) {
+            gradientLayer?.borderColor = viewConfiguration.backgroundBorderColor
+            gradientLayer?.borderWidth = viewConfiguration.backgroundBorderWidth
+            gradientLayer?.cornerRadius = viewConfiguration.cornerRadius
+            gradientLayer?.masksToBounds = true
+        }
+        
+        /// Ensures the gradient layer updates its size when the view’s bounds change.
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            gradientLayer?.frame = self.bounds
+        }
     }
 }
 

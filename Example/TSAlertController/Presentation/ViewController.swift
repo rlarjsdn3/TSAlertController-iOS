@@ -18,8 +18,10 @@ class ViewController: UIViewController {
         
         //
         let alert = TSAlertController(title: "Current Location Not Available",
-                                      message: "Your current location can't be determined at this time.",
+                                      message: "Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.",
                                       preferredStyle: .alert)
+        alert.viewConfiguration.backgroundColor = .grdient([UIColor.systemBlue.cgColor, UIColor.systemTeal.cgColor])
+        alert.viewConfiguration.dimmedBackgroundViewColor = .grdient([UIColor.systemGray6.cgColor, UIColor.systemRed.cgColor])
         
         //
         let okAction = TSAlertAction(title: "OK", style: .default)
@@ -30,7 +32,8 @@ class ViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    // MARK: - Alert ① - Basic Usage
+
+    // MARK: - Alert ② - with TextFields
     
     @IBAction func showAlertWithTextfields(_ sender: Any) {
         
@@ -40,9 +43,11 @@ class ViewController: UIViewController {
                                       options: [.dismissOnTapOutside],
                                       preferredStyle: .alert)
         //
-        alert.viewConfiguration.backgroundBorderColor = UIColor.systemGray2.cgColor
-        alert.viewConfiguration.backgroundBorderWidth = 1.5
-        alert.viewConfiguration.backgroundColor = .blur(.systemChromeMaterial)
+        var viewConfig = TSAlertController.ViewConfiguration()
+        viewConfig.backgroundColor = .blur(.systemChromeMaterial)
+        viewConfig.dimmedBackgroundViewColor = .color(.black, alpha: 0.9)
+        
+        alert.viewConfiguration = viewConfig
         
         //
         let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
@@ -64,14 +69,33 @@ class ViewController: UIViewController {
         }
         alert.addTextField { textfield in
             textfield.placeholder = "Password"
+            textfield.isSecureTextEntry = true
         }
         
         present(alert, animated: true)
     }
     
     
+    // MARK: - Alert ③ - Various Animations (Transitions, Interactions)
+
+    @IBAction func showAlertWithVariousAnimations(_ sender: Any) {
+        
+        // 트랜지션 애니메이션 slide
+        // 버튼 3개 Vertical
+        // 뷰 애니메이션 fadeIn
+    }
     
-    // MARK: - Show Basic ActionSheet
+    
+    
+    
+    // MARK: - Alert ④ - with Custom Header View
+    
+    @IBAction func showAlertWithCustomHeaderView(_ sender: Any) {
+        // 친구 요청 수락 예시 알림창
+    }
+    
+    
+    // MARK: - ActionSheet ① - Basic Usage
     
     @IBAction func showBasicActionSheet(_ sender: Any) {
         
@@ -85,17 +109,17 @@ class ViewController: UIViewController {
 
         //
         let shareViaEmailAction = TSAlertAction(title: "Share via Email", style: .default) { _ in
-            print("Email selected")
+            print("Share via Email")
         }
         actionSheet.addAction(shareViaEmailAction)
         
         let shareViaMessagesAction = TSAlertAction(title: "Share via Messages", style: .default) { _ in
-            print("Messages selected")
+            print("Share via Messages")
         }
         actionSheet.addAction(shareViaMessagesAction)
         
         let copyLinkAction = TSAlertAction(title: "Copy Link", style: .default) { _ in
-            print("Link copied")
+            print("Copy Link")
         }
         actionSheet.addAction(copyLinkAction)
 
@@ -108,11 +132,12 @@ class ViewController: UIViewController {
     }
     
     
+    // MARK: - ActionSheet ② - with Various Appearances
     
-    
-    // MARK: - Show ActionSheet with Slide Animation
-    
-    @IBAction func showActionSheetWithSlideAnimation(_ sender: Any) {
+    @IBAction func showActionSheetWithVariousAppearance(_ sender: Any) {
+        
+        // 토스 고객센터 이동 액션시트 UI 구현
+        
         
         //
         let actionSheet = TSAlertController(
@@ -161,6 +186,22 @@ class ViewController: UIViewController {
         //
         present(actionSheet, animated: true)
     }
+    
+    
+    // MARK: - ActionSheet ③ - Various Animations (Transitions, Interactions)
+
+    @IBAction func showActionSheetWithVariousAnimations(_ sender: Any) {
+        
+        // 보노보노 
+    }
+    
+    
+    // MARK: - ActionSheet ④ - with Custom Header View
+    
+    @IBAction func showActionSheetWithCustomHeaderView(_ sender: Any) {
+    }
+    
+    
 }
 
 
