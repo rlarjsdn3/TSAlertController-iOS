@@ -20,7 +20,12 @@
 ⚠️ This open-source project has not been released yet!
 ```
 
-![Image1]()
+<p align="center">
+    <img src="./Screenshot/Example_02.png" width="24%">
+    <img src="./Screenshot/Example_03.png" width="24%">
+    <img src="./Screenshot/Example_04.png" width="24%">
+    <img src="./Screenshot/Example_05.png" width="24%">
+</p>
 
 ## Usage
 
@@ -42,7 +47,7 @@ present(alert, animated: true)
 <details>
   <summary>Preview</summary>
 
-<img src="" width="250px">
+<img src="./Screenshot/Example_01.png" width="250px">
 
 </details>
 
@@ -78,7 +83,7 @@ present(alert, animated: true)
 <details>
   <summary>Preview</summary>
 
-<img src="" width="250px">
+<img src="./Screenshot/Example_02.png" width="250px">
 
 </details>
 
@@ -93,15 +98,30 @@ let alert = TSAlertController(
     message: "Your current location can't be determined at this time.",
     preferredStyle: .alert
 )
-alert.viewConfiguration.titleAttributes = [.font: .boldSystemFont(ofSize: 24)]
+let color = UIColor(red: 251.0 / 255.0, green: 251.0 / 255.0, blue: 236.0 / 255.0, alpha: 1)
+alert.viewConfiguration.titleTextAlignment = .center
+alert.viewConfiguration.titleTextAttributes = [.font: UIFont(name: "Wanderlust", size: 30), .foregroundColor: UIColor.systemTeal]
+alert.viewConfiguration.messageTextAlignment = .center
+alert.viewConfiguration.messageTextAttributes = [.font: UIFont(name: "Wanderlust", size: 26), .foregroundColor: UIColor.systemOrange]
+alert.viewConfiguration.backgroundColor = .color(color)
+alert.viewConfiguration.buttonGroupAxis = .vertical
 
-// Same setup as the previous example...
+let okAction = TSAlertAction(title: "Cancel", style: .cancel)
+okAction.configuration.titleAttributes = [.font: UIFont(name: "Wanderlust", size: 22), .foregroundColor: UIColor.white]
+alert.addAction(okAction)
+
+let goToSettingAction = TSAlertAction(title: "Go to Setting")
+goToSettingAction.configuration.titleAttributes = [.font: UIFont(name: "Wanderlust", size: 22), .foregroundColor: UIColor.white]
+goToSettingAction.configuration.backgroundColor = .systemBlue
+alert.addAction(goToSettingAction)
+
+present(alert, animated: true)
 ```
 
 <details>
   <summary>Preview</summary>
 
-<img src="" width="250px">
+<img src="./Screenshot/Example_03.png" width="250px">
 
 </details>
 
@@ -115,18 +135,35 @@ TSAlertController also supports interactive user actions:
 
 ```swift
 let actionSheet = TSAlertController(
-    title: "Choose an Option",
-    message: "Select an action from the list below.",
+    title: "What kind of inquiry do you have?",
     options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
     preferredStyle: .actionSheet
 )
-actionSheet.viewConfiguration.buttonGroupAxis = .vertical
+actionSheet.viewConfiguration.margin = .init(buttonLeft: 5, buttonRight: 5)
 
-let okAction = TSAlertAction(title: "OK")
-actionSheet.addAction(okAction)
+let config = TSButton.Configuration(
+    imageSpacing: 15,
+    preferredSymbolConfigurationForImage: .init(paletteColors: [.label]),
+    accessoryImage: UIImage(systemName: "chevron.right"),
+    preferredSymbolConfigurationForAccessoryImage: .init(paletteColors: [.label]),
+    contentAlignment: .left,
+    backgroundColor: .clear
+)
 
-let cancelAction = TSAlertAction(title: "Cancel", style: .cancel)
-actionSheet.addAction(cancelAction)
+let appUsageInquiry = TSAlertAction(title: "App Usage Inquiry")
+appUsageInquiry.configuration = config
+appUsageInquiry.configuration.image = UIImage(systemName: "app")
+appUsageInquiry.highlightType = .tintAndScaleDown(color: .systemGray4)
+actionSheet.addAction(appUsageInquiry)
+
+let paymentIssue = TSAlertAction(title: "Payment Issues")
+// ...
+
+let accountSupport = TSAlertAction(title: "Account & Login Issues")
+// ...
+
+let bugReport = TSAlertAction(title: "Bug Report")
+// ...
 
 present(actionSheet, animated: true)
 ```
@@ -134,7 +171,7 @@ present(actionSheet, animated: true)
 <details>
   <summary>Preview</summary>
 
-<img src="" width="250px">
+<img src="./Screenshot/Example_04.png" width="250px">
 
 </details>
 
@@ -161,7 +198,7 @@ present(actionSheet, animated: true)
 <details>
   <summary>Preview</summary>
 
-<img src="" width="250px">
+<img src="./Screenshot/Example_05.png" width="250px">
 
 </details>
 
@@ -288,7 +325,7 @@ The `TSAlertController.ViewConfiguration.ButtonGroupAxis` enum defines the layou
  
 ## Examples
 
-You can find the example files [here]().
+You can find the example files [here](./Example/TSAlertController/Presentation/ViewController.swift).
 
  
  
@@ -300,19 +337,19 @@ You can use The Swift Package Manager to install Toast-Swift by adding the descr
 
 ```swift
 dependencies: [
-    .package(url: "", from: "0.1.0")
+    .package(url: "https://github.com/rlarjsdn3/TSAlertController-iOS.git", from: "0.1.0")
 ]
 ```
 
 ### CocoaPods
 
 ```ruby
-pod ""
+pod "TSAlertController"
 ```
 
 ## Roadmap
 
-You can check the upcoming changes for TSAlertController [here]().
+You can check the upcoming changes for TSAlertController [here](./ROADMAP.md).
 
 
 ## Contribution

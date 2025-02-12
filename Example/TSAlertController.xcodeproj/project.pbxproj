@@ -15,6 +15,7 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		B9CB7BB683CE0BF2C0A6D730 /* Pods_TSAlertController_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E2986C7734B41FD672F351 /* Pods_TSAlertController_Tests.framework */; };
+		C7692F1E2D5CB521009AB67F /* Wanderlust.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7692F1D2D5CB521009AB67F /* Wanderlust.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7C048B6697456CBE0C3CE64E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		C7692F1D2D5CB521009AB67F /* Wanderlust.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Wanderlust.ttf; sourceTree = "<group>"; };
 		F0B7234F0869C770636141FB /* Pods-TSAlertController_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TSAlertController_Tests.debug.xcconfig"; path = "Target Support Files/Pods-TSAlertController_Tests/Pods-TSAlertController_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F20D66B1383ED02E54413689 /* Pods-TSAlertController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TSAlertController_Example.release.xcconfig"; path = "Target Support Files/Pods-TSAlertController_Example/Pods-TSAlertController_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -182,6 +184,7 @@
 		C7252D032D4537BD00E4C82B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C7692F1D2D5CB521009AB67F /* Wanderlust.ttf */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 			);
@@ -283,6 +286,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				C7692F1E2D5CB521009AB67F /* Wanderlust.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
