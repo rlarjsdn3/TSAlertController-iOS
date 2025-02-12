@@ -106,8 +106,8 @@ final class TSAlertPresentationController: UIPresentationController {
         background.alpha = 0.0
 
         switch viewConfiguration.dimmedBackgroundViewColor {
-        case let .color(color, alpha):
-            background.backgroundColor = color.withAlphaComponent(alpha)
+        case let .color(color):
+            background.backgroundColor = color
         case let .blur(style):
             background.addBlurEffectView(style)
         case let .grdient(colors, startPoint, endPoint, locations):

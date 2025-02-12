@@ -73,24 +73,14 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KW0-dE-iJl">
-                                <rect key="frame" x="150" y="316.5" width="75" height="34.5"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Button"/>
-                                <connections>
-                                    <action selector="button:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aKl-Ak-H9H"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="DFp-kh-e8w" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="3Tl-yQ-mpW"/>
                             <constraint firstItem="G66-Fl-RZE" firstAttribute="top" secondItem="DFp-kh-e8w" secondAttribute="bottom" constant="50" id="6In-xE-7b3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="DFp-kh-e8w" secondAttribute="trailing" constant="30" id="SdQ-Ko-cFR"/>
-                            <constraint firstItem="KW0-dE-iJl" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="UdI-Vi-orm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="G66-Fl-RZE" secondAttribute="trailing" constant="30" id="Zo0-3O-YhR"/>
                             <constraint firstItem="G66-Fl-RZE" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="gEd-Vb-8ZV"/>
-                            <constraint firstItem="KW0-dE-iJl" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="k95-7R-zuN"/>
                             <constraint firstItem="DFp-kh-e8w" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="uRe-Bv-aQS"/>
                         </constraints>
                     </view>

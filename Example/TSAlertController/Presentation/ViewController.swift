@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var actionSheetStack: UIStackView!
     
     
-    // MARK: - Alert ① - Basic Usage
+    // MARK: - Alert ①
     
     @IBAction func showBasicAlert(_ sender: Any) {
         
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     }
     
 
-    // MARK: - Alert ② - with TextFields
+    // MARK: - Alert ②
     
     @IBAction func showAlertWithTextfields(_ sender: Any) {
         
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     }
     
     
-    // MARK: - ActionSheet ① - Basic Usage
+    // MARK: - ActionSheet ①
     
     @IBAction func showBasicActionSheet(_ sender: Any) {
         
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
     }
     
 
-    // MARK: - ActionSheet ② - with Various Appearances
+    // MARK: - ActionSheet ②
     
     @IBAction func showActionSheetWithVariousAppearance(_ sender: Any) {
         
@@ -127,30 +127,6 @@ class ViewController: UIViewController {
         
         present(actionSheet, animated: true)
     }
-    
-    
-    
-    
-    @IBAction func button(_ sender: Any) {
-        
-        let alert = TSAlertController(title: "Save it for later?", message: "Your current progress will not be saved.", preferredStyle: .alert)
-        alert.viewConfiguration.buttonGroupAxis = .vertical
-
-        let closeAction = TSAlertAction(title: "Close")
-        closeAction.configuration.titleAttributes = [.font: UIFont.systemFont(ofSize: 16)]
-        closeAction.configuration.backgroundColor = .systemGray2
-        alert.addAction(closeAction)
-
-        let dismissAction = TSAlertAction(title: "Exit")
-        dismissAction.configuration.titleAttributes = [.font: UIFont.systemFont(ofSize: 16)]
-        dismissAction.configuration.backgroundColor = .systemRed
-        alert.addAction(dismissAction)
-
-        present(alert, animated: true)
-    }
-    
-    
-    
 }
 
 
@@ -165,8 +141,5 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        
-        alertStack.isHidden = true
-        actionSheetStack.isHidden = true
     }
 }

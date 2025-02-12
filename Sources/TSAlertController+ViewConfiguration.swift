@@ -42,19 +42,19 @@ public extension TSAlertController {
         public var grabberColor: UIColor?
         
         /// Text attributes for styling the title.
-        public var titleTextAttributes: [NSAttributedString.Key: Any]?
+        public var titleAttributes: [NSAttributedString.Key: Any]?
         
         /// The text alignment of the title.
-        public var titleTextAlignment: NSTextAlignment
+        public var titleAlignment: NSTextAlignment
         
         /// The number of lines for the title. If `0`, the title expands dynamically.
         public var titleNumberOfLines: Int
         
         /// Text attributes for styling the message.
-        public var messageTextAttributes: [NSAttributedString.Key: Any]?
+        public var messageAttributes: [NSAttributedString.Key: Any]?
         
         /// The text alignment of the message.
-        public var messageTextAlignment: NSTextAlignment
+        public var messageAlignment: NSTextAlignment
         
         /// The number of lines for the message. If `0`, the message expands dynamically.
         public var messageNumberOfLines: Int
@@ -168,12 +168,12 @@ public extension TSAlertController {
                     messageNumberOfLines: Int = 0,
                     textFieldContainerBorderColor: CGColor? = UIColor.lightGray.cgColor,
                     textFieldContainerBorderWidth: CGFloat = 0.75,
-                    backgroundColor: Background = .color(.systemBackground, alpha: 1),
+                    backgroundColor: Background = .color(.systemBackground),
                     backgroundBorderColor: CGColor? = nil,
                     backgroundBorderWidth: CGFloat = 0,
                     shadow: Shadow? = nil,
                     cornerRadius: CGFloat = 20,
-                    dimmedBackgroundViewColor: Background? = .color(.black, alpha: 0.75),
+                    dimmedBackgroundViewColor: Background? = .color(.black.withAlphaComponent(0.75)),
                     margin: LayoutMargin = .init(),
                     spacing: LayoutSpacing = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
@@ -183,11 +183,11 @@ public extension TSAlertController {
             self.messageHeight = messageHeight
             self.buttonHeight = buttonHeight
             self.grabberColor = grabberColor
-            self.titleTextAttributes = titleTextAttributes
-            self.titleTextAlignment = titleTextAlignment
+            self.titleAttributes = titleTextAttributes
+            self.titleAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
-            self.messageTextAttributes = messageTextAttributes
-            self.messageTextAlignment = messageTextAlignment
+            self.messageAttributes = messageTextAttributes
+            self.messageAlignment = messageTextAlignment
             self.messageNumberOfLines = messageNumberOfLines
             self.textFieldContainerBorderColor = textFieldContainerBorderColor
             self.textFieldContainerBorderWidth = textFieldContainerBorderWidth
@@ -220,8 +220,7 @@ public extension TSAlertController.ViewConfiguration {
         ///
         /// - Parameters:
         ///   - color: The background color.
-        ///   - alpha: The opacity of the background color, ranging from `0.0` (fully transparent) to `1.0` (fully opaque). Defaults to `1.0`.
-        case color(UIColor, alpha: CGFloat = 1.0)
+        case color(UIColor)
         
         /// A gradient background with customizable colors, direction, and location stops.
         ///
