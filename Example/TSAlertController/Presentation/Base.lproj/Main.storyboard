@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DFp-kh-e8w">
-                                <rect key="frame" x="46" y="50" width="283" height="168"/>
+                                <rect key="frame" x="46" y="50" width="283" height="79"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK3-cm-iab">
                                         <rect key="frame" x="0.0" y="0.0" width="283" height="34.5"/>
@@ -73,17 +73,31 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KW0-dE-iJl">
+                                <rect key="frame" x="150" y="316.5" width="75" height="34.5"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                                <connections>
+                                    <action selector="button:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aKl-Ak-H9H"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="DFp-kh-e8w" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="3Tl-yQ-mpW"/>
                             <constraint firstItem="G66-Fl-RZE" firstAttribute="top" secondItem="DFp-kh-e8w" secondAttribute="bottom" constant="50" id="6In-xE-7b3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="DFp-kh-e8w" secondAttribute="trailing" constant="30" id="SdQ-Ko-cFR"/>
+                            <constraint firstItem="KW0-dE-iJl" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="UdI-Vi-orm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="G66-Fl-RZE" secondAttribute="trailing" constant="30" id="Zo0-3O-YhR"/>
                             <constraint firstItem="G66-Fl-RZE" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="gEd-Vb-8ZV"/>
+                            <constraint firstItem="KW0-dE-iJl" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="k95-7R-zuN"/>
                             <constraint firstItem="DFp-kh-e8w" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="30" id="uRe-Bv-aQS"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="actionSheetStack" destination="G66-Fl-RZE" id="j0U-0V-PJv"/>
+                        <outlet property="alertStack" destination="DFp-kh-e8w" id="lKg-w6-ySp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
@@ -92,7 +106,7 @@
     </scenes>
     <resources>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

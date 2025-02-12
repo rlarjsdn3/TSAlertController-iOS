@@ -11,16 +11,18 @@ import TSAlertController
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var alertStack: UIStackView!
+    
+    @IBOutlet weak var actionSheetStack: UIStackView!
+    
     
     // MARK: - Alert ① - Basic Usage
     
     @IBAction func showBasicAlert(_ sender: Any) {
         
         let alert = TSAlertController(title: "Current Location Not Available",
-                                      message: "Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.Your current location can't be determined at this time.",
+                                      message: "Your current location can't be determined at this time.",
                                       preferredStyle: .alert)
-        alert.viewConfiguration.backgroundColor = .grdient([UIColor.systemBlue.cgColor, UIColor.systemTeal.cgColor])
-        alert.viewConfiguration.dimmedBackgroundViewColor = .grdient([UIColor.systemGray6.cgColor, UIColor.systemRed.cgColor])
         
         let okAction = TSAlertAction(title: "OK", style: .default)
         okAction.configuration.backgroundColor = .systemBlue
@@ -38,12 +40,6 @@ class ViewController: UIViewController {
                                       message: "Please enter your username and password to access your account.",
                                       options: [.dismissOnTapOutside],
                                       preferredStyle: .alert)
-
-        var viewConfig = TSAlertController.ViewConfiguration()
-        viewConfig.backgroundColor = .blur(.systemChromeMaterial)
-        viewConfig.dimmedBackgroundViewColor = .color(.black, alpha: 0.9)
-        
-        alert.viewConfiguration = viewConfig
         
         let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
             print("Sign In")
@@ -131,6 +127,30 @@ class ViewController: UIViewController {
         
         present(actionSheet, animated: true)
     }
+    
+    
+    
+    
+    @IBAction func button(_ sender: Any) {
+        
+        let alert = TSAlertController(title: "Save it for later?", message: "Your current progress will not be saved.", preferredStyle: .alert)
+        alert.viewConfiguration.buttonGroupAxis = .vertical
+
+        let closeAction = TSAlertAction(title: "Close")
+        closeAction.configuration.titleAttributes = [.font: UIFont.systemFont(ofSize: 16)]
+        closeAction.configuration.backgroundColor = .systemGray2
+        alert.addAction(closeAction)
+
+        let dismissAction = TSAlertAction(title: "Exit")
+        dismissAction.configuration.titleAttributes = [.font: UIFont.systemFont(ofSize: 16)]
+        dismissAction.configuration.backgroundColor = .systemRed
+        alert.addAction(dismissAction)
+
+        present(alert, animated: true)
+    }
+    
+    
+    
 }
 
 
@@ -145,5 +165,8 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        
+        alertStack.isHidden = true
+        actionSheetStack.isHidden = true
     }
 }

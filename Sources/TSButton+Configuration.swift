@@ -83,7 +83,7 @@ public extension TSButton {
         ///   - cornerRadius: The corner radius of the button. Default is `12.5`.
         public init(title: String? = nil,
                     titleAttributes: [NSAttributedString.Key: Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                       .foregroundColor: UIColor.white],
+                                                                       .foregroundColor: UIColor.label],
                     titleAlignment: NSTextAlignment = .center,
                     
                     image: UIImage? = nil,
