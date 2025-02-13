@@ -140,7 +140,7 @@ TSAlertController also supports interactive user actions:
 let actionSheet = TSAlertController(
     title: "What kind of inquiry do you have?",
     options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
-    preferredStyle: .actionSheet
+    preferredStyle: .floatingSheet
 )
 actionSheet.viewConfiguration.margin = .init(buttonLeft: 5, buttonRight: 5)
 
@@ -223,7 +223,7 @@ let marketCap = MarketCapView()
 let actionSheet = TSAlertController(
     marketCap,
     options: [.dismissOnSwipeDown, .interactiveScaleAndDrag],
-    preferredStyle: .actionSheet
+    preferredStyle: .floatingSheet
 )
 
 let okAction = TSAlertAction(title: "Confirm")
@@ -266,21 +266,21 @@ The `TSAlertController.ViewConfiguration` struct defines various visual and layo
 | `titleHeight`                     | The fixed height of the title area. If `nil`, the height adjusts dynamically.            | `CGFloat?`                                  | `nil`   |
 | `messageHeight`                   | The fixed height of the message area. If `nil`, the height adjusts dynamically.          | `CGFloat?`                                  | `nil`   |
 | `buttonHeight`                    | The height of each button in the button group.                                          | `CGFloat`                                   | `45`    |
-| `grabberColor`                    | The color of the grabber (handle) used for dragging.                                    | `UIColor?`                                  | `.systemGray5` |
-| `titleAttributes`             | Text attributes for styling the title.                                                  | `[NSAttributedString.Key: Any]?`            | `Headline font with default color` |
+| `grabberColor`                    | The color of the grabber (handle) used for dragging.                                    | `UIColor?`                                  | `.grabber` |
+| `titleAttributes`             | Text attributes for styling the title.                                                  | `[NSAttributedString.Key: Any]?`            | Headline font with `.alertLabel` color |
 | `titleAlignment`              | The text alignment of the title.                                                        | `NSTextAlignment`                           | `.left` |
 | `titleNumberOfLines`              | The number of lines for the title. If `0`, the title expands dynamically.               | `Int`                                       | `0`     |
-| `messageTextAttributes`           | Text attributes for styling the message.                                                | `[NSAttributedString.Key: Any]?`            | `Subheadline font` |
+| `messageTextAttributes`           | Text attributes for styling the message.                                                | `[NSAttributedString.Key: Any]?`            | Subheadline font with `.alertSecondaryLabel` color |
 | `messageTextAlignment`            | The text alignment of the message.                                                      | `NSTextAlignment`                           | `.left` |
 | `messageNumberOfLines`            | The number of lines for the message. If `0`, the message expands dynamically.           | `Int`                                       | `0`     |
-| `textFieldContainerBorderColor`   | The border color of the container wrapping the text field. This also changes the color of the separator line.                        | `CGColor?` | `.lightGray` |
+| `textFieldContainerBorderColor`   | The border color of the container wrapping the text field. This also changes the color of the separator line.                        | `CGColor?` | `.alertGray` |
 | `textFieldContainerBorderWidth`   | The border width of the container wrapping the text field. This also changeds the thickness of the separator line.                             | `CGFloat`                                   | `0.75`  |
-| `backgroundColor`                 | The background style of the alert.                                                      | `Background`                                | `.systemBackground` |
+| `backgroundColor`                 | The background style of the alert.                                                      | `Background`                                | `.alertBackground` |
 | `backgroundBorderColor`           | The border color of the alert’s background.                                             | `CGColor?`                                  | `nil`   |
 | `backgroundBorderWidth`           | The border width of the alert’s background.                                             | `CGFloat`                                   | `0`     |
 | `shadow`                          | The shadow configuration for the alert view.                                            | `Shadow?`                                   | `nil`   |
 | `cornerRadius`                    | The corner radius of the alert view.                                                    | `CGFloat`                                   | `20`    |
-| `dimmedBackgroundViewColor`       | The background color of the dimmed overlay behind the alert.                            | `Background?`                               | `.black with 0.75 opacity` |
+| `dimmedBackgroundViewColor`       | The background color of the dimmed overlay behind the alert.                            | `Background?`                               | `.black` with 0.75 opacity |
 | `margin` | The margins applied around the alert view, defining the spacing between the alert’s boundary and its content, including the button group. | `LayoutMargin` | `.init()` |
 | `spacing`                         | The spacing settings applied within the alert layout.                                   | `LayoutSpacing`                             | `.init()` |
 | `size`                            | The size configuration of the alert.                                                    | `LayoutSize`                                | `.init()` |
@@ -378,7 +378,7 @@ You can check the upcoming changes for TSAlertController [here](./ROADMAP.md).
 
 ### Swift Package Manager
 
-You can use The Swift Package Manager to install Toast-Swift by adding the description to your Package.swift file:
+You can use The Swift Package Manager to install TSAlertController by adding the description to your Package.swift file:
 
 ```swift
 dependencies: [
@@ -394,11 +394,11 @@ pod "TSAlertController"
 
 ## Requirements
 
-Swift 5+ | iOS 15.0+
+Swift 5.0+ | iOS 15.0+
 
 
 
-## Contribution
+## Contributing
 
 All types of contributions are welcome, from minor typo fixes and comment improvements to adding new features! Bug reports and feature requests are also highly appreciated, and I will actively review them.  
 
@@ -417,4 +417,4 @@ TSAlertController is continuously updated with the goal of providing an easy-to-
 
 ## License
 
-TSAlertController is available under the MIT license. See the LICENSE file for more info.
+TSAlertController is available under the [MIT license](./LICENSE). See the LICENSE file for more info.

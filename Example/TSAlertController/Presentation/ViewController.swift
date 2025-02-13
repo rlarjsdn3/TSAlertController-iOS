@@ -74,7 +74,7 @@ class ViewController: UIViewController {
         let marketCap = MarketCapView()
         let actionSheet = TSAlertController(marketCap,
                                             options: [.dismissOnSwipeDown, .interactiveScaleAndDrag],
-                                            preferredStyle: .actionSheet)
+                                            preferredStyle: .floatingSheet)
         actionSheet.configuration.headerAnimation = .slideUp
         actionSheet.configuration.buttonGroupAnimation = .fadeIn
         
@@ -94,7 +94,7 @@ class ViewController: UIViewController {
         
         let actionSheet = TSAlertController(title: "What kind of inquiry do you have?",
                                             options: [.interactiveScaleAndDrag],
-                                            preferredStyle: .actionSheet)
+                                            preferredStyle: .floatingSheet)
         actionSheet.viewConfiguration.margin = .init(buttonLeft: 5, buttonRight: 5)
         
         let config = TSButton.Configuration(imageSpacing: 15,

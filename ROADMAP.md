@@ -15,12 +15,13 @@ Feature requests and contributions are always welcome! Feel free to suggest idea
 ## 🛠️ Upcoming Versions
 
 ### [v1.1.0] - Planned Release: (Not Decided Yet)
+
 - 🌱 **Accessibility**  
   - Support for accessibility (VoiceOver) in title, message, and buttons  
-- 🎨 **More Customization Options**  
+- 🎨 **Enhanced Customization Options**  
   - Ability to apply corner radius to specific or all corners  
-- 📈 **Performance Optimization**  
-  - Refactoring alert view code for improved efficiency  
+- 📈 **New Preferred Style Option**  
+  - Add a new alert style: `.actionSheet` and `.floatingSheet`
 
 ---
 

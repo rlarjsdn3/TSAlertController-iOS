@@ -64,7 +64,7 @@ import UIKit
 /// This will apply the properties to the alert buttons.
 /// For more details, refer to ``TSButton.Configuration``.
 ///
-/// > Contribution: All types of contributions are welcome, from minor typo fixes and comment improvements to adding new features! Bug reports and feature requests are also highly appreciated, and I will actively review them. TSAlertController is continuously updated with the goal of providing an easy-to-use, modern, and elegant alert system for everyone. I truly appreciate your support! 😃
+/// > Contributing: All types of contributions are welcome, from minor typo fixes and comment improvements to adding new features! Bug reports and feature requests are also highly appreciated, and I will actively review them. TSAlertController is continuously updated with the goal of providing an easy-to-use, modern, and elegant alert system for everyone. I truly appreciate your support! 😃
 ///
 public final class TSAlertController: UIViewController {
     
@@ -248,7 +248,7 @@ public final class TSAlertController: UIViewController {
             configuration.exitingTransition = .fadeOut
             configuration.prefersGrabberVisible = false
             
-        case .actionSheet:
+        case .floatingSheet:
             configuration.enteringTransition = .slideUp
             configuration.exitingTransition = .slideDown
             configuration.prefersGrabberVisible = true
@@ -265,7 +265,7 @@ public final class TSAlertController: UIViewController {
             viewConfiguration.size.width = .proportional(minimumRatio: 0.75, maximumRatio: 0.75)
             viewConfiguration.spacing.keyboardSpacing = 100
             
-        case .actionSheet:
+        case .floatingSheet:
             viewConfiguration.size.width = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
             viewConfiguration.spacing.keyboardSpacing = 20
         }
