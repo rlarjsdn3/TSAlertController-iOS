@@ -196,8 +196,8 @@ alert.viewConfiguration.buttonGroupAxis = .vertical
 alert.configuration.enteringTransition = .slideUp
 alert.configuration.exitingTransition = .fadeOut
 
-alert.configuration.headerAnimation = .slide()
-alert.configuration.buttonGroupAnimation = .fadeIn()
+alert.configuration.headerAnimation = .slide
+alert.configuration.buttonGroupAnimation = .fadeIn
 
 // ...
 ```
