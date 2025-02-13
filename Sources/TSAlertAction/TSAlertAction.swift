@@ -39,7 +39,7 @@ public class TSAlertAction {
     public var handler: TSAlertActionHandler?
     
     /// The highlight effect applied to the action button when tapped.
-    public var highlightType: TSButton.HighlightType = .fadeInAndScaleDown()
+    public var highlightType: TSButton.HighlightType = .fadeInAndScaleDown
     
     /// The button configuration, defining the appearance and interaction of the button.
     public var configuration: TSButton.Configuration = .init()

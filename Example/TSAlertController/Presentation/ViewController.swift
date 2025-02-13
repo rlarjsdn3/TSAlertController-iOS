@@ -75,6 +75,8 @@ class ViewController: UIViewController {
         let actionSheet = TSAlertController(marketCap,
                                             options: [.dismissOnSwipeDown, .interactiveScaleAndDrag],
                                             preferredStyle: .actionSheet)
+        actionSheet.configuration.headerAnimation = .slideUp
+        actionSheet.configuration.buttonGroupAnimation = .fadeIn
         
         let okAction = TSAlertAction(title: "Confirm")
         okAction.configuration.backgroundColor = .systemBlue

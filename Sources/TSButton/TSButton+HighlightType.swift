@@ -27,56 +27,40 @@ public extension TSButton {
     /// Defines different highlight effects for the button.
     enum HighlightType {
         
-        /// Fades the button in by adjusting its alpha value.
-        ///
-        /// - Parameter alpha: The target alpha value when highlighted. Default is `0.75`.
-        case fadeIn(alpha: CGFloat = 0.75)
-        
-        /// Fades the button in and scales it down slightly.
-        ///
-        /// - Parameters:
-        ///   - scaleX: The scale factor in the X direction. Default is `0.95`.
-        ///   - y: The scale factor in the Y direction. Default is `0.95`.
-        ///   - alpha: The target alpha value when highlighted. Default is `0.75`.
-        case fadeInAndScaleDown(scaleX: CGFloat = 0.95,
-                                y: CGFloat = 0.95,
-                                alpha: CGFloat = 0.75)
-        
+        /// A fade-in effect that decreases the button’s opacity when pressed and restores it when released.
+        case fadeIn
+
+        /// A fade-in effect combined with a slight scaling down of the button.
+        case fadeInAndScaleDown
+
         /// Tints the button with a specified color and scales it down slightly.
         ///
         /// - Parameters:
-        ///   - scaleX: The scale factor in the X direction. Default is `0.95`.
-        ///   - y: The scale factor in the Y direction. Default is `0.95`.
         ///   - color: The tint color applied to the button. Default is `.lightGray`.
-        ///   - alpha: The target alpha value when highlighted. Default is `0.5`.
-        case tintAndScaleDown(scaleX: CGFloat = 0.95,
-                              y: CGFloat = 0.95,
-                              color: UIColor = .lightGray,
-                              alpha: CGFloat = 0.5)
-        
-        /// Applies a custom transformation and alpha adjustment.
+        case tintAndScaleDown(color: UIColor = .lightGray)
+
+        /// Applies a custom transformation and alpha adjustment, allowing for fully customizable highlight effects.
         ///
         /// - Parameters:
-        ///   - transform: The custom transform applied to the button.
-        ///   - alpha: The target alpha value when highlighted.
-        case custom(transform: CGAffineTransform,
-                    alpha: CGFloat)
+        ///   - transform: The transformation applied to the button, such as scaling or rotation.
+        ///   - alpha: The target alpha value when the button is highlighted.
+        case custom(transform: CGAffineTransform, alpha: CGFloat)
         
         /// Applies the highlight effect to the specified button.
         ///
         /// - Parameter view: The `TSButton` to which the highlight effect is applied.
         func apply(to view: TSButton) {
             switch self {
-            case let .fadeIn(alpha):
-                view.alpha = alpha
+            case .fadeIn:
+                view.alpha = 0.75
                 
-            case let .fadeInAndScaleDown(scaleX, y, alpha):
-                view.alpha = alpha
-                view.transform = CGAffineTransform(scaleX: scaleX, y: y)
+            case .fadeInAndScaleDown:
+                view.alpha = 0.75
+                view.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
                 
-            case let .tintAndScaleDown(scaleX, y, color, alpha):
-                view.backgroundColor = color.withAlphaComponent(alpha)
-                view.transform = CGAffineTransform(scaleX: scaleX, y: y)
+            case let .tintAndScaleDown(color):
+                view.backgroundColor = color.withAlphaComponent(0.5)
+                view.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
                 view.previousBackgroundColor = view.tsConfiguration?.backgroundColor
                 
             case let .custom(transform, alpha):

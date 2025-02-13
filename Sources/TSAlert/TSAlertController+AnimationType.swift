@@ -27,40 +27,30 @@ public extension TSAlertController {
     /// Defines different types of animations that can be applied to the alert's internal view.
     enum AnimationType {
         
-        /// A fade-in animation with an optional initial alpha value.
-        ///
-        /// - Parameter alpha: The initial alpha value before the animation starts. Default is `0` (completely transparent).
-        case fadeIn(alpha: CGFloat = 0)
+        /// A fade-in animation, where the alert smoothly appears by increasing its opacity.
+        case fadeIn
         
-        /// A slide animation with a optional initial translation and alpha values.
-        ///
-        /// - Parameters:
-        ///   - translationX: The initial horizontal translation distance. Default is `0` (no horizontal movement).
-        ///   - y: The initial vertical translation distance. Default is `20` (moves down by 20 points).
-        ///   - alpha: The initial alpha value before the animation starts. Default is `0` (completely transparent).
-        case slide(translationX: CGFloat = 0,
-                   y: CGFloat = 20,
-                   alpha: CGFloat = 0)
+        /// A slide-up animation, where the alert enters the screen by moving up from the bottom.
+        case slideUp
         
         /// A custom animation using a specified transform and alpha value.
         ///
         /// - Parameters:
         ///   - transform: A `CGAffineTransform` defining the transformation to be applied.
         ///   - alpha: The initial alpha value before the animation starts.
-        case custom(transform: CGAffineTransform,
-                    alpha: CGFloat)
+        case custom(transform: CGAffineTransform, alpha: CGFloat)
         
         /// Applies the selected animation type to a given view.
         ///
         /// - Parameter view: The `UIView` to which the animation will be applied.
         func apply(to view: UIView) {
             switch self {
-            case let .fadeIn(alpha):
-                view.alpha = alpha
+            case .fadeIn:
+                view.alpha = 0
                 
-            case let .slide(translationX, y, alpha):
-                view.alpha = alpha
-                view.transform = CGAffineTransform(translationX: translationX, y: y)
+            case .slideUp:
+                view.alpha = 0
+                view.transform = CGAffineTransform(translationX: 0, y: 25)
                 
             case let .custom(transform, alpha):
                 view.alpha = alpha
@@ -73,7 +63,7 @@ public extension TSAlertController {
         /// - Parameter view: The `UIView` whose animation should be undone.
         func undo(for view: UIView) {
             switch self {
-            case .fadeIn, .slide, .custom:
+            case .fadeIn, .slideUp, .custom:
                 view.alpha = 1
                 view.transform = .identity
             }

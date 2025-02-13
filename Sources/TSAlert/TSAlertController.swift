@@ -120,7 +120,7 @@ public final class TSAlertController: UIViewController {
     /// Use this property to access the text fields displayed in the alert.
     /// The text fields are in the order in which you added them to the alert controller.
     /// This order also corresponds to the order in which they are displayed in the alert.
-    public var textFields: [UITextField]? = []
+    public var textFields: [UITextField]?
 
     /// The configuration that defines the behavior of the alert controller.
     public lazy var configuration: TSAlertController.Configuration = .init()
@@ -489,7 +489,9 @@ public extension TSAlertController {
     
     /// Adds a text field to the alert.
     ///
-    /// This method creates a new `UITextField` to the alert, applies the provided configuration handler.
+    /// This method creates a new `UITextField` for the alert and applies the provided configuration handler.
+    /// To define the action triggered when the Done key is pressed on the last text field, assign it to the `preferredAction` property.
+    /// If no action is assigned, a randomly selected action with the `.default` style will be executed.
     ///
     /// - Important: The text field’s `borderStyle` is always set to `.none` to maintain a consistent alert design.
     /// Do **not** manually set a delegate for the text field, as the alert controller manages it internally.
@@ -500,7 +502,12 @@ public extension TSAlertController {
         configurationHandler?(textField)
         textField.borderStyle = .none  // Ensuring no border style
         textField.delegate = self      // Delegate must not be manually modified
-        textFields?.append(textField)
+        
+        if textFields == nil {
+            textFields = [textField]
+        } else {
+            textFields?.append(textField)
+        }
     }
 }
 
@@ -758,6 +765,9 @@ extension TSAlertController: UITextFieldDelegate {
             textField.resignFirstResponder()
             if let preferredAction = preferredAction {
                 preferredAction.sendAction()
+            } else {
+                guard let action = actions.first(where: { $0.style == .default }) else { return true }
+                action.sendAction()
             }
         }
         return true
