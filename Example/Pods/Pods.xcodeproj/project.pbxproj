@@ -34,6 +34,7 @@
 		C79BCEBF2D5D6F0000213363 /* DefaultContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79BCE912D5D6F0000213363 /* DefaultContentView.swift */; };
 		C79BCEC02D5D6F0000213363 /* TSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79BCE932D5D6F0000213363 /* TSAlertView.swift */; };
 		C79BCEC12D5D6F0000213363 /* DefaultButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79BCE902D5D6F0000213363 /* DefaultButtonGroupView.swift */; };
+		C79BCEC52D5D846E00213363 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79BCEC42D5D846E00213363 /* UIColor+Extension.swift */; };
 		CB34EA6298AAA39A36FC750C05A4856E /* Pods-TSAlertController_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DD96E360C3A6A762466CBA20CBA1BE /* Pods-TSAlertController_Example-dummy.m */; };
 		DBB453E8BC171CEEB707D69D2125082B /* Pods-TSAlertController_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 210B35D65AB534CCE52F8084B254B8DA /* Pods-TSAlertController_Tests-dummy.m */; };
 		E0998E20114C02E44E56D8FE3B8F80FB /* Pods-TSAlertController_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F22B0CE07C2E106F711D13D408D13F6 /* Pods-TSAlertController_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -110,6 +111,7 @@
 		C79BCEA62D5D6F0000213363 /* UITextfield+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextfield+Extension.swift"; sourceTree = "<group>"; };
 		C79BCEA72D5D6F0000213363 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		C79BCEA92D5D6F0000213363 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		C79BCEC42D5D846E00213363 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		D717D51E4B3C0D7F690B709DEDEF2855 /* TSAlertController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TSAlertController-prefix.pch"; sourceTree = "<group>"; };
 		E349E59F298E20FB776E385EC4A362BE /* Pods-TSAlertController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TSAlertController_Example.release.xcconfig"; sourceTree = "<group>"; };
 		E723712242AACBBDA256EB01FA5088F0 /* TSAlertController.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = TSAlertController.podspec; sourceTree = "<group>"; tabWidth = 2; };
@@ -257,10 +259,10 @@
 				C79BCE952D5D6F0000213363 /* TSAlertController.swift */,
 				C79BCE962D5D6F0000213363 /* TSAlertController+AnimationType.swift */,
 				C79BCE972D5D6F0000213363 /* TSAlertController+Configuration.swift */,
+				C79BCE9B2D5D6F0000213363 /* TSAlertController+ViewConfiguration.swift */,
 				C79BCE982D5D6F0000213363 /* TSAlertController+Options.swift */,
 				C79BCE992D5D6F0000213363 /* TSAlertController+Style.swift */,
 				C79BCE9A2D5D6F0000213363 /* TSAlertController+TransitionType.swift */,
-				C79BCE9B2D5D6F0000213363 /* TSAlertController+ViewConfiguration.swift */,
 			);
 			name = TSAlert;
 			path = Sources/TSAlert;
@@ -301,6 +303,7 @@
 			children = (
 				C79BCEA62D5D6F0000213363 /* UITextfield+Extension.swift */,
 				C79BCEA72D5D6F0000213363 /* UIView+Extension.swift */,
+				C79BCEC42D5D846E00213363 /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -549,6 +552,7 @@
 				C79BCEB02D5D6F0000213363 /* TSButton.swift in Sources */,
 				C79BCEB12D5D6F0000213363 /* TSAlertPresentationController.swift in Sources */,
 				C79BCEB22D5D6F0000213363 /* TSAlertController+ViewConfiguration.swift in Sources */,
+				C79BCEC52D5D846E00213363 /* UIColor+Extension.swift in Sources */,
 				C79BCEB32D5D6F0000213363 /* TSButton+Configuration.swift in Sources */,
 				C79BCEB42D5D6F0000213363 /* TSAlertController+AnimationType.swift in Sources */,
 				C79BCEB52D5D6F0000213363 /* Helper.swift in Sources */,

@@ -26,6 +26,8 @@ class ViewController: UIViewController {
         
         let okAction = TSAlertAction(title: "OK", style: .default)
         okAction.configuration.backgroundColor = .systemBlue
+        okAction.configuration.titleAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                  .foregroundColor: UIColor.alertWhite]
         alert.addAction(okAction)
         
         present(alert, animated: true)
@@ -41,16 +43,14 @@ class ViewController: UIViewController {
                                       options: [.dismissOnTapOutside],
                                       preferredStyle: .alert)
         
-        let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
-            print("Sign In")
-        }
+        let okAction = TSAlertAction(title: "Sign In", style: .default)
         alert.addAction(okAction)
         alert.preferredAction = okAction
         
-        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { _ in
-            print("Cancel")
-        }
+        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel)
         cancelAction.configuration.backgroundColor = .systemBlue
+        cancelAction.configuration.titleAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                      .foregroundColor: UIColor.alertWhite]
         alert.addAction(cancelAction)
         
         alert.addTextField { textfield in
@@ -80,6 +80,8 @@ class ViewController: UIViewController {
         
         let okAction = TSAlertAction(title: "Confirm")
         okAction.configuration.backgroundColor = .systemBlue
+        okAction.configuration.titleAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                  .foregroundColor: UIColor.alertWhite]
         actionSheet.addAction(okAction)
         
         present(actionSheet, animated: true)
