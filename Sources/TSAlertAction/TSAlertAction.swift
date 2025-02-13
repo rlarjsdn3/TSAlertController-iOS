@@ -39,7 +39,7 @@ public class TSAlertAction {
     public var handler: TSAlertActionHandler?
     
     /// The highlight effect applied to the action button when tapped.
-    public var highlightType: TSButton.HighlightType = .fadeInAndScaleDown()
+    public var highlightType: TSButton.HighlightType = .fadeInAndScaleDown
     
     /// The button configuration, defining the appearance and interaction of the button.
     public var configuration: TSButton.Configuration = .init()
@@ -53,7 +53,13 @@ public class TSAlertAction {
     public var isEnabled: Bool = true {
         didSet { updateButtonState() }
     }
+    
+    /// Determines whether the alert should automatically dismiss when a button is tapped.
+    ///
+    /// If set to `false`, you must manually call the `dismiss(completion:)` method inside the handler closure.
+    public var automaticallyDismissOnTap: Bool = true
 
+    
     // MARK: - Initializer
     
     /// Initializes a new action with a title, style, and an optional handler.
@@ -90,11 +96,17 @@ public class TSAlertAction {
     }
     
     /// Programmatically triggers the action as if the button was tapped.
-    func sendActions() {
+    public func sendAction() {
         button?.sendActions(for: .touchUpInside)
     }
+    
+    /// Dismisses the alert containing this action.
+    public func dismiss(animated: Bool,
+                        completion: (() -> Void)? = nil) {
+        Helper.topController()?.dismiss(animated: true, completion: completion)
+    }
 
-    // MARK: - Private Methods
+    // MARK: - Private
     
     /// Adjusts the button configuration based on the alert's preferred style.
     private func adjustConfiguration(for preferredStyle: TSAlertController.Style) {
@@ -110,13 +122,11 @@ public class TSAlertAction {
         return UIAction { [weak self] _ in
             guard let self else { return }
             self.handler?(self)
-            self.dismissAlert()
+            
+            if self.automaticallyDismissOnTap {
+                self.dismiss(animated: true)
+            }
         }
-    }
-    
-    /// Dismisses the alert containing this action.
-    private func dismissAlert() {
-        Helper.topController()?.dismiss(animated: true)
     }
     
     /// Updates the button’s enabled state to match the action’s `isEnabled` property.

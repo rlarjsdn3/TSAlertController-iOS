@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var actionSheetStack: UIStackView!
     
     
-    // MARK: - Alert ① - Basic Usage
+    // MARK: - Alert ①
     
     @IBAction func showBasicAlert(_ sender: Any) {
         
@@ -26,13 +26,15 @@ class ViewController: UIViewController {
         
         let okAction = TSAlertAction(title: "OK", style: .default)
         okAction.configuration.backgroundColor = .systemBlue
+        okAction.configuration.titleAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                  .foregroundColor: UIColor.alertWhite]
         alert.addAction(okAction)
         
         present(alert, animated: true)
     }
     
 
-    // MARK: - Alert ② - with TextFields
+    // MARK: - Alert ②
     
     @IBAction func showAlertWithTextfields(_ sender: Any) {
         
@@ -41,16 +43,14 @@ class ViewController: UIViewController {
                                       options: [.dismissOnTapOutside],
                                       preferredStyle: .alert)
         
-        let okAction = TSAlertAction(title: "Sign In", style: .default) { _ in
-            print("Sign In")
-        }
+        let okAction = TSAlertAction(title: "Sign In", style: .default)
         alert.addAction(okAction)
         alert.preferredAction = okAction
         
-        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel) { _ in
-            print("Cancel")
-        }
+        let cancelAction = TSAlertAction(title: "Cancel", style: .cancel)
         cancelAction.configuration.backgroundColor = .systemBlue
+        cancelAction.configuration.titleAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                      .foregroundColor: UIColor.alertWhite]
         alert.addAction(cancelAction)
         
         alert.addTextField { textfield in
@@ -67,30 +67,34 @@ class ViewController: UIViewController {
     }
     
     
-    // MARK: - ActionSheet ① - Basic Usage
+    // MARK: - ActionSheet ①
     
     @IBAction func showBasicActionSheet(_ sender: Any) {
         
         let marketCap = MarketCapView()
         let actionSheet = TSAlertController(marketCap,
                                             options: [.dismissOnSwipeDown, .interactiveScaleAndDrag],
-                                            preferredStyle: .actionSheet)
+                                            preferredStyle: .floatingSheet)
+        actionSheet.configuration.headerAnimation = .slideUp
+        actionSheet.configuration.buttonGroupAnimation = .fadeIn
         
         let okAction = TSAlertAction(title: "Confirm")
         okAction.configuration.backgroundColor = .systemBlue
+        okAction.configuration.titleAttributes = [.font: UIFont.preferredFont(forTextStyle: .headline),
+                                                  .foregroundColor: UIColor.alertWhite]
         actionSheet.addAction(okAction)
         
         present(actionSheet, animated: true)
     }
     
 
-    // MARK: - ActionSheet ② - with Various Appearances
+    // MARK: - ActionSheet ②
     
     @IBAction func showActionSheetWithVariousAppearance(_ sender: Any) {
         
         let actionSheet = TSAlertController(title: "What kind of inquiry do you have?",
                                             options: [.interactiveScaleAndDrag],
-                                            preferredStyle: .actionSheet)
+                                            preferredStyle: .floatingSheet)
         actionSheet.viewConfiguration.margin = .init(buttonLeft: 5, buttonRight: 5)
         
         let config = TSButton.Configuration(imageSpacing: 15,
@@ -127,30 +131,6 @@ class ViewController: UIViewController {
         
         present(actionSheet, animated: true)
     }
-    
-    
-    
-    
-    @IBAction func button(_ sender: Any) {
-        
-        let alert = TSAlertController(title: "Save it for later?", message: "Your current progress will not be saved.", preferredStyle: .alert)
-        alert.viewConfiguration.buttonGroupAxis = .vertical
-
-        let closeAction = TSAlertAction(title: "Close")
-        closeAction.configuration.titleAttributes = [.font: UIFont.systemFont(ofSize: 16)]
-        closeAction.configuration.backgroundColor = .systemGray2
-        alert.addAction(closeAction)
-
-        let dismissAction = TSAlertAction(title: "Exit")
-        dismissAction.configuration.titleAttributes = [.font: UIFont.systemFont(ofSize: 16)]
-        dismissAction.configuration.backgroundColor = .systemRed
-        alert.addAction(dismissAction)
-
-        present(alert, animated: true)
-    }
-    
-    
-    
 }
 
 
@@ -165,8 +145,5 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        
-        alertStack.isHidden = true
-        actionSheetStack.isHidden = true
     }
 }

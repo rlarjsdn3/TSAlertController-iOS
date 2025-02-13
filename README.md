@@ -16,10 +16,6 @@
 
 <br>
 
-```
-⚠️ This open-source project has not been released yet!
-```
-
 <p align="center">
     <img src="./Screenshot/Example_02.png" width="24%">
     <img src="./Screenshot/Example_03.png" width="24%">
@@ -33,7 +29,7 @@ To display a simple alert:
 
 ```swift
 let alert = TSAlertController(
-    title: "The title of the alert.",
+    title: "The title of the alert",
     message: "Descriptive text that provides more details about the reason for the alert.",
     preferredStyle: .alert
 )
@@ -47,20 +43,24 @@ present(alert, animated: true)
 <details>
   <summary>Preview</summary>
 
+<br>
+
 <img src="./Screenshot/Example_01.png" width="250px">
 
 </details>
 
-TSAlertController mimics the interface of UIAlertController to minimize the learning curve.
+TSAlertController mimics the interface of [UIAlertController]() and references other APIs to minimize the learning curve. The customization method has been designed in a similar way to [UIButton.Configuration] and [UIBarAppearance], allowing developers to easily modify the appearance and behavior of the alert using familiar APIs.
 
 
-And like UIAlertController, you can also add a UITextField to the alert:
+And like [UIAlertController](), you can also add a [UITextField]() to the alert:
 
 ```swift
-let alert = TSAlertController(title: "Sign In",
-                              message: "Please enter your username and password to access your account.",
-                              options: [.dismissOnTapOutside],
-                              preferredStyle: .alert)
+let alert = TSAlertController(
+    title: "Sign In",
+    message: "Please enter your username and password to access your account.",
+    options: [.dismissOnTapOutside],
+    preferredStyle: .alert
+    )
 
 let okAction = TSAlertAction(title: "Sign In")
 alert.addAction(okAction)
@@ -83,6 +83,8 @@ present(alert, animated: true)
 <details>
   <summary>Preview</summary>
 
+<br>
+
 <img src="./Screenshot/Example_02.png" width="250px">
 
 </details>
@@ -90,7 +92,7 @@ present(alert, animated: true)
 
 ### Customizing Appearance
 
-To customize font attributes, use `TSAlertController.ViewConfiguration`:
+To customize fonts, text color, alignment, button group axis, and more, use `TSAlertController.ViewConfiguration`:
 
 ```swift
 let alert = TSAlertController(
@@ -121,11 +123,12 @@ present(alert, animated: true)
 <details>
   <summary>Preview</summary>
 
+<br>
+
 <img src="./Screenshot/Example_03.png" width="250px">
 
 </details>
 
-With `TSAlertController.ViewConfiguration`, you can modify attributes such as title and message fonts, background color, border radius, button alignment (axis), and more.
 For more details, refer to the [ViewConfiguration]() section.
 
 
@@ -137,7 +140,7 @@ TSAlertController also supports interactive user actions:
 let actionSheet = TSAlertController(
     title: "What kind of inquiry do you have?",
     options: [.interactiveScaleAndDrag, .dismissOnSwipeDown, .dismissOnTapOutside],
-    preferredStyle: .actionSheet
+    preferredStyle: .floatingSheet
 )
 actionSheet.viewConfiguration.margin = .init(buttonLeft: 5, buttonRight: 5)
 
@@ -152,9 +155,7 @@ let config = TSButton.Configuration(
 
 let appUsageInquiry = TSAlertAction(title: "App Usage Inquiry")
 appUsageInquiry.configuration = config
-appUsageInquiry.configuration.image = UIImage(systemName: "app")
-appUsageInquiry.highlightType = .tintAndScaleDown(color: .systemGray4)
-actionSheet.addAction(appUsageInquiry)
+// ... 
 
 let paymentIssue = TSAlertAction(title: "Payment Issues")
 // ...
@@ -171,9 +172,46 @@ present(actionSheet, animated: true)
 <details>
   <summary>Preview</summary>
 
+<br>
+
 <img src="./Screenshot/Example_04.png" width="250px">
 
 </details>
+
+As you can see in the preview and infer from the option names, various user interactions can be added to the alert. The `.dismissOnSwipeDown` option allows the alert to disappear when swiped down beyond a certain distance. Similarly, `.dismissOnTapOutside` makes the alert disappear when the dimmed background area outside the alert is tapped.
+
+
+### Transiton And Animation
+
+TSAlertController supports several transition and animation options:
+
+```swift
+let alert = TSAlertController(
+    title: "Save it for later?", 
+    message: "Your current progress will not be saved.", 
+    preferredStyle: .alert
+)
+alert.viewConfiguration.buttonGroupAxis = .vertical
+
+alert.configuration.enteringTransition = .slideUp
+alert.configuration.exitingTransition = .fadeOut
+
+alert.configuration.headerAnimation = .slide()
+alert.configuration.buttonGroupAnimation = .fadeIn()
+
+// ...
+```
+
+<details>
+  <summary>Preview</summary>
+
+<br>
+
+<img src="./Screenshot/Example_06.gif" width="250px">
+
+</details>
+
+Transitions define how the alert appears on the screen when the present(_:animated:) method is called, as their names suggest. Animations determine how the internal views of the alert animate when the alert appears.
 
 
 ### Alert With Custom View
@@ -185,7 +223,7 @@ let marketCap = MarketCapView()
 let actionSheet = TSAlertController(
     marketCap,
     options: [.dismissOnSwipeDown, .interactiveScaleAndDrag],
-    preferredStyle: .actionSheet
+    preferredStyle: .floatingSheet
 )
 
 let okAction = TSAlertAction(title: "Confirm")
@@ -197,6 +235,8 @@ present(actionSheet, animated: true)
 
 <details>
   <summary>Preview</summary>
+  
+  <br>
 
 <img src="./Screenshot/Example_05.png" width="250px">
 
@@ -214,7 +254,7 @@ The `TSAlertController.Configuration` struct defines various behaviors for the a
 | `exitingTransition`    | The transition animation type when the alert disappears. For `.actionSheet`, it defaults to `.slideDown`. For `.alert`, it defaults to `.fadeOut`. | `TSAlertController.ExitingTransitionType?`       | `nil`   |
 | `headerAnimation`      | The animation type for the alert’s header when presented.  | `TSAlertController.AnimationType?`               | `nil`   |
 | `buttonGroupAnimation` | The animation type for the button group when presented.    | `TSAlertController.AnimationType?`               | `nil`   |
-| `prefersGrabberVisible` | A Boolean value indicating whether a grabber (handle) should be visible. | `Bool` | `true` |
+| `prefersGrabberVisible` | A Boolean value indicating whether a grabber (handle) should be visible. This property applies only to `.actionSheet`, as .alert does not display a grabber. | `Bool` | `true` |
 
 
 ### ViewConfiguration options
@@ -226,22 +266,22 @@ The `TSAlertController.ViewConfiguration` struct defines various visual and layo
 | `titleHeight`                     | The fixed height of the title area. If `nil`, the height adjusts dynamically.            | `CGFloat?`                                  | `nil`   |
 | `messageHeight`                   | The fixed height of the message area. If `nil`, the height adjusts dynamically.          | `CGFloat?`                                  | `nil`   |
 | `buttonHeight`                    | The height of each button in the button group.                                          | `CGFloat`                                   | `45`    |
-| `grabberColor`                    | The color of the grabber (handle) used for dragging.                                    | `UIColor?`                                  | `.systemGray5` |
-| `titleTextAttributes`             | Text attributes for styling the title.                                                  | `[NSAttributedString.Key: Any]?`            | `Headline font with default color` |
-| `titleTextAlignment`              | The text alignment of the title.                                                        | `NSTextAlignment`                           | `.left` |
+| `grabberColor`                    | The color of the grabber (handle) used for dragging.                                    | `UIColor?`                                  | `.grabber` |
+| `titleAttributes`             | Text attributes for styling the title.                                                  | `[NSAttributedString.Key: Any]?`            | Headline font with `.alertLabel` color |
+| `titleAlignment`              | The text alignment of the title.                                                        | `NSTextAlignment`                           | `.left` |
 | `titleNumberOfLines`              | The number of lines for the title. If `0`, the title expands dynamically.               | `Int`                                       | `0`     |
-| `messageTextAttributes`           | Text attributes for styling the message.                                                | `[NSAttributedString.Key: Any]?`            | `Subheadline font` |
+| `messageTextAttributes`           | Text attributes for styling the message.                                                | `[NSAttributedString.Key: Any]?`            | Subheadline font with `.alertSecondaryLabel` color |
 | `messageTextAlignment`            | The text alignment of the message.                                                      | `NSTextAlignment`                           | `.left` |
 | `messageNumberOfLines`            | The number of lines for the message. If `0`, the message expands dynamically.           | `Int`                                       | `0`     |
-| `textFieldContainerBorderColor`   | The border color of the container wrapping the text field.                              | `CGColor?`                                  | `.lightGray` |
-| `textFieldContainerBorderWidth`   | The border width of the container wrapping the text field.                              | `CGFloat`                                   | `0.75`  |
-| `backgroundColor`                 | The background style of the alert.                                                      | `Background`                                | `.systemBackground` |
+| `textFieldContainerBorderColor`   | The border color of the container wrapping the text field. This also changes the color of the separator line.                        | `CGColor?` | `.alertGray` |
+| `textFieldContainerBorderWidth`   | The border width of the container wrapping the text field. This also changeds the thickness of the separator line.                             | `CGFloat`                                   | `0.75`  |
+| `backgroundColor`                 | The background style of the alert.                                                      | `Background`                                | `.alertBackground` |
 | `backgroundBorderColor`           | The border color of the alert’s background.                                             | `CGColor?`                                  | `nil`   |
 | `backgroundBorderWidth`           | The border width of the alert’s background.                                             | `CGFloat`                                   | `0`     |
 | `shadow`                          | The shadow configuration for the alert view.                                            | `Shadow?`                                   | `nil`   |
 | `cornerRadius`                    | The corner radius of the alert view.                                                    | `CGFloat`                                   | `20`    |
-| `dimmedBackgroundViewColor`       | The background color of the dimmed overlay behind the alert.                            | `Background?`                               | `.black with 0.75 opacity` |
-| `margin`                          | The margins applied around the alert view.                                              | `LayoutMargin`                              | `.init()` |
+| `dimmedBackgroundViewColor`       | The background color of the dimmed overlay behind the alert.                            | `Background?`                               | `.black` with 0.75 opacity |
+| `margin` | The margins applied around the alert view, defining the spacing between the alert’s boundary and its content, including the button group. | `LayoutMargin` | `.init()` |
 | `spacing`                         | The spacing settings applied within the alert layout.                                   | `LayoutSpacing`                             | `.init()` |
 | `size`                            | The size configuration of the alert.                                                    | `LayoutSize`                                | `.init()` |
 | `buttonGroupAxis`                 | The axis layout of the button group (horizontal or vertical).                           | `ButtonGroupAxis`                           | `.automatic` |
@@ -255,7 +295,7 @@ The `TSAlertController.ViewConfiguration.Background` enum defines different back
 | Name       | Description |
 |------------|------------|
 | `.blur(UIBlurEffect.Style)` | Uses a blurred background with the specified `UIBlurEffect.Style`. |
-| `.color(UIColor, alpha: CGFloat)` | Uses a solid color background with an optional alpha value (opacity). |
+| `.color(UIColor)` | Uses a solid color background. |
 | `.gradient([CGColor], startPoint: CGPoint, endPoint: CGPoint, locations: [NSNumber]?)` | Uses a gradient background with customizable colors, direction, and location stops. |
 
 ---
@@ -282,10 +322,10 @@ The `TSAlertController.ViewConfiguration.LayoutSpacing` struct defines spacing s
 | Name                      | Description                                           | Type     | Default |
 |---------------------------|-------------------------------------------------------|---------|---------|
 | `titleMessageSpacing`     | Spacing between the title and the message.           | `CGFloat` | `12.5`  |
-| `messageTextfieldSpacing` | Spacing between the message and the text field.      | `CGFloat` | `12.5`  |
-| `textfieldButtonSpacing`  | Spacing between the text field and the button.       | `CGFloat` | `16.5`  |
+| `messageTextfieldSpacing` | Spacing between the message and the text field. Ignored if no text field is present.     | `CGFloat` | `12.5`  |
+| `textfieldButtonSpacing`  | Spacing between the text field and the button. If there is no text field, this spacing applies between the message and the button.      | `CGFloat` | `16.5`  |
 | `buttonSpacing`           | Spacing between buttons in the button group.        | `CGFloat` | `7.5`   |
-| `keyboardSpacing`         | Spacing between the alert bottom and the keyboard.  | `CGFloat` | `100`   |
+| `keyboardSpacing`         | Spacing between the bottom of the alert and the keyboard. The default value is 20 for action sheets and 100 for alerts. | `CGFloat` | `100`   |
 
 ---
 
@@ -327,17 +367,22 @@ The `TSAlertController.ViewConfiguration.ButtonGroupAxis` enum defines the layou
 
 You can find the example files [here](./Example/TSAlertController/Presentation/ViewController.swift).
 
+
+ ## Roadmap
+
+You can check the upcoming changes for TSAlertController [here](./ROADMAP.md).
+ 
  
  
 ## Installation
 
 ### Swift Package Manager
 
-You can use The Swift Package Manager to install Toast-Swift by adding the description to your Package.swift file:
+You can use The Swift Package Manager to install TSAlertController by adding the description to your Package.swift file:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/rlarjsdn3/TSAlertController-iOS.git", from: "0.1.0")
+    .package(url: "https://github.com/rlarjsdn3/TSAlertController-iOS.git", from: "1.0.0")
 ]
 ```
 
@@ -347,12 +392,13 @@ dependencies: [
 pod "TSAlertController"
 ```
 
-## Roadmap
+## Requirements
 
-You can check the upcoming changes for TSAlertController [here](./ROADMAP.md).
+Swift 5.0+ | iOS 15.0+
 
 
-## Contribution
+
+## Contributing
 
 All types of contributions are welcome, from minor typo fixes and comment improvements to adding new features! Bug reports and feature requests are also highly appreciated, and I will actively review them.  
 
@@ -371,4 +417,4 @@ TSAlertController is continuously updated with the goal of providing an easy-to-
 
 ## License
 
-TSAlertController is available under the MIT license. See the LICENSE file for more info.
+TSAlertController is available under the [MIT license](./LICENSE). See the LICENSE file for more info.

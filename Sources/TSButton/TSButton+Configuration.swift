@@ -69,7 +69,7 @@ public extension TSButton {
         ///
         /// - Parameters:
         ///   - title: The text displayed inside the button. Default is `nil`.
-        ///   - titleAttributes: The attributes for styling the title. Default uses the system headline font with a white color.
+        ///   - titleAttributes: The attributes for styling the title. Default uses the system headline font with a `.alertGray` color.
         ///   - titleAlignment: The alignment of the title within the button. Default is `.center`.
         ///   - image: The primary image displayed inside the button. Default is `nil`.
         ///   - imageSpacing: The spacing between the title and the image. Default is `10`.
@@ -83,7 +83,7 @@ public extension TSButton {
         ///   - cornerRadius: The corner radius of the button. Default is `12.5`.
         public init(title: String? = nil,
                     titleAttributes: [NSAttributedString.Key: Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                       .foregroundColor: UIColor.label],
+                                                                       .foregroundColor: UIColor.alertGray],
                     titleAlignment: NSTextAlignment = .center,
                     
                     image: UIImage? = nil,
@@ -96,7 +96,7 @@ public extension TSButton {
                     
                     contentAlignment: ContentAlignment = .center,
                     contentEdgeInset: NSDirectionalEdgeInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 10),
-                    backgroundColor: UIColor? = .systemGray,
+                    backgroundColor: UIColor? = .alertSecondaryBackground ,
                     cornerRadius: CGFloat = 12.5) {
             
             self.title = title

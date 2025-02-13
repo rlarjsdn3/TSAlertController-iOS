@@ -96,7 +96,7 @@ final class TSAlertPresentationController: UIPresentationController {
         case .alert:
             presentedView.center(in: containerView)
             
-        case .actionSheet:
+        case .floatingSheet:
             presentedView.centerX(in: containerView)
             presentedView.anchor(bottom: containerView.safeAreaLayoutGuide.bottomAnchor, bottomInset: 10)
         }
@@ -106,8 +106,8 @@ final class TSAlertPresentationController: UIPresentationController {
         background.alpha = 0.0
 
         switch viewConfiguration.dimmedBackgroundViewColor {
-        case let .color(color, alpha):
-            background.backgroundColor = color.withAlphaComponent(alpha)
+        case let .color(color):
+            background.backgroundColor = color
         case let .blur(style):
             background.addBlurEffectView(style)
         case let .grdient(colors, startPoint, endPoint, locations):

@@ -21,8 +21,52 @@
 
 import UIKit
 
+/// Create a elegant and modern alert. 😃
 ///
-public class TSAlertController: UIViewController {
+/// ``TSAlertController`` is a customizable and user-friendly alert system designed to provide
+/// a seamless and modern alternative to UIAlertController. Use this class to configure alerts
+/// and action sheets with the message that you want to display and the actions from which to choose.
+/// After configuring the alert controller with the actions and style you want, present it using the
+///  ``present(_:animated:completion:)`` method. UIKit displays alerts and action sheets modally over
+///  your app’s content.
+///
+/// In addition to displaying a message to a user, you can associate actions with your alert controller
+/// to give people a way to respond. For each action you add using the ``addAction(_:)`` method,
+/// the alert controller configures a button with the action details. When a person taps that action,
+/// the alert controller executes the block you provided when creating the action object. The following
+/// code shows how to configure an alert with a single action.
+///
+/// ```swift
+/// let alert = TSAlertController(title: "My Alert", message: "This is an alert.", preferredStyle: .alert)
+/// alert.addAction(TSAlertAction(title: "OK", style: .default, handler: { _ in
+///     NSLog("The \"OK\" alert occured.")
+/// }))
+/// self.present(alert, animated: true, completion: nil)
+/// ```
+///
+/// When configuring an alert with the ``TSAlertController.Style.alert`` style, you can also add text fields
+/// to the alert interface. The alert controller lets you provide a block for configuring
+/// your text fields prior to display. The alert controller maintains a reference to each text field
+/// so that you can access its value later.
+///
+/// - Important: The ``TSAlertController`` class is intended to be used as-is and doesn’t support subclassing.
+///
+/// Use ``TSAlertController.Configuration`` to customize alert settings such as transitions and animations,
+/// and ``TSAlertController.ViewConfiguration`` to modify UI properties of the alert.
+/// Before calling the ``present(_:animated:)`` method, you can either modify these structures directly
+/// or assign a new instance to the `configuration` or `viewConfiguration` property.
+/// This will apply the properties to the alert.
+/// For more details, refer to ``TSAlertController.Configuration`` and ``TSAlertController.ViewConfiguration``.
+///
+/// To customize the appearance of buttons, use ``TSButton.Configuration``.
+/// Before calling the ``present(_:animated:)`` method, you can either modify this structure directly
+/// or assign a new instance to the `configuration` property.
+/// This will apply the properties to the alert buttons.
+/// For more details, refer to ``TSButton.Configuration``.
+///
+/// > Contributing: All types of contributions are welcome, from minor typo fixes and comment improvements to adding new features! Bug reports and feature requests are also highly appreciated, and I will actively review them. TSAlertController is continuously updated with the goal of providing an easy-to-use, modern, and elegant alert system for everyone. I truly appreciate your support! 😃
+///
+public final class TSAlertController: UIViewController {
     
     // MARK: - Properties
     
@@ -76,16 +120,12 @@ public class TSAlertController: UIViewController {
     /// Use this property to access the text fields displayed in the alert.
     /// The text fields are in the order in which you added them to the alert controller.
     /// This order also corresponds to the order in which they are displayed in the alert.
-    public var textFields: [UITextField]? = []
+    public var textFields: [UITextField]?
 
     /// The configuration that defines the behavior of the alert controller.
     public lazy var configuration: TSAlertController.Configuration = .init()
 
-    /// A configuration that specifies the behavior of the alert and action sheet.
-    ///
-    /// You can configure the behavior of the alert with a `TSAlertController.ViewConfiguration`.
-    /// It allows you to define transition styles when the alert appears and disappears,
-    /// as well as animations for the alert header and button group views.
+    /// The configuration that defines the appearance of the alert and action sheet.
     public lazy var viewConfiguration: TSAlertController.ViewConfiguration = .init()
 
     /// The header view of the alert.
@@ -208,7 +248,7 @@ public class TSAlertController: UIViewController {
             configuration.exitingTransition = .fadeOut
             configuration.prefersGrabberVisible = false
             
-        case .actionSheet:
+        case .floatingSheet:
             configuration.enteringTransition = .slideUp
             configuration.exitingTransition = .slideDown
             configuration.prefersGrabberVisible = true
@@ -225,7 +265,7 @@ public class TSAlertController: UIViewController {
             viewConfiguration.size.width = .proportional(minimumRatio: 0.75, maximumRatio: 0.75)
             viewConfiguration.spacing.keyboardSpacing = 100
             
-        case .actionSheet:
+        case .floatingSheet:
             viewConfiguration.size.width = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
             viewConfiguration.spacing.keyboardSpacing = 20
         }
@@ -309,8 +349,8 @@ public class TSAlertController: UIViewController {
     // Sets up visual attributes such as background color, blur effect, border, and shadow.
     private func setupAttributes() {
         switch viewConfiguration.backgroundColor {
-        case let .color(color, alpha):
-            view.backgroundColor = color.withAlphaComponent(alpha)
+        case let .color(color):
+            view.backgroundColor = color
         case let .blur(style):
             view.addBlurEffectView(style, with: viewConfiguration)
         case let .grdient(colors, startPoint, endPoint, locations):
@@ -449,7 +489,9 @@ public extension TSAlertController {
     
     /// Adds a text field to the alert.
     ///
-    /// This method creates a new `UITextField` to the alert, applies the provided configuration handler.
+    /// This method creates a new `UITextField` for the alert and applies the provided configuration handler.
+    /// To define the action triggered when the Done key is pressed on the last text field, assign it to the `preferredAction` property.
+    /// If no action is assigned, a randomly selected action with the `.default` style will be executed.
     ///
     /// - Important: The text field’s `borderStyle` is always set to `.none` to maintain a consistent alert design.
     /// Do **not** manually set a delegate for the text field, as the alert controller manages it internally.
@@ -460,7 +502,12 @@ public extension TSAlertController {
         configurationHandler?(textField)
         textField.borderStyle = .none  // Ensuring no border style
         textField.delegate = self      // Delegate must not be manually modified
-        textFields?.append(textField)
+        
+        if textFields == nil {
+            textFields = [textField]
+        } else {
+            textFields?.append(textField)
+        }
     }
 }
 
@@ -717,7 +764,10 @@ extension TSAlertController: UITextFieldDelegate {
         } else {
             textField.resignFirstResponder()
             if let preferredAction = preferredAction {
-                preferredAction.sendActions()
+                preferredAction.sendAction()
+            } else {
+                guard let action = actions.first(where: { $0.style == .default }) else { return true }
+                action.sendAction()
             }
         }
         return true

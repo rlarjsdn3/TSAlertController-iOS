@@ -42,19 +42,19 @@ public extension TSAlertController {
         public var grabberColor: UIColor?
         
         /// Text attributes for styling the title.
-        public var titleTextAttributes: [NSAttributedString.Key: Any]?
+        public var titleAttributes: [NSAttributedString.Key: Any]?
         
         /// The text alignment of the title.
-        public var titleTextAlignment: NSTextAlignment
+        public var titleAlignment: NSTextAlignment
         
         /// The number of lines for the title. If `0`, the title expands dynamically.
         public var titleNumberOfLines: Int
         
         /// Text attributes for styling the message.
-        public var messageTextAttributes: [NSAttributedString.Key: Any]?
+        public var messageAttributes: [NSAttributedString.Key: Any]?
         
         /// The text alignment of the message.
-        public var messageTextAlignment: NSTextAlignment
+        public var messageAlignment: NSTextAlignment
         
         /// The number of lines for the message. If `0`, the message expands dynamically.
         public var messageNumberOfLines: Int
@@ -134,17 +134,17 @@ public extension TSAlertController {
         /// - Parameters:
         ///   - titleHeight: The fixed height of the title. If `nil`, it adjusts dynamically.
         ///   - messageHeight: The fixed height of the message. If `nil`, it adjusts dynamically.
-        ///   - buttonHeight: The height of each button in the button group. Default is `42.5`.
-        ///   - grabberColor: The color of the grabber (handle). Default is `.systemGray5`.
-        ///   - titleTextAttributes: The text attributes for the title. Defaults to a headline font with default color.
+        ///   - buttonHeight: The height of each button in the button group. Default is `45`.
+        ///   - grabberColor: The color of the grabber (handle). Default is `.grabber`.
+        ///   - titleTextAttributes: The text attributes for the title. Defaults to a headline font with `.alertLabel` color.
         ///   - titleTextAlignment: The alignment of the title text. Defaults to `.left`.
         ///   - titleNumberOfLines: The maximum number of lines for the title. Default is `0` (dynamic height).
-        ///   - messageTextAttributes: The text attributes for the message. Defaults to a subheadline font.
+        ///   - messageTextAttributes: The text attributes for the message. Defaults to a subheadline font with `.alertSecondaryLabel` color.
         ///   - messageTextAlignment: The alignment of the message text. Defaults to `.left`.
         ///   - messageNumberOfLines: The maximum number of lines for the message. Default is `0` (dynamic height).
-        ///   - textFieldContainerBorderColor: The border color of the text field container. Default is `.lightGray`.
+        ///   - textFieldContainerBorderColor: The border color of the text field container. Default is `.alertGray`.
         ///   - textFieldContainerBorderWidth: The border width of the text field container. Default is `0.75`.
-        ///   - backgroundColor: The background style of the alert. Default is `.systemBackground`.
+        ///   - backgroundColor: The background style of the alert. Default is `.alertBackground`.
         ///   - backgroundBorderColor: The border color of the alert’s background. Default is `nil`.
         ///   - backgroundBorderWidth: The border width of the alert’s background. Default is `0`.
         ///   - shadow: The shadow configuration for the alert. Default is `nil`.
@@ -157,23 +157,23 @@ public extension TSAlertController {
         public init(titleHeight: CGFloat? = nil,
                     messageHeight: CGFloat? = nil,
                     buttonHeight: CGFloat = 45,
-                    grabberColor: UIColor? = .systemGray5,
+                    grabberColor: UIColor? = .grabber,
                     titleTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .headline),
-                                                                            .foregroundColor: UIColor.label],
+                                                                            .foregroundColor: UIColor.alertLabel],
                     titleTextAlignment: NSTextAlignment = .left,
                     titleNumberOfLines: Int = 0,
                     messageTextAttributes: [NSAttributedString.Key : Any]? = [.font: UIFont.preferredFont(forTextStyle: .subheadline),
-                                                                              .foregroundColor: UIColor.label],
+                                                                              .foregroundColor: UIColor.alertSecondaryLabel],
                     messageTextAlignment: NSTextAlignment = .left,
                     messageNumberOfLines: Int = 0,
-                    textFieldContainerBorderColor: CGColor? = UIColor.lightGray.cgColor,
+                    textFieldContainerBorderColor: CGColor? = UIColor.alertGray.cgColor,
                     textFieldContainerBorderWidth: CGFloat = 0.75,
-                    backgroundColor: Background = .color(.systemBackground, alpha: 1),
+                    backgroundColor: Background = .color(.alertBackground),
                     backgroundBorderColor: CGColor? = nil,
                     backgroundBorderWidth: CGFloat = 0,
                     shadow: Shadow? = nil,
                     cornerRadius: CGFloat = 20,
-                    dimmedBackgroundViewColor: Background? = .color(.black, alpha: 0.75),
+                    dimmedBackgroundViewColor: Background? = .color(.black.withAlphaComponent(0.75)),
                     margin: LayoutMargin = .init(),
                     spacing: LayoutSpacing = .init(),
                     size: LayoutSize = .init(width: .proportional(minimumRatio: 0.75, maximumRatio: 0.75)),
@@ -183,11 +183,11 @@ public extension TSAlertController {
             self.messageHeight = messageHeight
             self.buttonHeight = buttonHeight
             self.grabberColor = grabberColor
-            self.titleTextAttributes = titleTextAttributes
-            self.titleTextAlignment = titleTextAlignment
+            self.titleAttributes = titleTextAttributes
+            self.titleAlignment = titleTextAlignment
             self.titleNumberOfLines = titleNumberOfLines
-            self.messageTextAttributes = messageTextAttributes
-            self.messageTextAlignment = messageTextAlignment
+            self.messageAttributes = messageTextAttributes
+            self.messageAlignment = messageTextAlignment
             self.messageNumberOfLines = messageNumberOfLines
             self.textFieldContainerBorderColor = textFieldContainerBorderColor
             self.textFieldContainerBorderWidth = textFieldContainerBorderWidth
@@ -220,8 +220,7 @@ public extension TSAlertController.ViewConfiguration {
         ///
         /// - Parameters:
         ///   - color: The background color.
-        ///   - alpha: The opacity of the background color, ranging from `0.0` (fully transparent) to `1.0` (fully opaque). Defaults to `1.0`.
-        case color(UIColor, alpha: CGFloat = 1.0)
+        case color(UIColor)
         
         /// A gradient background with customizable colors, direction, and location stops.
         ///
@@ -488,5 +487,76 @@ public extension TSAlertController.ViewConfiguration {
                 return .vertical
             }
         }
+    }
+}
+
+
+
+// MARK: - UIColor
+
+public extension UIColor {
+    
+    /// A dynamic white color used for alert components.
+    /// - Light mode: `RGB(255, 255, 255)` (Pure White)
+    /// - Dark mode: `RGB(255, 255, 255)` (Pure White)
+    static var alertWhite: UIColor {
+        .init(light: .init(r: 255, g: 255, b: 255),
+              dark: .init(r: 255, g: 255, b: 255))
+    }
+    
+    /// A dynamic gray color for alert elements such as separators and subtle backgrounds.
+    /// - Light mode: `RGB(78, 87, 100)` (Dark Gray)
+    /// - Dark mode: `RGB(195, 195, 198)` (Light Gray)
+    static var alertGray: UIColor {
+        .init(light: .init(r: 78, g: 87, b: 100),
+              dark: .init(r: 195, g: 195, b: 198))
+    }
+    
+    /// A dynamic black color for alert content, such as text and icons.
+    /// - Light mode: `RGB(26, 31, 39)` (Deep Black)
+    /// - Dark mode: `RGB(255, 255, 255)` (Pure White)
+    static var alertBlack: UIColor {
+        .init(light: .init(r: 26, g: 31, b: 39),
+              dark: .init(r: 255, g: 255, b: 255))
+    }
+    
+    /// A dynamic color used for alert titles.
+    /// - Light mode: `RGB(53, 61, 75)` (Dark Navy Gray)
+    /// - Dark mode: `RGB(228, 228, 229)` (Light Gray)
+    static var alertLabel: UIColor {
+        .init(light: .init(r: 53, g: 61, b: 75),
+              dark: .init(r: 228, g: 228, b: 229))
+    }
+    
+    /// A dynamic color used for alert messages, providing a subtle contrast to the title.
+    /// - Light mode: `RGB(75, 85, 98)` (Muted Gray)
+    /// - Dark mode: `RGB(196, 196, 199)` (Soft Gray)
+    static var alertSecondaryLabel: UIColor {
+        .init(light: .init(r: 75, g: 85, b: 98),
+              dark: .init(r: 196, g: 196, b: 199))
+    }
+    
+    /// A dynamic color for the alert background, ensuring readability in both modes.
+    /// - Light mode: `RGB(255, 255, 255)` (Pure White)
+    /// - Dark mode: `RGB(44, 44, 52)` (Dark Grayish Blue)
+    static var alertBackground: UIColor {
+        .init(light: .init(r: 255, g: 255, b: 255),
+              dark: .init(r: 31, g: 32, b: 39))
+    }
+    
+    /// A secondary background color, often used for buttons or additional alert sections.
+    /// - Light mode: `RGB(242, 245, 246)` (Soft Light Gray)
+    /// - Dark mode: `RGB(63, 63, 74)` (Muted Dark Gray)
+    static var alertSecondaryBackground: UIColor {
+        .init(light: .init(r: 242, g: 245, b: 246),
+              dark: .init(r: 63, g: 63, b: 74))
+    }
+    
+    /// A dynamic color for the grabber (handle) used in action sheets or draggable alerts.
+    /// - Light mode: `RGB(229, 232, 235)` (Soft Light Gray)
+    /// - Dark mode: `RGB(59, 60, 70)` (Muted Dark Gray)
+    static var grabber: UIColor {
+        .init(light: .init(r: 229, g: 232, b: 235),
+               dark: .init(r: 59, g: 60, b: 70))
     }
 }

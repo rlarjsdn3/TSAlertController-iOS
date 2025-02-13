@@ -28,7 +28,7 @@ final class MarketCapView: UIView {
         let label = UILabel()
         label.text = "Market Capitalization"
         label.font = .systemFont(ofSize: 18, weight: .black)
-        label.textColor = .label
+        label.textColor = .alertLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -37,14 +37,14 @@ final class MarketCapView: UIView {
         let label = UILabel()
         label.text = "As of February 3rd, US Time"
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .secondaryLabel
+        label.textColor = .alertSecondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private lazy var background: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .alertSecondaryBackground
         view.layer.cornerRadius = 15
         view.layer.cornerCurve = .continuous
         view.layer.masksToBounds = true
@@ -57,7 +57,7 @@ final class MarketCapView: UIView {
         let label = UILabel()
         label.text = "Stock Price × Shares Outstanding"
         label.font = .systemFont(ofSize: 18, weight: .bold)
-        label.textColor = .lightGray
+        label.textColor = .alertSecondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -66,7 +66,7 @@ final class MarketCapView: UIView {
         let label = UILabel()
         label.text = "Market capitalization represents the total value of a company's stock. It helps compare the size of companies in the stock market."
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .lightGray
+        label.textColor = .alertSecondaryLabel
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

@@ -47,10 +47,10 @@ class DefaultContentView: UIStackView {
         
         if let title = title {
             let attrText = NSAttributedString(string: title,
-                                              attributes: viewConfiguration.titleTextAttributes ?? [:])
+                                              attributes: viewConfiguration.titleAttributes ?? [:])
             titleLabel.attributedText = attrText
             titleLabel.text = title
-            titleLabel.textAlignment = viewConfiguration.titleTextAlignment
+            titleLabel.textAlignment = viewConfiguration.titleAlignment
             titleLabel.numberOfLines = viewConfiguration.titleNumberOfLines
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
             titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: viewConfiguration.titleHeight ?? 0).isActive = true
@@ -64,10 +64,10 @@ class DefaultContentView: UIStackView {
         
         if let message = message {
             let attrText = NSAttributedString(string: message,
-                                              attributes: viewConfiguration.messageTextAttributes ?? [:])
+                                              attributes: viewConfiguration.messageAttributes ?? [:])
             messageLabel.attributedText = attrText
             messageLabel.text = message
-            messageLabel.textAlignment = viewConfiguration.messageTextAlignment
+            messageLabel.textAlignment = viewConfiguration.messageAlignment
             messageLabel.numberOfLines = viewConfiguration.messageNumberOfLines
             messageLabel.translatesAutoresizingMaskIntoConstraints = false
             messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: viewConfiguration.messageHeight ?? 0).isActive = true
