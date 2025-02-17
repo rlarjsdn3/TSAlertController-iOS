@@ -1,0 +1,23 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+  
+  
+jobs:
+    build:
+        runs-on: macos-latest
+        
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+          
+        - name: Set Specific Xcode Version
+          run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
+          
+        - name: 🛠️ Start Xcode Build
+          run: |
+            xcodebuild clean test -xcworkspace Example/TSAlertController.xcworkspace -scheme TSAlertController -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1'
