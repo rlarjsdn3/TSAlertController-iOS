@@ -20,4 +20,4 @@ jobs:
           
         - name: 🛠️ Start Xcode Build
           run: |
-            xcodebuild clean test -xcworkspace Example/TSAlertController.xcworkspace -scheme TSAlertController -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1'
+            xcodebuild clean test -workspace Example/TSAlertController.xcworkspace -scheme TSAlertController -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1'
