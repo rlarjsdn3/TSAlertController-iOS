@@ -248,7 +248,7 @@ public final class TSAlertController: UIViewController {
             configuration.exitingTransition = .fadeOut
             configuration.prefersGrabberVisible = false
             
-        case .floatingSheet:
+        case .actionSheet, .floatingSheet:
             configuration.enteringTransition = .slideUp
             configuration.exitingTransition = .slideDown
             configuration.prefersGrabberVisible = true
@@ -264,6 +264,10 @@ public final class TSAlertController: UIViewController {
         case .alert:
             viewConfiguration.size.width = .proportional(minimumRatio: 0.75, maximumRatio: 0.75)
             viewConfiguration.spacing.keyboardSpacing = 100
+            
+        case .actionSheet:
+            viewConfiguration.size.width = .proportional(minimumRatio: 1.0, maximumRatio: 1.0)
+            viewConfiguration.spacing.keyboardSpacing = 0
             
         case .floatingSheet:
             viewConfiguration.size.width = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
@@ -343,7 +347,7 @@ public final class TSAlertController: UIViewController {
     // Applies size constraints and positions the alert view within its parent view.
     private func setupConstraints() {
         view.applySizeConstraint(with: viewConfiguration.size)
-        alertView?.fill(to: view)
+        alertView?.fill(to: view, applySafeAreaGuideInsets: true)
     }
 
     // Sets up visual attributes such as background color, blur effect, border, and shadow.

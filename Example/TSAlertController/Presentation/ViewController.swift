@@ -94,7 +94,7 @@ class ViewController: UIViewController {
         
         let actionSheet = TSAlertController(title: "What kind of inquiry do you have?",
                                             options: [.interactiveScaleAndDrag],
-                                            preferredStyle: .floatingSheet)
+                                            preferredStyle: .actionSheet)
         actionSheet.viewConfiguration.margin = .init(buttonLeft: 5, buttonRight: 5)
         
         let config = TSButton.Configuration(imageSpacing: 15,

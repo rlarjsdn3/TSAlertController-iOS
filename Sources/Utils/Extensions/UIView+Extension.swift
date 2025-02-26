@@ -189,12 +189,12 @@ extension UIView {
     /// Makes the view fill its parent view by setting constraints to all edges.
     ///
     /// - Parameter view: The parent view to be filled.
-    func fill(to view: UIView) {
+    func fill(to view: UIView, applySafeAreaGuideInsets: Bool = false) {
         translatesAutoresizingMaskIntoConstraints = false
-        anchor(top: view.topAnchor,
-               leading: view.leadingAnchor,
-               trailing: view.trailingAnchor,
-               bottom: view.bottomAnchor,
+        anchor(top: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor,
+               leading: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor,
+               trailing: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor,
+               bottom: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor,
                topInset: 0,
                leadingInset: 0,
                trailingInset: 0,

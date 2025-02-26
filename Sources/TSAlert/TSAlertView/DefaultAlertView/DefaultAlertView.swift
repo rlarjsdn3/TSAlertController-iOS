@@ -77,11 +77,11 @@ class DefaultAlertView: UIView, TSAlertView {
                            bottomInset: textfieldButtonSpacing)
         
         buttonGroupView.anchor(leading: self.leadingAnchor,
-                       trailing: self.trailingAnchor,
-                       bottom: self.bottomAnchor,
-                       leadingInset: viewConfiguration.margin.buttonLeft,
-                       trailingInset: viewConfiguration.margin.buttonRight,
-                       bottomInset: viewConfiguration.margin.buttonBottom)
+                               trailing: self.trailingAnchor,
+                               bottom: self.bottomAnchor,
+                               leadingInset: viewConfiguration.margin.buttonLeft,
+                               trailingInset: viewConfiguration.margin.buttonRight,
+                               bottomInset: viewConfiguration.margin.buttonBottom)
 
         let actionsCount = CGFloat(alert.actions.count)
         let actionHeight: CGFloat = viewConfiguration.buttonHeight
