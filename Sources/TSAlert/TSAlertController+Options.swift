@@ -24,20 +24,22 @@ import UIKit
 
 public extension TSAlertController {
     
-    ///
     struct Options: OptionSet {
         
-        /// Adds an interactive scaling and dragging effect to the alert
+        /// Adds an interactive scaling and dragging effect to the alert. Cannot be applied to `actionSheet`.
         public static let interactiveScaleAndDrag = Options(rawValue: 1 << 0)
-        
+
         /// Dismisses the action sheet when dragged downward beyond a certain threshold.
         public static let dismissOnSwipeDown = Options(rawValue: 1 << 1)
-        
+
         /// Dismisses the alert by tapping the outside area.
         public static let dismissOnTapOutside = Options(rawValue: 1 << 2)
-        
+
         /// Dismisses the alert by tapping the inside area.
         public static let dismissOnTapInside = Options(rawValue: 1 << 3)
+
+        /// Applies a stretching effect to the alert when dragged. Can only be applied to `actionSheet`.
+        public static let stretchyDragging = Options(rawValue: 1 << 4)
         
         public var rawValue: Int
         public init(rawValue: Int) {

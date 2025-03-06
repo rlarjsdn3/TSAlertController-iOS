@@ -93,7 +93,7 @@ class ViewController: UIViewController {
     @IBAction func showActionSheetWithVariousAppearance(_ sender: Any) {
         
         let actionSheet = TSAlertController(title: "What kind of inquiry do you have?",
-                                            options: [.interactiveScaleAndDrag],
+                                            options: [.stretchyDragging, .dismissOnSwipeDown],
                                             preferredStyle: .actionSheet)
         actionSheet.viewConfiguration.margin = .init(buttonLeft: 5, buttonRight: 5)
         

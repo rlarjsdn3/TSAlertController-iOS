@@ -281,3 +281,32 @@ extension UIView {
         }
     }
 }
+
+
+
+extension UIView {
+    
+    // MARK: - Set AnchorPoint
+    
+    ///
+    func setAnchorPoint(anchorPoint: CGPoint) {
+        var oldPoint = CGPoint(x: self.bounds.width * self.layer.anchorPoint.x,
+                               y: self.bounds.height * self.layer.anchorPoint.y)
+        
+        var newPoint = CGPoint(x: self.bounds.width * anchorPoint.x,
+                               y: self.bounds.height * anchorPoint.y)
+        
+        oldPoint = oldPoint.applying(self.transform)
+        newPoint = newPoint.applying(self.transform)
+        
+        var position = self.layer.position
+        position.x -= oldPoint.x
+        position.x += newPoint.x
+        
+        position.y -= oldPoint.y
+        position.y += newPoint.y
+        
+        self.layer.position = position
+        self.layer.anchorPoint = anchorPoint
+    }
+}

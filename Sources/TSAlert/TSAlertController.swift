@@ -64,7 +64,10 @@ import UIKit
 /// This will apply the properties to the alert buttons.
 /// For more details, refer to ``TSButton.Configuration``.
 ///
-/// > Contributing: All types of contributions are welcome, from minor typo fixes and comment improvements to adding new features! Bug reports and feature requests are also highly appreciated, and I will actively review them. TSAlertController is continuously updated with the goal of providing an easy-to-use, modern, and elegant alert system for everyone. I truly appreciate your support! 😃
+/// > Contributing: All types of contributions are welcome, from minor typo fixes and comment improvements to adding new features!
+/// Bug reports and feature requests are also highly appreciated, and I will actively review them.
+/// TSAlertController is continuously updated with the goal of providing an easy-to-use, modern, and elegant alert system for everyone.
+/// I truly appreciate your support! 😃
 ///
 public final class TSAlertController: UIViewController {
     
@@ -212,6 +215,7 @@ public final class TSAlertController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        adjustOptions()
         adjustConfiguration()
         adjustViewConfiguration()
         
@@ -272,6 +276,19 @@ public final class TSAlertController: UIViewController {
         case .floatingSheet:
             viewConfiguration.size.width = .proportional(minimumRatio: 0.95, maximumRatio: 0.95)
             viewConfiguration.spacing.keyboardSpacing = 20
+        }
+    }
+    
+    /// Before the alert is displayed on the screen, this method forcibly updates the final `Options`
+    /// based on `TSAlertController.Style`.
+    /// This ensures that the alert is presented correctly and prevents unintended behavior.
+    private func adjustOptions() {
+        switch preferredStyle {
+        case .actionSheet:
+            options.remove(.interactiveScaleAndDrag)
+            
+        case .alert, .floatingSheet:
+            options.remove(.stretchyDragging)
         }
     }
     
@@ -418,6 +435,11 @@ public final class TSAlertController: UIViewController {
         addGestureRecognizerIfNeeded(for: .dismissOnTapInside,
                                      gesture: UITapGestureRecognizer(target: self, action: #selector(handleTapInsideToDismissGesture(_:))),
                                      to: view)
+        
+        addGestureRecognizerIfNeeded(for: .stretchyDragging,
+                                     gesture: UIPanGestureRecognizer(target: self,
+                                                                     action: #selector(handleStretchyDragging(_:))),
+                                     to: view)
     }
     
     
@@ -558,7 +580,6 @@ private extension TSAlertController {
         guard let presentingView = self.presentingViewController?.view else { return }
         
         //
-        let scaleDownFactor: CGFloat = 0.95
         let dismissThreshold: CGFloat = 100
         let velocityThreshold: CGFloat = 800
         
@@ -568,8 +589,10 @@ private extension TSAlertController {
         switch gesture.state {
         case .changed:
             if translation.y > 0 {
-                self.view.transform = CGAffineTransform(translationX: translation.x * 0.1, y: translation.y)
+                self.view.transform = CGAffineTransform(translationX: 0,
+                                                        y: translation.y)
                 
+                let scaleDownFactor: CGFloat = 0.95
                 if options.contains(.interactiveScaleAndDrag) {
                     self.view.transform = CGAffineTransform(translationX: translation.x * 0.1, y: translation.y)
                         .scaledBy(x: scaleDownFactor, y: scaleDownFactor)
@@ -633,6 +656,38 @@ private extension TSAlertController {
         case .changed:
                 self.view.transform = CGAffineTransform(translationX: translation.x * interpolationFactor,
                                                         y: translation.y * interpolationFactor).scaledBy(x: scaleDownFactor, y: scaleDownFactor)
+            
+        case .ended, .cancelled, .failed:
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 0.6,
+                           initialSpringVelocity: 0.6,
+                           options: .curveEaseIn,
+                           animations: {
+                
+                self.view.transform = .identity
+            })
+            
+        default:
+            break
+        }
+    }
+    
+    ///
+    @objc private func handleStretchyDragging(_ gesture: UIPanGestureRecognizer) {
+        
+        let interpolationFactor: CGFloat = 0.025
+        let translation = gesture.translation(in: view)
+        
+        switch gesture.state {
+        case .began:
+            view.setAnchorPoint(anchorPoint: CGPoint(x: 0.5, y: 1.0))
+            
+        case .changed:
+            if translation.y < 0 {
+                let adjustedScaleY = 1.0 + (abs(translation.y) * interpolationFactor) / view.bounds.height
+                view.transform = CGAffineTransform(scaleX: 1.0, y: adjustedScaleY)
+            }
             
         case .ended, .cancelled, .failed:
             UIView.animate(withDuration: 0.5,
