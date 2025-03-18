@@ -215,9 +215,9 @@ public final class TSAlertController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        adjustOptions()
-        adjustConfiguration()
-        adjustViewConfiguration()
+        adjustOptionsForcibly()
+        adjustConfigurationForcibly()
+        adjustViewConfigurationForcibly()
         
         initializeAlertView()
         registerKeyboardNotifications()
@@ -282,7 +282,7 @@ public final class TSAlertController: UIViewController {
     /// Before the alert is displayed on the screen, this method forcibly updates the final `Options`
     /// based on `TSAlertController.Style`.
     /// This ensures that the alert is presented correctly and prevents unintended behavior.
-    private func adjustOptions() {
+    private func adjustOptionsForcibly() {
         switch preferredStyle {
         case .actionSheet:
             options.remove(.interactiveScaleAndDrag)
@@ -295,20 +295,20 @@ public final class TSAlertController: UIViewController {
     /// Before the alert is displayed on the screen, this method forcibly updates the final `Configuration`
     /// based on `TSAlertController.Style`.
     /// This ensures that the alert is presented correctly and prevents unintended behavior.
-    private func adjustConfiguration() {
-        adjustPrefersGrabberVisible()
+    private func adjustConfigurationForcibly() {
+        adjustPrefersGrabberVisibleForcibly()
     }
     
     /// Before the alert is displayed on the screen, this method forcibly updates the final `ViewConfiguration`
     /// based on `TSAlertController.Style`.
     /// This ensures that the alert is presented correctly and prevents unintended behavior.
-    private func adjustViewConfiguration() {
-        adjustButtonGroupAxis()
-        adjustActionOrder()
+    private func adjustViewConfigurationForcibly() {
+        adjustButtonGroupAxisForcibly()
+        adjustActionOrderForcibly()
     }
     
     ///
-    private func adjustPrefersGrabberVisible() {
+    private func adjustPrefersGrabberVisibleForcibly() {
         if preferredStyle == .alert {
             configuration.prefersGrabberVisible = false
         }
@@ -316,7 +316,7 @@ public final class TSAlertController: UIViewController {
 
     /// If `buttonLayoutAxis` is set to `.automatic`, the axis is adjusted based on the number of buttons.
     /// - Parameter axis: The current button layout axis.
-    private func adjustButtonGroupAxis() {
+    private func adjustButtonGroupAxisForcibly() {
         let axis = viewConfiguration.buttonGroupAxis
         viewConfiguration.buttonGroupAxis = axis.resolvedAxis(for: actions.count)
     }
@@ -325,7 +325,7 @@ public final class TSAlertController: UIViewController {
     /// - Parameter actions: The list of `TSAlertAction` instances to be reordered.
     ///
     /// - TODO: Modify sorting logic based on `UITraitCollectionLayoutDirection` to handle right-to-left layouts properly.
-    private func adjustActionOrder() {
+    private func adjustActionOrderForcibly() {
         actions.sort {
             let isHorizontal = viewConfiguration.buttonGroupAxis == .horizontal
             return isHorizontal ? ($0.style == .cancel && $1.style != .cancel)
