@@ -189,12 +189,12 @@ extension UIView {
     /// Makes the view fill its parent view by setting constraints to all edges.
     ///
     /// - Parameter view: The parent view to be filled.
-    func fill(to view: UIView) {
+    func fill(to view: UIView, applySafeAreaGuideInsets: Bool = false) {
         translatesAutoresizingMaskIntoConstraints = false
-        anchor(top: view.topAnchor,
-               leading: view.leadingAnchor,
-               trailing: view.trailingAnchor,
-               bottom: view.bottomAnchor,
+        anchor(top: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor,
+               leading: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor,
+               trailing: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor,
+               bottom: applySafeAreaGuideInsets ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor,
                topInset: 0,
                leadingInset: 0,
                trailingInset: 0,
@@ -279,5 +279,34 @@ extension UIView {
             super.layoutSubviews()
             gradientLayer?.frame = self.bounds
         }
+    }
+}
+
+
+
+extension UIView {
+    
+    // MARK: - Set AnchorPoint
+    
+    ///
+    func setAnchorPoint(anchorPoint: CGPoint) {
+        var oldPoint = CGPoint(x: self.bounds.width * self.layer.anchorPoint.x,
+                               y: self.bounds.height * self.layer.anchorPoint.y)
+        
+        var newPoint = CGPoint(x: self.bounds.width * anchorPoint.x,
+                               y: self.bounds.height * anchorPoint.y)
+        
+        oldPoint = oldPoint.applying(self.transform)
+        newPoint = newPoint.applying(self.transform)
+        
+        var position = self.layer.position
+        position.x -= oldPoint.x
+        position.x += newPoint.x
+        
+        position.y -= oldPoint.y
+        position.y += newPoint.y
+        
+        self.layer.position = position
+        self.layer.anchorPoint = anchorPoint
     }
 }

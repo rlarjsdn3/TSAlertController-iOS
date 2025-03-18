@@ -30,7 +30,7 @@ public extension TSAlertController {
         case alert
         
         /// An action sheet displayed by the view controller that presented it.
-        // case actionSheet
+         case actionSheet
 
         /// An floating sheet displayed by the view controller that presented it.
         case floatingSheet

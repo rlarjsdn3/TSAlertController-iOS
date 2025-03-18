@@ -96,6 +96,10 @@ final class TSAlertPresentationController: UIPresentationController {
         case .alert:
             presentedView.center(in: containerView)
             
+        case .actionSheet:
+            presentedView.centerX(in: containerView)
+            presentedView.anchor(bottom: containerView.bottomAnchor, bottomInset: 0)
+            
         case .floatingSheet:
             presentedView.centerX(in: containerView)
             presentedView.anchor(bottom: containerView.safeAreaLayoutGuide.bottomAnchor, bottomInset: 10)
