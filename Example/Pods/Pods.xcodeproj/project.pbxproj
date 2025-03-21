@@ -11,6 +11,7 @@
 		620CE73B15C504B32DB819EAD5979CCB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
 		655262048678A7D25BFF931ACB3B32C2 /* Pods-TSAlertController_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0276C3F2BA9F25C18E5983826ED58A78 /* Pods-TSAlertController_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B28E065F8186E15FB50B6583D8F5D387 /* TSAlertController-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 72485BDD7C643F0AAC9F1C24B82D07CB /* TSAlertController-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C700A0A02D8C716F00D5EFD8 /* UIBezierPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C700A09F2D8C716F00D5EFD8 /* UIBezierPath+Extension.swift */; };
 		C79BCEAB2D5D6F0000213363 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79BCE8B2D5D6F0000213363 /* SlideUpAnimator.swift */; };
 		C79BCEAC2D5D6F0000213363 /* TSAlertController+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79BCE972D5D6F0000213363 /* TSAlertController+Configuration.swift */; };
 		C79BCEAD2D5D6F0000213363 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79BCEA72D5D6F0000213363 /* UIView+Extension.swift */; };
@@ -88,6 +89,7 @@
 		9E4F285A27DF239162DD0D9F1179C563 /* TSAlertController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TSAlertController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A43131703CCAA6A7B9991C036977C19D /* Pods-TSAlertController_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TSAlertController_Tests.modulemap"; sourceTree = "<group>"; };
 		BF03836614A23B9646B68177E4CAEC11 /* Pods-TSAlertController_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TSAlertController_Example.modulemap"; sourceTree = "<group>"; };
+		C700A09F2D8C716F00D5EFD8 /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
 		C79BCE8A2D5D6F0000213363 /* FadeInAndScaleDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeInAndScaleDownAnimator.swift; sourceTree = "<group>"; };
 		C79BCE8B2D5D6F0000213363 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		C79BCE8D2D5D6F0000213363 /* TSAlertPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSAlertPresentationController.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				C79BCEA62D5D6F0000213363 /* UITextfield+Extension.swift */,
 				C79BCEA72D5D6F0000213363 /* UIView+Extension.swift */,
 				C79BCEC42D5D846E00213363 /* UIColor+Extension.swift */,
+				C700A09F2D8C716F00D5EFD8 /* UIBezierPath+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCDD72576E464B783CB0432E06954BBA /* TSAlertController-dummy.m in Sources */,
+				C700A0A02D8C716F00D5EFD8 /* UIBezierPath+Extension.swift in Sources */,
 				C79BCEAB2D5D6F0000213363 /* SlideUpAnimator.swift in Sources */,
 				C79BCEAC2D5D6F0000213363 /* TSAlertController+Configuration.swift in Sources */,
 				C79BCEAD2D5D6F0000213363 /* UIView+Extension.swift in Sources */,
