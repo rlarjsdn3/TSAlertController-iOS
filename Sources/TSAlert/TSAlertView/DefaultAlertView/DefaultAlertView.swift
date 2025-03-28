@@ -87,12 +87,11 @@ class DefaultAlertView: UIView, TSAlertView {
         let actionHeight: CGFloat = viewConfiguration.buttonHeight
         let spacing: CGFloat = viewConfiguration.spacing.buttonSpacing
         
-        let height: CGFloat = if !isEmpty {
-            isHorizontal
+        var height: CGFloat = 0
+        if !isEmpty {
+            height = isHorizontal
             ? actionHeight
             : (actionHeight * actionsCount) + ((actionsCount - 1) * spacing)
-        } else {
-            0
         }
         buttonGroupView.setHeight(equalTo: height)
     }

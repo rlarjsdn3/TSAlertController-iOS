@@ -219,7 +219,7 @@ extension UIView {
         if let configuration = configuration {
             blurEffectView.layer.borderColor = configuration.backgroundBorderColor
             blurEffectView.layer.borderWidth = configuration.backgroundBorderWidth
-            blurEffectView.layer.cornerRadius = configuration.cornerRadius
+//            blurEffectView.layer.cornerRadius = configuration.cornerRadius
             blurEffectView.layer.masksToBounds = true
         }
         insertSubview(blurEffectView, at: 0)
@@ -242,14 +242,14 @@ extension UIView {
                                         locations)
         
         if let viewConfiguration = viewConfiguration {
-            gradientView.gradientLayer?.cornerRadius = viewConfiguration.cornerRadius
+//            gradientView.gradientLayer?.cornerRadius = viewConfiguration.cornerRadius
             gradientView.gradientLayer?.masksToBounds = true
         }
         insertSubview(gradientView, at: 0)
         gradientView.fill(to: self)
     }
     
-    class GradientView: UIView {
+    final class GradientView: UIView {
         
         let gradientLayer: CAGradientLayer?
         
@@ -308,5 +308,47 @@ extension UIView {
         
         self.layer.position = position
         self.layer.anchorPoint = anchorPoint
+    }
+}
+
+extension UIView {
+    
+    // MARK: - Apply Round Corners
+    
+    ///
+    func applyRoundCorners(_ cornerRadius: CGFloat) {
+        
+        applyRoundCorners(topLeftRadius: cornerRadius,
+                          topRightRadius: cornerRadius,
+                          bottomLeftRadius: cornerRadius,
+                          bottomRightRadius: cornerRadius)
+    }
+    
+    ///
+    func applyRoundCorners(_ cornerRadius: TSAlertController.ViewConfiguration.CornerRadius) {
+        
+        applyRoundCorners(topLeftRadius: cornerRadius.topLeft,
+                          topRightRadius: cornerRadius.topRight,
+                          bottomLeftRadius: cornerRadius.bottomLeft,
+                          bottomRightRadius: cornerRadius.bottomRight)
+    }
+    
+    ///
+    func applyRoundCorners(topLeftRadius: CGFloat,
+                           topRightRadius: CGFloat,
+                           bottomLeftRadius: CGFloat,
+                           bottomRightRadius: CGFloat) {
+          
+        let roundedRect = self.bounds
+        
+        let path = UIBezierPath(roundedRect: roundedRect,
+                                topLeftRadius: topLeftRadius,
+                                topRightRadius: topRightRadius,
+                                bottomLeftRadius: bottomLeftRadius,
+                                bottomRightRadius: bottomRightRadius)
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        layer.mask = shapeLayer
     }
 }

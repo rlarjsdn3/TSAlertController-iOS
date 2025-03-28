@@ -233,6 +233,12 @@ public final class TSAlertController: UIViewController {
         activateFirstResponderIfNeeded()
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        view.applyRoundCorners(viewConfiguration.cornerRadius)
+    }
+    
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
@@ -303,6 +309,7 @@ public final class TSAlertController: UIViewController {
     /// based on `TSAlertController.Style`.
     /// This ensures that the alert is presented correctly and prevents unintended behavior.
     private func adjustViewConfigurationForcibly() {
+        adjustCornerRadiusForcibly()
         adjustButtonGroupAxisForcibly()
         adjustActionOrderForcibly()
     }
@@ -330,6 +337,17 @@ public final class TSAlertController: UIViewController {
             let isHorizontal = viewConfiguration.buttonGroupAxis == .horizontal
             return isHorizontal ? ($0.style == .cancel && $1.style != .cancel)
             : ($0.style != .cancel && $1.style == .cancel)
+        }
+    }
+    
+    ///
+    private func adjustCornerRadiusForcibly() {
+        switch preferredStyle {
+        case .actionSheet:
+            viewConfiguration.cornerRadius.bottomLeft = 0
+            viewConfiguration.cornerRadius.bottomRight = 0
+        default:
+            break
         }
     }
     
@@ -384,7 +402,7 @@ public final class TSAlertController: UIViewController {
 
         view.layer.borderColor = viewConfiguration.backgroundBorderColor
         view.layer.borderWidth = viewConfiguration.backgroundBorderWidth
-        view.layer.cornerRadius = viewConfiguration.cornerRadius
+        view.applyRoundCorners(viewConfiguration.cornerRadius)
 
         guard let shadow = viewConfiguration.shadow else { return }
         view.layer.shadowColor = shadow.color
