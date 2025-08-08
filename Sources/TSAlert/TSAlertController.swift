@@ -236,6 +236,7 @@ public final class TSAlertController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        initialViewTopY = view.frame.origin.y
         view.applyRoundCorners(viewConfiguration.cornerRadius)
     }
     
@@ -413,14 +414,12 @@ public final class TSAlertController: UIViewController {
 
     // Registers notifications to handle keyboard appearance and disappearance.
     private func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide(_:)),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillChangeFrame(_:)),
+            name: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil
+        )
     }
 
     // Registers notifications to handle keyboard appearance and disappearance.
@@ -691,7 +690,6 @@ private extension TSAlertController {
         }
     }
     
-    ///
     @objc private func handleStretchyDragging(_ gesture: UIPanGestureRecognizer) {
         
         let interpolationFactor: CGFloat = 0.025
@@ -729,57 +727,45 @@ private extension TSAlertController {
 
 private extension TSAlertController {
     
-    // Adjusts the alert’s position when the keyboard appears.
-    @objc func keyboardWillShow(_ notification: Notification) {
-        // If this method is not blocked, the alert view's position may animate incorrectly
-        // when the keyboard suggestion bar appears or disappears.
-        guard !isKeyboardShown else { return }
+    @objc func keyboardWillChangeFrame(_ notification: Notification) {
         
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
-            return
-        }
-
-        let viewHeight = view.frame.height
-        let keyboardTopY = keyboardFrame.origin.y
-
-        let duration = keyboardAnimationDuration.doubleValue
-        let adjustedViewTopY = keyboardTopY - viewConfiguration.spacing.keyboardSpacing - viewHeight
+              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber
+        else { return }
         
-        // Move the alert up only if the spacing is smaller than the configured value.
-        // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
-        if adjustedViewTopY < initialViewTopY {
-            UIView.animate(withDuration: duration,
-                           delay: 0,
-                           options: .curveEaseIn) {
+        let alertViewHeight = view.frame.height // Alert 뷰의 전체 높이
+        let keyboardOriginY = keyboardFrame.origin.y // 상위 뷰 기준, 키보드의 상단 y 좌표
+        
+        let duration = keyboardAnimationDuration.doubleValue
+        let adjustedViewTopY = keyboardOriginY - viewConfiguration.spacing.keyboardSpacing - alertViewHeight
+        // 키보드 상단 y 좌표에서 지정된 간격(keyboardSpacing)을 뺀 뒤,
+        // Alert 뷰의 전체 높이를 빼면 Alert 뷰의 새로운 y 좌표를 구할 수 있음
+        
+        // 키보드가 나타난 상태일 때 실행
+        if isKeyboardShown {
+            UIView.animate(
+                withDuration: duration,
+                delay: 0,
+                options: .curveEaseIn
+            ) {
+                self.view.frame.origin.y = self.initialViewTopY
+            } completion: { _ in
+                self.isKeyboardShown = false
+            }
+        } else if adjustedViewTopY < initialViewTopY && !isKeyboardShown {
+            // Move the alert up only if the spacing is smaller than the configured value.
+            // If the space between the alert and the keyboard is greater than the configured value, the alert will not move.
+            UIView.animate(
+                withDuration: duration,
+                delay: 0,
+                options: .curveEaseIn
+            ) {
                 self.view.frame.origin.y = adjustedViewTopY
+            } completion: { _ in
+                self.isKeyboardShown = true
             }
         }
-        
-        isKeyboardShown = true
-    }
-    
-    // Resets the alert’s position when the keyboard disappears.
-    @objc func keyboardWillHide(_ notification: Notification) {
-        // If this method is not blocked, the alert view's position may animate incorrectly
-        // when the keyboard suggestion bar appears or disappears.
-        guard isKeyboardShown else { return }
-        
-        guard let userInfo = notification.userInfo,
-              let keyboardAnimationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {
-            return
-        }
-        let duration = keyboardAnimationDuration.doubleValue
-        
-        // Ensure the software keyboard is enabled for proper testing (Command + K).
-        UIView.animate(withDuration: duration,
-                       delay: 0,
-                       options: .curveEaseIn) {
-            self.view.frame.origin.y = self.initialViewTopY
-        }
-        
-        isKeyboardShown = false
     }
 }
 
