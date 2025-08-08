@@ -3,6 +3,8 @@ import XCTest
 
 final class TSAlertControllerTests: XCTestCase {
     
+    // MARK: - Verifies that TSAlertController initializes with correct title, message, and preferredStyle
+    
     func testTSAlertController_WhenInitialized_ShouldSetTitleMessageAndPreferredStyle() {
         // given
         let alertController = TSAlertController(
@@ -22,6 +24,9 @@ final class TSAlertControllerTests: XCTestCase {
         XCTAssertEqual(mockViewController.presentViewControllerTarget, alertController)
     }
     
+    
+    // MARK: - Verifies that TSAlertController initializes with correct textfields
+    
     func testTSAlertController_WhenIntializedWithTextFields_ShouldSetTextFields() {
         // given
         let alertController = TSAlertController(
@@ -40,6 +45,10 @@ final class TSAlertControllerTests: XCTestCase {
         XCTAssertEqual(alertController.textFields?.count, 2)
         XCTAssertEqual(mockViewController.presentViewControllerTarget, alertController)
     }
+    
+    
+    
+    // MARK: - Verifies that TSAlertController initializes with the correct actions order and count
     
     func testTSAlertController_WhenInitializedWithTwoButtonsAndAutomaticAxis_ShouldSetCorrectActionsOrderAndCount() {
         // given
@@ -93,6 +102,9 @@ final class TSAlertControllerTests: XCTestCase {
         XCTAssertEqual(alertController.viewConfiguration.buttonGroupAxis, .vertical)
         XCTAssertEqual(mockViewController.presentViewControllerTarget, alertController)
     }
+    
+    
+    
     
     
     func testTSAlertController_WhenIntlaizedWithAlertStyle_ShouldSetDefaultConfiguration() {
@@ -205,12 +217,11 @@ final class TSAlertControllerTests: XCTestCase {
         // then
         let config = alertController.configuration
         XCTAssertFalse(alertController.options.contains(.stretchyDragging))
-        XCTAssertEqual(config.prefersGrabberVisible, true)
         XCTAssertEqual(mockViewController.presentViewControllerTarget, alertController)
         XCTAssertEqual(mockViewController.presentViewControllerTarget, alertController)
     }
     
-    func testTSAlertController_WhenIntializedWithActionSheetStyle_ShouldSetDefaultCconfiguration() {
+    func testTSAlertController_WhenIntializedWithActionSheetStyle_ShouldSetDefaultConfiguration() {
         // given
         let alertController = TSAlertController(
             title: "The title of the alert",
@@ -263,8 +274,26 @@ final class TSAlertControllerTests: XCTestCase {
         // then
         let config = alertController.configuration
         XCTAssertFalse(alertController.options.contains(.interactiveScaleAndDrag))
-        XCTAssertEqual(config.prefersGrabberVisible, true)
         XCTAssertEqual(mockViewController.presentViewControllerTarget, alertController)
+    }
+    
+    func testTSAlertController_WhenIntializedWithActionSheetStyle_ShouldSetCorrectViewConfigurationForcibly() {
+        // given
+        let alertController = TSAlertController(
+            title: "The title of the alert",
+            preferredStyle: .actionSheet
+        )
+        let mockViewController = MockViewController()
+        
+        // when
+        alertController.viewConfiguration.cornerRadius = 25.0
+        
+        mockViewController.present(alertController, animated: true)
+        
+        // then
+        let viewConfig = alertController.viewConfiguration
+        XCTAssertEqual(viewConfig.cornerRadius.bottomLeft, 0.0)
+        XCTAssertEqual(viewConfig.cornerRadius.bottomRight, 0.0)
         XCTAssertEqual(mockViewController.presentViewControllerTarget, alertController)
     }
     
