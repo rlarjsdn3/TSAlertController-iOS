@@ -70,3 +70,19 @@ public extension TSAlertController {
         }
     }
 }
+
+
+// MARK: - Equatable
+
+extension TSAlertController.AnimationType: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.fadeIn, .fadeIn), (.slideUp, .slideUp):
+            return true
+        case let (.custom(lhsTransform, lhsAlpha), .custom(rhsTransform, rhsAlpha)):
+            return lhsTransform == rhsTransform && lhsAlpha == rhsAlpha
+        default:
+            return false
+        }
+    }
+}

@@ -160,3 +160,12 @@ private extension TSAlertAction {
         }
     }
 }
+
+
+// MARK: - Equtable
+
+extension TSAlertAction: Equatable {
+    public static func == (lhs: TSAlertAction, rhs: TSAlertAction) -> Bool {
+        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    }
+}
