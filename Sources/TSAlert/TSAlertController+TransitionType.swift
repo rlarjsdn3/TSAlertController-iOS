@@ -77,3 +77,31 @@ public extension TSAlertController {
         }
     }
 }
+
+
+// MARK: - Equatable
+
+extension TSAlertController.EnteringTransitionType: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.fadeInAndScaleDown, .fadeInAndScaleDown), (.slideUp, .slideUp):
+            return true
+        case let (.custom(lhsTransition), .custom(rhsTransition)):
+            return ObjectIdentifier(lhsTransition) == ObjectIdentifier(rhsTransition)
+        default:
+            return false
+        }
+    }
+}
+extension TSAlertController.ExitingTransitionType: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.fadeOut, .fadeOut), (.slideDown, .slideDown):
+            return true
+        case let (.custom(lhsTransition), .custom(rhsTransition)):
+            return ObjectIdentifier(lhsTransition) == ObjectIdentifier(rhsTransition)
+        default:
+            return false
+        }
+    }
+}

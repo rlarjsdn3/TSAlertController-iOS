@@ -78,7 +78,7 @@ public extension TSAlertController {
         public var shadow: Shadow?
         
         /// The corner radius of the alert view.
-        public var cornerRadius: CGFloat
+        public var cornerRadius: CornerRadius
         
         /// The background color of the dimmed overlay behind the alert.
         public var dimmedBackgroundViewColor: Background?
@@ -94,6 +94,46 @@ public extension TSAlertController {
         
         /// The axis layout of the button group (horizontal or vertical).
         public var buttonGroupAxis: ButtonGroupAxis
+        
+        ///
+        public struct CornerRadius: ExpressibleByFloatLiteral {
+            
+            ///
+            public var topLeft: CGFloat
+            
+            ///
+            public var topRight: CGFloat
+            
+            ///
+            public var bottomLeft: CGFloat
+            
+            ///
+            public var bottomRight: CGFloat
+            
+            ///
+            public init(allCorners: CGFloat = 20) {
+                self.init(topLeft: allCorners,
+                          topRight: allCorners,
+                          bottomLeft: allCorners,
+                          bottomRight: allCorners)
+            }
+            
+            ///
+            public init(topLeft: CGFloat = 20,
+                        topRight: CGFloat = 20,
+                        bottomLeft: CGFloat = 20,
+                        bottomRight: CGFloat = 20) {
+                self.topLeft = topLeft
+                self.topRight = topRight
+                self.bottomLeft = bottomLeft
+                self.bottomRight = bottomRight
+            }
+        
+            ///
+            public init(floatLiteral value: FloatLiteralType) {
+                self.init(allCorners: value)
+            }
+        }
         
         /// Defines the shadow properties of the alert.
         public struct Shadow {
@@ -172,7 +212,7 @@ public extension TSAlertController {
                     backgroundBorderColor: CGColor? = nil,
                     backgroundBorderWidth: CGFloat = 0,
                     shadow: Shadow? = nil,
-                    cornerRadius: CGFloat = 20,
+                    cornerRadius: CornerRadius = .init(allCorners: 20),
                     dimmedBackgroundViewColor: Background? = .color(.black.withAlphaComponent(0.75)),
                     margin: LayoutMargin = .init(),
                     spacing: LayoutSpacing = .init(),
